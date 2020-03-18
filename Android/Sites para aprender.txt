@@ -1,0 +1,15 @@
+trabalhando com botões back na navigation bar - https://pt.stackoverflow.com/questions/124065/trabalhando-com-bot%C3%B5es-back-da-navigation-barnativo-do-smartphone-e-action-bar
+
+Listagem de dados do banco SQLite - https://www.youtube.com/watch?v=-pzJ7KG4qFw&t=333s
+
+CRUD no android com SQLiteOpenHelper - https://www.youtube.com/watch?v=pAyMF2vhOb8&feature=youtu.be
+
+Simples Contador com Android Studio - https://www.youtube.com/watch?v=lL2hE3k0ipI
+
+Android RecyclerView and CardView Layout - https://www.youtube.com/watch?v=A2_6mI7drVQ
+
+CheckBox com LisView - https://www.youtube.com/watch?v=sd0YBZ73nBo
+
+https://www.thiengo.com.br/utilizando-cardview-material-design-android-parte-4
+
+INCRÍVEL e BONITO: o que é e como usar o Material Design! - https://www.youtube.com/watch?v=KOd41PBSYVw

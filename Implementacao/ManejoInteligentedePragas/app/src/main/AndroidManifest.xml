@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.manejointeligentedepragas">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="MIP²"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".VisualizaInimigos"></activity>
+        <activity android:name=".VisualizaMetodos" />
+        <activity android:name=".VisualizaPlantas" />
+        <activity android:name=".infoInimigoNatural" />
+        <activity android:name=".infoMetodo" />
+        <activity android:name=".infoPlanta" />
+        <activity android:name=".AplicaMetodoDeControle" />
+        <activity android:name=".ConfirmacaoPlanoAmostragem" />
+        <activity android:name=".InfoPraga" />
+        <activity android:name=".VisualizaPragas" />
+        <activity android:name=".PlanoDeAmostragem" />
+        <activity
+            android:name=".NavigationDrawer"
+            android:label="@string/title_activity_navigation_drawer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".RealizarPlano" />
+        <activity android:name=".SobreMIP" />
+        <activity android:name=".VisualizaFuncionario" />
+        <activity android:name=".model.SobreMIP" />
+        <activity android:name=".Perfil" />
+        <activity android:name=".AdicionarPraga" />
+        <activity android:name=".Pragas" />
+        <activity android:name=".AcoesCultura" />
+        <activity android:name=".AdicionarFunc" />
+        <activity
+            android:name=".AdicionarCultura"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Cultura" />
+        <activity android:name=".AdicionarPropriedade" />
+        <activity android:name=".Propriedades" />
+        <activity android:name=".Cadastro" />
+        <activity android:name=".Entrar" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

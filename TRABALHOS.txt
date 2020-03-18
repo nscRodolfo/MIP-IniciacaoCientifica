@@ -1,0 +1,87 @@
+proprietario, usuário comum(apenas observa), funcionário e administrador
+
+cadastro das pragas/insetos
+cadastro de inimigos naturais
+cadastro funcionário
+cadastro cultivo/ espécie (agrupamento)
+cadastro de propriedade -- cadastro de região     (ANÁLISE de eficiência da calda por região e estação)
+cadastro de tipo de controle/ caldas/ inseticida -- tempo de efetividade -- cadastro do procedimento de aplicação
+cadastro de plano de amostragem por inseto
+
+histórico de eficiência e utilização
+outro caso de uso: consulta de processos mais eficientes (%)
+comparativo de imagens para identificar pragas / inimigos naturais
+
+UML:
+caso de uso   								++++++++++++++++++++ OK
+documento de requisitos descrição dos requisitos e do caso de uso       ++++++++++++++++++++ OK
+diagrama de classe                                                      +++++++++++++++++++? OK
+diagrama de análise							???????????????????? OK
+
+scrum (vivify) do cronograma						++++++++++++++++++++ OK
+sprint									-------------------- OK
+{
+	O que você fez ONTEM para ajudar a equipe para concluir o objetivo do Sprint?
+	O que você vai fazer HOJE para ajudar a equipe para concluir o objetivo do Sprint?
+	Existe algum IMPEDIMENTO para a equipe concluir o objetivo do Sprint?
+}
+
+telas jframe								-------------------- NAH
+
+
+dados especificos offline (propriedade e dados do usuário)
+importante e leve 
+json
+
+TELAS ANDROID
+salvar informações em arquivo para posterior sincronização
+
+
+MATERIAL PHP E RECONHECIMENTO DE IMAGEM
+
+
+
+
+
+
+
+FUNCIONAMENTO:
+
+RECONHECIMENTO DE IMAGENS
+
+APÓS selecionar as pragas, passará para o plano de amostragem e ao clicar em calcular 
+será salvo o número de pragas(mostrando se controla ou não) para gerar o gráfico
+Caso controle, seleciona o método de controle
+Após selecionar o método de controle, voltar para tela inical e dar a opção de confirmar utilização do método de controle
+após clicar em confirmar utilização, salvar o método de controle utilizado, a data e começar contagem regressiva para próximo plano de amostragem
+mostrar na tela principal para o usuário o próximo dia para realizar uma nova contagem de pragas
+
+Plano de amostragem pode mudar relacionado a cultura - vaquinha em uma cultura atinge dano mais rápido que em outra
+
+
+
+LAYOUT:
+aba de inimigos naturais
+aba de medidas preventivas
+
+
+FUNÇÕES ADICIONAIS:
+TERMO DE USO E RESPONSABILIDADE DO SISTEMA(deixar explicito que os desenvolvedores terão acesso à todos os dados para melhoramento do aplicativo)
+relatórios do programa (bd) --- temas Artigos científico
+achar praga pelo dano e seu tipo morfológico
+
+
+
+MATÉRIAS A SEREM ESTUDADAS:
+php android(criar todos os métodos e funções no celular, para atender as necessidades do usuário)
+
+
+
+DÚVIDAS:
+fazer só no celular?
+celular ser somente para entrada de dados, e aplicativo principal e análise de dados no computador
+
+
+EXPECTATIVAS E TRABALHOS FUTUROS:
+mapa com pragas
+notificações diferenciadas
