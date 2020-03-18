@@ -96,7 +96,11 @@ public class infoMetodo extends AppCompatActivity {
                          tvNome.setText("Nome: "+Nome);
                          tvMateriaisNecessarios.setText("Materiais necesários: "+MateriaisNecessarios);
                          tvModoDePreparo.setText("Modo de preparo: "+ModoDePreparo);
-                         tvIntervaloAplicacao.setText("Intervalo de aplicação(em dias): "+IntervaloAplicacao);
+                         if (IntervaloAplicacao == 0){
+                             tvIntervaloAplicacao.setText("Intervalo de aplicação(em dias): ver recomendação do distribuidor.");
+                         }else{
+                             tvIntervaloAplicacao.setText("Intervalo de aplicação(em dias): "+IntervaloAplicacao);
+                         }
                          tvEfeitoColateral.setText("Efeitos colaterais: "+EfeitoColateral);
                          tvObservacoes.setText("Observações: "+Observacoes);
                          tvAtuacao.setText("Atuação: "+Atuacao);
