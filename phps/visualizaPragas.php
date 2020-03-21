@@ -4,7 +4,7 @@
     // pega a variavel da url passada no aplicativo android
 
     // seleciona a propriedade
-    $sql = "SELECT Praga.Nome, Praga.Cod_Praga from Praga";
+    $sql = "SELECT Praga.Nome, Praga.Cod_Praga from Praga ORDER BY Praga.Nome ASC";
     
     $dados = $PDO->query($sql);
     $resultado = array();

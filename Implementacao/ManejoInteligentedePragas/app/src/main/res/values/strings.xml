@@ -122,5 +122,8 @@
     <string name="aplicar_depois">Aplicar Depois</string>
     <string name="pragas_atuantes">Pragas Atuantes</string>
     <string name="ver_m_todos_de_controle">Ver métodos de controle</string>
-    <string name="ver_inimigos_naturais">Ver inimigos naturais </string>>
+    <string name="ver_inimigos_naturais">Ver inimigos naturais </string>
+    <string name="corrigir">Corrigir</string>
+    <string name="informa_o_sobre_amostragem">Informação sobre amostragem</string>
+    <string name="imageminfo">ImagemInfo</string>>
 </resources>

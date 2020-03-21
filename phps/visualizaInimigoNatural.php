@@ -6,7 +6,8 @@
     // seleciona a propriedade
     $sql = "SELECT InimigoNatural.Nome, InimigoNatural.Cod_Inimigo from InimigoNatural
             JOIN Combate WHERE Combate.fk_Praga_Cod_Praga = '$codPraga'
-            and Combate.fk_InimigoNatural_Cod_Inimigo = InimigoNatural.Cod_Inimigo";
+            and Combate.fk_InimigoNatural_Cod_Inimigo = InimigoNatural.Cod_Inimigo
+            ORDER BY InimigoNatural.Nome ASC";
     
     $dados = $PDO->query($sql);
     $resultado = array();

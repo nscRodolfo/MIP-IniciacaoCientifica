@@ -130,8 +130,7 @@
         android:id="@+id/tvPalavraAmostragem"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/amostragem"
         android:textColor="#000000"
@@ -139,6 +138,19 @@
         app:layout_constraintBottom_toTopOf="@+id/tvtalhaooo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/ImgInfo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="13dp"
+        android:clickable="true"
+        android:contentDescription="@string/imageminfo"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@+id/tvtalhaooo"
+        app:layout_constraintStart_toEndOf="@+id/tvPalavraAmostragem"
+        app:srcCompat="@drawable/ic_info_tentativa" />
 
     <Button
         android:id="@+id/btnPresencaPraga"
@@ -199,11 +211,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="#659251"
-        android:text="Corrigir"
+        android:text="@string/corrigir"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/btnTalhaoSuperior"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAusenciaPraga" />
+
 
 </android.support.constraint.ConstraintLayout>

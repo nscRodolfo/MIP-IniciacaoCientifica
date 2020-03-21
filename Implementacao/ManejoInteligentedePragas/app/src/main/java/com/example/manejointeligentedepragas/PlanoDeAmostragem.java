@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,6 +82,8 @@ public class PlanoDeAmostragem extends AppCompatActivity {
     //controla ou não controla
     Boolean controla = false;
 
+    ImageView imgInfo;
+    String amostra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +106,10 @@ public class PlanoDeAmostragem extends AppCompatActivity {
 
         presencaPraga = findViewById(R.id.btnPresencaPraga);
         ausenciaPraga = findViewById(R.id.btnAusenciaPraga);
+        imgInfo = findViewById(R.id.ImgInfo);
 
         ResgatarAtinge(codPraga,codCultura);
+        ChamaAmostra(codPraga);
 
         tvContagemPlantas.setText(String.valueOf(countPlantas));
         tvContagemTalhoes.setText(String.valueOf(countTalhao));
@@ -115,6 +120,8 @@ public class PlanoDeAmostragem extends AppCompatActivity {
 
         btnTalhaoAnterior.setVisibility(View.INVISIBLE);
         btnCorrigir.setVisibility(View.INVISIBLE);
+
+
 
 
 
@@ -173,6 +180,13 @@ public class PlanoDeAmostragem extends AppCompatActivity {
             }
         });
 
+
+        imgInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExibeAmostra();
+            }
+        });
         //click listener do talhao anterior: diminuir count talhão, zerar count planta e apagar ultima posição do arraylist de planos
         //click listener do proximo talhao: aumentar count talhão, zerar count planta , ver se é o ultimo talhao,
         // se for o ultimo talhao +1 salvar no arraylist e passa pra proxima intent
@@ -514,6 +528,54 @@ public class PlanoDeAmostragem extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void ChamaAmostra(int codPraga){
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext()))
+        {
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+        }else { // se tem acesso à internet
+            String url = "http://mip2.000webhostapp.com/ChamaAmostra.php?Cod_Praga=" + codPraga;
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    //Parsing json
+                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i< array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
+                            amostra = obj.getString("Localizacao");
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }));
+        }
+    }
+
+    public void ExibeAmostra(){
+        AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
+        dlgBox.setTitle("Amostra:");
+        dlgBox.setMessage(amostra);
+        dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        dlgBox.show();
     }
 
 }
