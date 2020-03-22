@@ -8,8 +8,8 @@
     $Cod_Metodo = $_GET['Cod_Metodo'];
     
     // seleciona a propriedade
-    $doideira = "INSERT into Aplicacao (Data, fk_MetodoDeControle_Cod_MetodoControle, fk_Cultura_Cod_Cultura) 
-                VALUES ('$Data','$Cod_Metodo','$Cod_Cultura')";
+    $doideira = "INSERT into Aplicacao (Data, fk_MetodoDeControle_Cod_MetodoControle, fk_Cultura_Cod_Cultura, fk_Praga_Cod_Praga) 
+                VALUES ('$Data','$Cod_Metodo','$Cod_Cultura', '$Cod_Praga')";
 
     $sql = "UPDATE PresencaPraga SET Status = 1
             WHERE PresencaPraga.fk_Cultura_Cod_Cultura = '$Cod_Cultura'

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<DIAGRAMA ID="1" TIPO="tpLogico" UniversalUnicID="77DC-5C-A82-F-41B7-FE-19">
+<DIAGRAMA ID="1" TIPO="tpLogico" UniversalUnicID="A23E-79-A8BD-36-AA72-BC-86">
     <InfoDiagrama ID="1">
         <Versao Valor="3.2.0"/>
         <Autores/>
@@ -10,7 +10,7 @@
         <Alinhamento_h Valor="60"/>
         <Zoom Valor="75"/>
         <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
-        <Localizacao Left="865" Top="651"/>
+        <Localizacao Left="617" Top="1130"/>
         <Realce Valor="false"/>
         <SeparatorSQL Valor=";"/>
         <Prefixo Valor=""/>
@@ -1320,7 +1320,7 @@
         </Constraints>
     </Tabela>
     <Tabela ID="15">
-        <Bounds Height="237" Left="883" Top="1892" Width="150"/>
+        <Bounds Height="259" Left="883" Top="1892" Width="150"/>
         <DisablePainted Valor="false"/>
         <Texto>Aplicacao</Texto>
         <Observacao/>
@@ -1426,6 +1426,16 @@
                 <Fkey Valor="true"/>
                 <Unique Valor="false"/>
             </Campo>
+            <Campo>
+                <Texto>fk_Praga_Cod_Praga</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="false"/>
+                <Fkey Valor="true"/>
+                <Unique Valor="false"/>
+            </Campo>
         </Campos>
         <Constraints>
             <Constraint>
@@ -1460,6 +1470,17 @@
                 <DdlOnDelete/>
                 <LigacaoParaOrigem ID="83"/>
                 <ConstraintOrigem CamposDestino="[7]" CamposOrigem="[0]" ID="7,0">IR chave primária</ConstraintOrigem>
+            </Constraint>
+            <Constraint>
+                <Nome Valor=""/>
+                <Nomeada Valor="false"/>
+                <Tipo Valor="2"/>
+                <Dicionario/>
+                <Observacao/>
+                <DdlOnUpdate/>
+                <DdlOnDelete/>
+                <LigacaoParaOrigem ID="395"/>
+                <ConstraintOrigem CamposDestino="[8]" CamposOrigem="[0]" ID="8,0">IR chave primária</ConstraintOrigem>
             </Constraint>
         </Constraints>
     </Tabela>
@@ -1730,7 +1751,7 @@
         </LogicoCardinalidade>
     </LogicoLinha>
     <Tabela ID="26">
-        <Bounds Height="105" Left="1087" Top="563" Width="150"/>
+        <Bounds Height="127" Left="1087" Top="563" Width="150"/>
         <DisablePainted Valor="false"/>
         <Texto>Trabalha</Texto>
         <Observacao/>
@@ -1756,6 +1777,16 @@
         <MostrarConstraints Valor="true"/>
         <PlainIR Valor="true"/>
         <Campos>
+            <Campo>
+                <Texto>Cod_Trabalha</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="true"/>
+                <Fkey Valor="false"/>
+                <Unique Valor="false"/>
+            </Campo>
             <Campo>
                 <Texto>fk_Propriedade_Cod_Propriedade</Texto>
                 <Tipo>integer(11)</Tipo>
@@ -1787,7 +1818,7 @@
                 <DdlOnUpdate/>
                 <DdlOnDelete>RESTRICT</DdlOnDelete>
                 <LigacaoParaOrigem ID="27"/>
-                <ConstraintOrigem CamposDestino="[0]" CamposOrigem="[0]" ID="6,0">IR chave primária</ConstraintOrigem>
+                <ConstraintOrigem CamposDestino="[1]" CamposOrigem="[0]" ID="6,0">IR chave primária</ConstraintOrigem>
             </Constraint>
             <Constraint>
                 <Nome Valor=""/>
@@ -1798,7 +1829,18 @@
                 <DdlOnUpdate/>
                 <DdlOnDelete>SET NULL</DdlOnDelete>
                 <LigacaoParaOrigem ID="30"/>
-                <ConstraintOrigem CamposDestino="[1, -1]" CamposOrigem="[0, 1]" ID="5,0">IR chave primária</ConstraintOrigem>
+                <ConstraintOrigem CamposDestino="[2, -1]" CamposOrigem="[0, 1]" ID="5,0">IR chave primária</ConstraintOrigem>
+            </Constraint>
+            <Constraint>
+                <Nome Valor=""/>
+                <Nomeada Valor="false"/>
+                <Tipo Valor="0"/>
+                <Dicionario/>
+                <Observacao/>
+                <DdlOnUpdate/>
+                <DdlOnDelete/>
+                <LigacaoParaOrigem ID="-1"/>
+                <ConstraintOrigem CamposDestino="[-1]" CamposOrigem="[0]" ID="-1,-1"/>
             </Constraint>
         </Constraints>
     </Tabela>
@@ -1993,7 +2035,7 @@
         </LogicoCardinalidade>
     </LogicoLinha>
     <Tabela ID="39">
-        <Bounds Height="105" Left="1945" Top="1788" Width="150"/>
+        <Bounds Height="127" Left="1945" Top="1788" Width="150"/>
         <DisablePainted Valor="false"/>
         <Texto>Combate</Texto>
         <Observacao/>
@@ -2019,6 +2061,16 @@
         <MostrarConstraints Valor="true"/>
         <PlainIR Valor="true"/>
         <Campos>
+            <Campo>
+                <Texto>Cod_Combate</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="true"/>
+                <Fkey Valor="false"/>
+                <Unique Valor="false"/>
+            </Campo>
             <Campo>
                 <Texto>fk_Praga_Cod_Praga</Texto>
                 <Tipo>integer(11)</Tipo>
@@ -2050,7 +2102,7 @@
                 <DdlOnUpdate/>
                 <DdlOnDelete>RESTRICT</DdlOnDelete>
                 <LigacaoParaOrigem ID="40"/>
-                <ConstraintOrigem CamposDestino="[0]" CamposOrigem="[0]" ID="8,0">IR chave primária</ConstraintOrigem>
+                <ConstraintOrigem CamposDestino="[1]" CamposOrigem="[0]" ID="8,0">IR chave primária</ConstraintOrigem>
             </Constraint>
             <Constraint>
                 <Nome Valor=""/>
@@ -2061,7 +2113,18 @@
                 <DdlOnUpdate/>
                 <DdlOnDelete>SET NULL</DdlOnDelete>
                 <LigacaoParaOrigem ID="43"/>
-                <ConstraintOrigem CamposDestino="[1]" CamposOrigem="[0]" ID="9,0">IR chave primária</ConstraintOrigem>
+                <ConstraintOrigem CamposDestino="[2]" CamposOrigem="[0]" ID="9,0">IR chave primária</ConstraintOrigem>
+            </Constraint>
+            <Constraint>
+                <Nome Valor=""/>
+                <Nomeada Valor="false"/>
+                <Tipo Valor="0"/>
+                <Dicionario/>
+                <Observacao/>
+                <DdlOnUpdate/>
+                <DdlOnDelete/>
+                <LigacaoParaOrigem ID="-1"/>
+                <ConstraintOrigem CamposDestino="[-1]" CamposOrigem="[0]" ID="-1,-1"/>
             </Constraint>
         </Constraints>
     </Tabela>
@@ -2162,7 +2225,7 @@
         </LogicoCardinalidade>
     </LogicoLinha>
     <Tabela ID="46">
-        <Bounds Height="105" Left="1299" Top="1953" Width="150"/>
+        <Bounds Height="127" Left="1419" Top="1892" Width="150"/>
         <DisablePainted Valor="false"/>
         <Texto>Controla</Texto>
         <Observacao/>
@@ -2188,6 +2251,16 @@
         <MostrarConstraints Valor="true"/>
         <PlainIR Valor="true"/>
         <Campos>
+            <Campo>
+                <Texto>Cod_Controla</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="true"/>
+                <Fkey Valor="false"/>
+                <Unique Valor="false"/>
+            </Campo>
             <Campo>
                 <Texto>fk_MetodoDeControle_Cod_MetodoControle</Texto>
                 <Tipo>integer(11)</Tipo>
@@ -2219,7 +2292,7 @@
                 <DdlOnUpdate/>
                 <DdlOnDelete>RESTRICT</DdlOnDelete>
                 <LigacaoParaOrigem ID="47"/>
-                <ConstraintOrigem CamposDestino="[0]" CamposOrigem="[0]" ID="10,0">IR chave primária</ConstraintOrigem>
+                <ConstraintOrigem CamposDestino="[1]" CamposOrigem="[0]" ID="10,0">IR chave primária</ConstraintOrigem>
             </Constraint>
             <Constraint>
                 <Nome Valor=""/>
@@ -2230,7 +2303,18 @@
                 <DdlOnUpdate/>
                 <DdlOnDelete>RESTRICT</DdlOnDelete>
                 <LigacaoParaOrigem ID="50"/>
-                <ConstraintOrigem CamposDestino="[1]" CamposOrigem="[0]" ID="8,0">IR chave primária</ConstraintOrigem>
+                <ConstraintOrigem CamposDestino="[2]" CamposOrigem="[0]" ID="8,0">IR chave primária</ConstraintOrigem>
+            </Constraint>
+            <Constraint>
+                <Nome Valor=""/>
+                <Nomeada Valor="false"/>
+                <Tipo Valor="0"/>
+                <Dicionario/>
+                <Observacao/>
+                <DdlOnUpdate/>
+                <DdlOnDelete/>
+                <LigacaoParaOrigem ID="-1"/>
+                <ConstraintOrigem CamposDestino="[-1]" CamposOrigem="[0]" ID="-1,-1"/>
             </Constraint>
         </Constraints>
     </Tabela>
@@ -2248,12 +2332,12 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="46" PontaB="10"/>
         <Pontos>
-            <Ponto Left="1375" Top="2055"/>
-            <Ponto Left="1375" Top="2115"/>
+            <Ponto Left="1495" Top="2017"/>
+            <Ponto Left="1495" Top="2115"/>
             <Ponto Left="1771" Top="2115"/>
         </Pontos>
         <LogicoCardinalidade ID="48">
-            <Bounds Height="14" Left="1339" Top="2065" Width="38"/>
+            <Bounds Height="14" Left="1459" Top="2027" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_19</Texto>
             <Observacao/>
@@ -2295,12 +2379,12 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="46" PontaB="8"/>
         <Pontos>
-            <Ponto Left="1373" Top="1949"/>
-            <Ponto Left="1373" Top="1709"/>
+            <Ponto Left="1493" Top="1888"/>
+            <Ponto Left="1493" Top="1709"/>
             <Ponto Left="1623" Top="1709"/>
         </Pontos>
         <LogicoCardinalidade ID="51">
-            <Bounds Height="14" Left="1337" Top="1931" Width="38"/>
+            <Bounds Height="14" Left="1457" Top="1870" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_21</Texto>
             <Observacao/>
@@ -2579,12 +2663,14 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="15" PontaB="10"/>
         <Pontos>
-            <Ponto Left="960" Top="2127"/>
             <Ponto Left="960" Top="2149"/>
+            <Ponto Left="960" Top="2158"/>
+            <Ponto Left="1401" Top="2158"/>
+            <Ponto Left="1401" Top="2149"/>
             <Ponto Left="1771" Top="2149"/>
         </Pontos>
         <LogicoCardinalidade ID="81">
-            <Bounds Height="14" Left="924" Top="2137" Width="38"/>
+            <Bounds Height="14" Left="924" Top="2159" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_39</Texto>
             <Observacao/>
@@ -3597,6 +3683,54 @@
             <Bounds Height="14" Left="1772" Top="52" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_54</Texto>
+            <Observacao/>
+            <Dicionario/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+            <Ancorado Valor="false"/>
+            <TamanhoAutmatico Valor="true"/>
+            <Card Valor="3"/>
+            <MovimentacaoManual Valor="false"/>
+            <Papel Valor=""/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+        </LogicoCardinalidade>
+    </LogicoLinha>
+    <LogicoLinha ID="395">
+        <DisablePainted Valor="false"/>
+        <Tag LinhaMestre="-1"/>
+        <Dashed Valor="false"/>
+        <Ancorado Valor="false"/>
+        <TemSetaPontaA Valor="false"/>
+        <TemSetaPontaB Valor="true"/>
+        <SetaAberta Valor="true"/>
+        <SetaLargura Valor="10"/>
+        <Inteligente Valor="true"/>
+        <SetaAutomatica Valor="true"/>
+        <Largura Valor="1"/>
+        <Ligacoes PontaA="8" PontaB="15"/>
+        <Pontos>
+            <Ponto Left="1623" Top="1607"/>
+            <Ponto Left="1327" Top="1607"/>
+            <Ponto Left="1327" Top="1952"/>
+            <Ponto Left="1030" Top="1952"/>
+        </Pontos>
+        <LogicoCardinalidade ID="396">
+            <Bounds Height="14" Left="1583" Top="1595" Width="36"/>
+            <DisablePainted Valor="false"/>
+            <Texto>Cardinalidade_55</Texto>
+            <Observacao/>
+            <Dicionario/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+            <Ancorado Valor="false"/>
+            <TamanhoAutmatico Valor="true"/>
+            <Card Valor="1"/>
+            <MovimentacaoManual Valor="false"/>
+            <Papel Valor=""/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+        </LogicoCardinalidade>
+        <LogicoCardinalidade ID="397">
+            <Bounds Height="14" Left="1040" Top="1940" Width="38"/>
+            <DisablePainted Valor="false"/>
+            <Texto>Cardinalidade_56</Texto>
             <Observacao/>
             <Dicionario/>
             <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>

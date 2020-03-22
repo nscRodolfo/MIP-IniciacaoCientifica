@@ -3,6 +3,7 @@ package com.example.manejointeligentedepragas;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,6 +142,9 @@ public class infoMetodo extends AppCompatActivity {
                         }
                         ViewPagerAdapter adapterMetodos = new ViewPagerAdapter(infoMetodo.this,urlsMetodos);
                         viewPager.setAdapter(adapterMetodos);
+                        if(urlsMetodos.size()== 0){
+                            viewPager.setVisibility(View.GONE);
+                        }
                     } catch (JSONException e) {
                         Toast.makeText(infoMetodo.this, e.toString(), Toast.LENGTH_LONG).show();
                     }

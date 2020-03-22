@@ -8,7 +8,8 @@
     $sql = "SELECT Praga.Nome, Praga.Cod_Praga, PresencaPraga.Status
                 from Praga, PresencaPraga
                 WHERE PresencaPraga.fk_Cultura_Cod_Cultura = '$Cod_Cultura' 
-                and PresencaPraga.fk_Praga_Cod_Praga = Praga.Cod_Praga";
+                and PresencaPraga.fk_Praga_Cod_Praga = Praga.Cod_Praga
+                ORDER BY Praga.Nome ASC";
     
     $dados = $PDO->query($sql);
     $resultado = array();

@@ -25,10 +25,10 @@
 
     <Button
         android:id="@+id/btnCadastro"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="57dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
         android:background="#659251"
         android:text="@string/cadastrar"
@@ -39,25 +39,24 @@
 
     <Button
         android:id="@+id/btnEntrar"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="57dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
         android:background="#659251"
         android:text="@string/entrar"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/btnCadastro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnInf"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="57dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="32dp"
         android:background="#659251"
         android:text="@string/sobre"

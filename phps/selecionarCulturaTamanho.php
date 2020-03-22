@@ -1,7 +1,8 @@
 <?php
     include "conexao.php";
 
-    $sql = "SELECT Nome, TamanhoTalhao, Cod_Planta from Planta";
+    $sql = "SELECT Nome, TamanhoTalhao, Cod_Planta from Planta
+            ORDER BY Planta.Nome ASC";
     
     $dados = $PDO->query($sql);
     $resultado = array();

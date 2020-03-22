@@ -1,5 +1,7 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +36,8 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
     boolean controla;
     boolean aplicado;
 
+    int codPragaComparacaoAux;
+
     TextView tvMostraCultura;
     TextView tvMostraPraga;
     TextView tvMostraControla;
@@ -61,21 +65,9 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         tvMostraCultura.setText(nome);
         tvMostraPraga.setText(nomePraga);
 
-        if (controla){
-            if(aplicado){
-                tvMostraControla.setText("Método de controle aplicado recentemente. É necessário esperar o tempo de fitossanidade para realizar uma nova aplicação");
-                btnSalvar.setText("OK");
-            }else{
-                tvMostraControla.setText("É necessário o controle.");
-                btnSalvar.setText("Selecionar método");
-                alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
-            }
-        }else{
-            tvMostraControla.setText("Não é necessário realizar nenhum tipo de controle");
-            btnSalvar.setText("OK");
-            //altera status praga
-            alteraStatus(codCultura, codPraga, 0); //0 = não precisa de controle
-        }
+        buscaCodPraga(codCultura);
+
+
 
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +115,60 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
     }
 
 
+    public void buscaCodPraga(final int codCultura){
+        // selecionar o código da praga da ultima aplicação, para saber em qual praga foi aplicada e não mudar pra vermelho
+        // quando já tiver alguma aplicação já realizada nela
+        // mudando também o texto que aparece na tela
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext()))
+        {
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+        }else { // se tem acesso à internet
+            String url = "http://mip2.000webhostapp.com/buscaCodPraga.php?Cod_Cultura="+ codCultura ;
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i< array.length(); i++){
+                            JSONObject obj1 = array.getJSONObject(i);
+                            codPragaComparacaoAux = obj1.getInt("fk_Praga_Cod_Praga");
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(ConfirmacaoPlanoAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                    
+                    if (controla){
+                        if(aplicado){
+                            if(codPragaComparacaoAux == codPraga){
+                                tvMostraControla.setText("Esta praga possui um controle recente, é necessário esperar o tempo de fitossanidade para realizar uma nova aplicação");
+                                btnSalvar.setText("OK");
+                            }else{
+                                tvMostraControla.setText("Método de controle aplicado recentemente. É necessário esperar o tempo de fitossanidade para realizar uma nova aplicação");
+                                btnSalvar.setText("OK");
+                                alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
+                            }
+                        }else{
+                            tvMostraControla.setText("É necessário o controle.");
+                            btnSalvar.setText("Selecionar método");
+                            alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
+                        }
+                    }else{
+                        tvMostraControla.setText("Não é necessário realizar nenhum tipo de controle");
+                        btnSalvar.setText("OK");
+                        //altera status praga
+                        alteraStatus(codCultura, codPraga, 0); //0 = não precisa de controle
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(ConfirmacaoPlanoAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }));
+        }
+    }
 
     public void alteraStatus(int codCultura, int codPraga, int status){
         Utils u = new Utils();

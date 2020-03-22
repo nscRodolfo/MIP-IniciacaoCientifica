@@ -3,10 +3,11 @@
 
     $cod_Cultura = $_GET["cod_Cultura"];
 
-    $sql = "select Praga.Nome, Praga.Cod_Praga from Cultura, Praga, Atinge
+    $sql = "SELECT Praga.Nome, Praga.Cod_Praga from Cultura, Praga, Atinge
     WHERE Cultura.Cod_Cultura = '$cod_Cultura'
     and Cultura.fk_Planta_Cod_Planta = Atinge.fk_Planta_Cod_Planta 
-    and Atinge.fk_Praga_Cod_Praga = Praga.Cod_Praga";
+    and Atinge.fk_Praga_Cod_Praga = Praga.Cod_Praga
+    ORDER BY Praga.Nome ASC";
     
     $dados = $PDO->query($sql);
     $resultado = array();
