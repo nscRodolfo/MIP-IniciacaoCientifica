@@ -152,6 +152,7 @@ public class RealizarPlano extends AppCompatActivity {
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("pragasAdd", pragasAdd);
+                                    i.putExtra("Aplicado", aplicado);
                                     startActivity(i);
                                 }
                             });
@@ -163,6 +164,7 @@ public class RealizarPlano extends AppCompatActivity {
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                                    i.putExtra("Aplicado", aplicado);
                                     startActivity(i);
                                 }
                             });

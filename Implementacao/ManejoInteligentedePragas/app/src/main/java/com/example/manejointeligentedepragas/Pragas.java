@@ -1,11 +1,19 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,27 +55,30 @@ public class Pragas extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_lateral, menu);
+        inflater.inflate(R.menu.menu_praga, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.perfil:
+            case R.id.icInfo:
+                ExibirCaixaInfo();
+                return true;
+            case R.id.perfil_praga:
                 Intent i = new Intent(this, Perfil.class);
                 startActivity(i);
                 return true;
-            case R.id.pragas:
+            case R.id.pragas_praga:
                 Intent k = new Intent(this, VisualizaPragas.class);
                 startActivity(k);
                 return true;
-            case R.id.plantas:
+            case R.id.plantas_praga:
                 Intent j = new Intent(this, VisualizaPlantas.class);
                 startActivity(j);
                 return true;
 
-            case R.id.metodo_de_controle:
+            case R.id.metodo_de_controle_praga:
                 Intent l = new Intent(this, VisualizaMetodos.class);
                 startActivity(l);
                 return true;
@@ -183,5 +194,43 @@ public class Pragas extends AppCompatActivity {
 
         }
 
+    }
+
+    public  void ExibirCaixaInfo(){
+        AlertDialog.Builder dlgBox = new AlertDialog.Builder(Pragas.this);
+        SpannableString ss =
+                new SpannableString("As cores nessa tela indicam diferentes situações:\n\n" +
+                "Verde: indica que a praga encontra-se controlada no momento(abaixo do nível de controle)." +
+                "\n\nAmarelo: indica que é necessário realizar uma amostragem sobre a praga." +
+                "\n\nVermelho: indica que, após uma contagem, foi constatada a necessidade de aplicação de algum método de controle.");
+        ForegroundColorSpan foregroundVerde = new ForegroundColorSpan(Color.parseColor("#659251"));
+        ForegroundColorSpan foregroundAmarelo = new ForegroundColorSpan(Color.parseColor("#ECC911"));
+        ForegroundColorSpan foregroundVermelho = new ForegroundColorSpan(Color.parseColor("#FD991111"));
+        ss.setSpan(foregroundVerde, 51,58, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(foregroundAmarelo, 142,150, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(foregroundVermelho, 214,224, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        StyleSpan negrito = new StyleSpan(Typeface.BOLD);
+        StyleSpan negrito2 = new StyleSpan(Typeface.BOLD);
+        StyleSpan negrito3 = new StyleSpan(Typeface.BOLD);
+        ss.setSpan(negrito3, 51,58, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(negrito2, 142,150, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(negrito, 214,224, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        dlgBox.setTitle("Informações");
+        dlgBox.setMessage(ss);
+
+        /*dlgBox.setMessage("As cores nessa tela indicam diferentes situações:\n\n" +
+                          "Verde: indica que a praga encontra-se controlada no momento(abaixo do nível de controle)." +
+                          "\n\nAmarelo: indica que é necessário realizar uma amostragem sobre a praga." +
+                          "\n\nVermelho: indica que, após uma contagem, foi constatada a necessidade de aplicação de algum método de controle.");
+        */dlgBox.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        dlgBox.show();
     }
 }

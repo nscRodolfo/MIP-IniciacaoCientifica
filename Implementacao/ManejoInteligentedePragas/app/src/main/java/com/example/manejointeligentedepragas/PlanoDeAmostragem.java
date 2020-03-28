@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,6 +86,9 @@ public class PlanoDeAmostragem extends AppCompatActivity {
     ImageView imgInfo;
     String amostra;
 
+    //data ultimo plano
+    String ultimoPlano;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +111,9 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         presencaPraga = findViewById(R.id.btnPresencaPraga);
         ausenciaPraga = findViewById(R.id.btnAusenciaPraga);
         imgInfo = findViewById(R.id.ImgInfo);
+
+
+        ResgatarDataUltimoPlano(codPraga,codCultura);
 
         ResgatarAtinge(codPraga,codCultura);
         ChamaAmostra(codPraga);
@@ -550,6 +557,61 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                         for (int i = 0; i< array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
                             amostra = obj.getString("Localizacao");
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }));
+        }
+    }
+
+    public void ResgatarDataUltimoPlano(int codPraga, final int codCultura){
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext()))
+        {
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+        }else { // se tem acesso à internet
+            String url = "http://mip2.000webhostapp.com/resgataDataUltimoPlano.php?Cod_Praga=" + codPraga+"&&Cod_Cultura="+codCultura;
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    //Parsing json
+                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
+                            ultimoPlano = obj.getString("Data");
+                        }
+                        if(ultimoPlano!=null) {
+                                //compare to volta 0 se forem iguais ou numero negativo/positivo se o dia for menor/maior
+                                if (dataFormatada.equals(ultimoPlano)) {
+                                    AlertDialog.Builder dlgBox = new AlertDialog.Builder(PlanoDeAmostragem.this);
+                                    dlgBox.setCancelable(false);
+                                    dlgBox.setTitle("Aviso!");
+                                    dlgBox.setMessage("Você já realizou uma contagem dessa praga hoje, por favor espere até amanhã para realizar uma nova contagem.");
+                                    dlgBox.setPositiveButton("Voltar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent i = new Intent(PlanoDeAmostragem.this, AcoesCultura.class);
+                                            i.putExtra("Cod_Propriedade", codPropriedade);
+                                            i.putExtra("Cod_Cultura", codCultura);
+                                            i.putExtra("NomeCultura", nome);
+                                            i.putExtra("Aplicado", aplicado);
+                                            startActivity(i);
+                                        }
+                                    });
+                                    dlgBox.show();
+                                }
                         }
                     } catch (JSONException e) {
                         Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();

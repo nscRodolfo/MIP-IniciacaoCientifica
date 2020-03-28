@@ -161,6 +161,7 @@ public class InfoPraga extends AppCompatActivity {
                          tvEstagioDeAtuacao.setText("Estágio de atuação: "+estagioDeAtuacao);
                          tvControleCultural.setText("Controles culturais: "+controleCultural);
 
+                        setTitle("MIP² | "+nome);
 
 
 

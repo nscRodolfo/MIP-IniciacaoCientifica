@@ -18,7 +18,7 @@
     <string name="adicionar_cultura">Adicionar Cultura</string>
     <string name="tomate">Tomate</string>
     <string name="x_talh_es">X Talhões</string>
-    <string name="dias_para_a_contagem_x">Dias para a contagem: X</string>
+    <string name="dias_para_a_contagem_x">Dias para a contagem:</string>
     <string name="estadopropriedade">Estado:</string>
     <string name="ex_20">Ex: 20</string>
     <string name="plantas_por_talh_o">Plantas por talhão:</string>
@@ -125,5 +125,12 @@
     <string name="ver_inimigos_naturais">Ver inimigos naturais </string>
     <string name="corrigir">Corrigir</string>
     <string name="informa_o_sobre_amostragem">Informação sobre amostragem</string>
-    <string name="imageminfo">ImagemInfo</string>>
+    <string name="imageminfo">ImagemInfo</string>
+    <string name="ver_pragas_chave">Ver pragas-chave</string>
+    <string name="popula_o_de_pragas_por_contagem">População de pragas por contagem</string>
+    <string name="planos_de_amostragem_realizados">Planos de amostragem realizados</string>
+    <string name="caldas_aplicadas">Caldas aplicadas</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="selecione_uma_praga_para_visualizar_o_relat_rio">Selecione uma praga para visualizar o relatório:</string>
+    >
 </resources>

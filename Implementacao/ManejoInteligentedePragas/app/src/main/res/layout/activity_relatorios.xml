@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Relatorios">
+
+    <RelativeLayout
+        android:id="@+id/rlRelatorios"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/rlRelatoriosPragasContagens"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:id="@+id/divisor"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/tvRelatoriosPragasContagens"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/popula_o_de_pragas_por_contagem"
+                android:textColor="#659251"
+                android:textSize="18sp"
+
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/divisor1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:layout_below="@id/rlRelatoriosPragasContagens" />
+
+        <RelativeLayout
+            android:id="@+id/rlRelatoriosPlanosDeAmostragem"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/rlRelatoriosPragasContagens"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tvRelatoriosPlanosDeAmostragem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/planos_de_amostragem_realizados"
+                android:textColor="#659251"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/divisor2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:layout_below="@id/rlRelatoriosPlanosDeAmostragem" />
+
+        <RelativeLayout
+            android:id="@+id/rlCaldasAplicadas"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/rlRelatoriosPlanosDeAmostragem"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tvCaldasAplicadas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/caldas_aplicadas"
+                android:textColor="#659251"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/divisor3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:layout_below="@id/rlCaldasAplicadas"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -138,7 +138,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                     } catch (JSONException e) {
                         Toast.makeText(ConfirmacaoPlanoAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
-                    
+
                     if (controla){
                         if(aplicado){
                             if(codPragaComparacaoAux == codPraga){

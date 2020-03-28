@@ -9,7 +9,7 @@
                 from Praga, PresencaPraga
                 WHERE PresencaPraga.fk_Cultura_Cod_Cultura = '$Cod_Cultura' 
                 and PresencaPraga.fk_Praga_Cod_Praga = Praga.Cod_Praga
-                ORDER BY Praga.Nome ASC";
+                ORDER BY PresencaPraga.Status DESC";
     
     $dados = $PDO->query($sql);
     $resultado = array();

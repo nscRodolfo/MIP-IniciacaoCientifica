@@ -50,7 +50,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
     private Context culturaContext;
     private int Cod_Propriedade;
 
-    String ultimaAplicacao;
+    String diasPraContagem;
 
     public CulturaCardAdapter(Context culturaContext, ArrayList<CulturaModel> cards, int Cod_Propriedade) {
         this.cards = cards;
@@ -73,12 +73,12 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
-        //int dias = CalculaDiasPraContagem(cards.get(position).getCod_Cultura());
-
         holder.plantaCultura.setText(cards.get(position).getnomePlanta());
         holder.numTalhao.setText("Número de talhões: " + cards.get(position).getNumeroTalhoes());
-        //holder.contagem.setText("Dias para contagem: " + dias);
-        //Toast.makeText(culturaContext, ""+cards.get(position).isAplicado(), Toast.LENGTH_LONG).show();
+
+        CalculaDiasPraContagem(cards.get(position).getCod_Cultura(), holder);
+
+
 
         holder.parent_layout_cultura.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -198,38 +198,27 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
     }
 
 
-    public int CalculaDiasPraContagem(int Cod_Cultura){
-        int dias =0;
+    public void CalculaDiasPraContagem(int Cod_Cultura, final ViewHolder holder){
         Utils u = new Utils();
         if(!u.isConected(culturaContext))
         {
             Toast.makeText(culturaContext,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/diasParaContagem.php?Cod_Cultura=" + Cod_Cultura;
-
-
             RequestQueue queue = Volley.newRequestQueue(culturaContext);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
                 @Override
                 public void onResponse(String response) {
-                    //Parsing json
-                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
                     try {
                         //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
                         JSONArray array = new JSONArray(response);
                         for (int i = 0; i< array.length(); i++){
                             JSONObject obj = array.getJSONObject(i);
-                            ultimaAplicacao = obj.getString("Data");
-                          try{
-                              SimpleDateFormat formataData = new SimpleDateFormat("yyyy-MM-dd");
-                              Date dataAtual = new Date();
-                              Date dataFormatada = formataData.parse(ultimaAplicacao);
-                          }catch (ParseException e){
-                              Toast.makeText(culturaContext, e.toString(), Toast.LENGTH_LONG).show();
-                          }
+                            diasPraContagem = obj.getString("DiasPraContagem");
                         }
 
+                        holder.contagem.setText("Dias para a contagem: " + diasPraContagem );
 
                     } catch (JSONException e) {
                         Toast.makeText(culturaContext, e.toString(), Toast.LENGTH_LONG).show();
@@ -242,6 +231,5 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
                 }
             }));
         }
-        return dias;
     }
 }

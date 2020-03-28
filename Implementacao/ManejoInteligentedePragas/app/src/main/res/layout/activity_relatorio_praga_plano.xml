@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RelatorioPragaPlano">
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:seriesType="line"
+            android:layout_margin="10dp"
+            />
+
+    <!--
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/graficoPragaPlano"
+        style="@style/APDefacto.Light"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        ap:domainTitle="Pragas"
+        ap:layout_constraintBottom_toBottomOf="parent"
+        ap:layout_constraintEnd_toEndOf="parent"
+        ap:layout_constraintStart_toStartOf="parent"
+        ap:layout_constraintTop_toTopOf="parent"
+        ap:paddingTop="10dp"
+        ap:paddingBottom="10dp"
+        ap:lineLabelRotationBottom="-45"
+        ap:lineLabels="left|bottom"
+        ap:rangeTitle="Contagens"
+        ap:title="Pragas X Contagens"
+        ap:titleTextColor="#659251"
+        ap:renderMode="use_background_thread"
+        />
+    -->
+
+</android.support.constraint.ConstraintLayout>

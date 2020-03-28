@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".VisualizaPragas">
 
-    
+
 
     <EditText
         android:id="@+id/PesquisaPragas"
@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        android:autofillHints="" />
 
     <ListView
         android:id="@+id/ListViewPragas"

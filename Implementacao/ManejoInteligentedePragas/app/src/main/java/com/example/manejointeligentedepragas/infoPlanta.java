@@ -1,8 +1,11 @@
 package com.example.manejointeligentedepragas;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ public class infoPlanta extends AppCompatActivity {
     TextView tvTratosCulturais;
     TextView tvCiclo;
     TextView tvTamanhoTalhao;
+    Button btnInfoPlantaPragas;
 
     String nome;
     String nomeCientifico;
@@ -61,12 +65,22 @@ public class infoPlanta extends AppCompatActivity {
         tvTratosCulturais = findViewById(R.id.InfoPlantaTratosCulturais);
         tvCiclo = findViewById(R.id.InfoPlantaCiclo);
         tvTamanhoTalhao = findViewById(R.id.InfoPlantaTamanhoTalhao);
+        btnInfoPlantaPragas = findViewById(R.id.btnInfoPlantaPragas);
         ViewPager viewPager = findViewById(R.id.ViewPagerPlanta);
 
         codPlanta = getIntent().getIntExtra("Cod_Planta",0);
 
         ResgatarUrlPlantas(viewPager, codPlanta);
         ResgataPlantas(codPlanta);
+
+        btnInfoPlantaPragas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent k = new Intent(infoPlanta.this, VisualizaPragas.class);
+                k.putExtra("Cod_Planta",codPlanta);
+                startActivity(k);
+            }
+        });
     }
 
 
@@ -111,6 +125,9 @@ public class infoPlanta extends AppCompatActivity {
                         tvTratosCulturais.setText("Tratos Culturais: "+tratosCulturais);
                         tvCiclo.setText("Ciclo: "+ciclo);
                         tvTamanhoTalhao.setText("Tamanho de talhão necessário: "+tamanhoTalhao+" hectares");
+
+
+                        setTitle("MIP² | "+nome);
 
                     } catch (JSONException e) {
                         Toast.makeText(infoPlanta.this, e.toString(), Toast.LENGTH_LONG).show();

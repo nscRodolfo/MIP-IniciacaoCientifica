@@ -34,6 +34,16 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/InfoPragaNomeCientifico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="16sp"
+                android:textStyle="italic" />
+
+            <TextView
                 android:id="@+id/InfoPragaFamilia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,16 +60,6 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/InfoPragaNomeCientifico"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:textSize="16sp"
-                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/Descricao"

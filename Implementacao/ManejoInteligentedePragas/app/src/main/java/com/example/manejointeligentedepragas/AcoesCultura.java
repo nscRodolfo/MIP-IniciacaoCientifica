@@ -18,6 +18,8 @@ public class AcoesCultura extends AppCompatActivity {
 
     public RelativeLayout rlRPA;
 
+    public RelativeLayout rlGR;
+
     int Cod_Propriedade;
 
     boolean aplicado;
@@ -79,6 +81,8 @@ public class AcoesCultura extends AppCompatActivity {
         final String nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
 
+        rlGR= findViewById(R.id.rlGR);
+
         setTitle("MIP² | "+nome);
 
         rlVPA = findViewById(R.id.rlVPA);
@@ -99,6 +103,20 @@ public class AcoesCultura extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AcoesCultura.this, RealizarPlano.class);
+                i.putExtra("Cod_Cultura", codCultura);
+                i.putExtra("NomeCultura", nome);
+                i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                i.putExtra("Aplicado", aplicado);
+                startActivity(i);
+            }
+        });
+
+
+
+        rlGR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AcoesCultura.this, Relatorios.class);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);

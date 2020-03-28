@@ -72,6 +72,8 @@ public class infoInimigoNatural extends AppCompatActivity {
                             nomeInimigo = obj.getString("Nome");
                         }
                         tvNomeInimigo.setText("Nome: "+nomeInimigo);
+
+                        setTitle("MIP² | "+nomeInimigo);
                     } catch (JSONException e) {
                         Toast.makeText(infoInimigoNatural.this, e.toString(), Toast.LENGTH_LONG).show();
                     }

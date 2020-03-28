@@ -105,6 +105,8 @@ public class infoMetodo extends AppCompatActivity {
                          tvEfeitoColateral.setText("Efeitos colaterais: "+EfeitoColateral);
                          tvObservacoes.setText("Observações: "+Observacoes);
                          tvAtuacao.setText("Atuação: "+Atuacao);
+
+                        setTitle("MIP² | "+Nome);
                     } catch (JSONException e) {
                         Toast.makeText(infoMetodo.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
