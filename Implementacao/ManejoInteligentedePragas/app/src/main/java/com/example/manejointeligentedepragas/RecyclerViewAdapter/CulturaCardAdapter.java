@@ -78,7 +78,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
         holder.plantaCultura.setText(cards.get(position).getnomePlanta());
         holder.numTalhao.setText("Número de talhões: " + cards.get(position).getNumeroTalhoes());
 
-        CalculaDiasPraContagem(cards.get(position).getCod_Cultura(), holder);
+        CalculaDiasPraContagem(cards.get(position).getCod_Cultura(), holder, position);
 
 
 
@@ -197,7 +197,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
     }
 
 
-    public void CalculaDiasPraContagem(int Cod_Cultura, final ViewHolder holder){
+    public void CalculaDiasPraContagem(int Cod_Cultura, final ViewHolder holder, final int position){
         Utils u = new Utils();
         if(!u.isConected(culturaContext))
         {
@@ -218,6 +218,9 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
                         }
 
                         holder.contagem.setText("Dias para a contagem: " + diasPraContagem );
+                        if(diasPraContagem.equals("0")){
+                            cards.get(position).setAplicado(false);
+                        }
 
                     } catch (JSONException e) {
                         Toast.makeText(culturaContext, e.toString(), Toast.LENGTH_LONG).show();

@@ -1,5 +1,8 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +51,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     ArrayList<Integer> popPragas = new ArrayList<Integer>();
     ArrayList<Integer> numPlantas = new ArrayList<Integer>();
     ArrayList<Date> dataContagem = new ArrayList<Date>();
+    ArrayList<Long> dataContagemLong = new ArrayList<Long>();
 
     /*private XYPlot grafico;*/
 
@@ -70,15 +74,52 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         setTitle("MIP² | "+nome);
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        //graph.getViewport().setScalable(true);
-        //graph.getViewport().setScrollable(true);
-        //graph.getViewport().setScrollableY(true);
+
         graph.setTitle("Pragas x Contagens");
         graph.setTitleColor(Color.parseColor("#659251"));
 
+        //Toast.makeText(RelatorioPragaPlano.this, d1.toString(), Toast.LENGTH_LONG).show();
 
 
-        popularDadosGráfico(graph);
+        /*
+        Calendar calendar = Calendar.getInstance();
+        Date d1 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        Date d2 = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        Date d3 = calendar.getTime();
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(d1, 1),
+                new DataPoint(d2, 5),
+                new DataPoint(d3, 3)
+        });
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(RelatorioPragaPlano.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.getViewport().setMinX(d1.getTime());
+        graph.getViewport().setMaxX(d3.getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+
+
+
+        PointsGraphSeries<DataPoint> series1 = new PointsGraphSeries<>(new DataPoint[] {
+                new DataPoint(d1, 1),
+                new DataPoint(d2, 5),
+                new DataPoint(d3, 3)
+        });
+
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalableY(true);
+        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScrollableY(true);
+
+        graph.addSeries(series);
+        graph.addSeries(series1);
+
+
+        */
+        resgataDados(codCultura,codPraga,graph);
 
         /*grafico = (XYPlot) findViewById(R.id.graficoPragaPlano);
         popularDadosGráfico();
@@ -92,59 +133,63 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         grafico.addSeries(s1, new LineAndPointFormatter(Color.BLACK, Color.GREEN, null, null));
         */
 
-        resgataDados(codCultura,codPraga);
-
-        Calendar calendar = Calendar.getInstance();
-        Date d1 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d2 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d3 = calendar.getTime();
-        calendar.add(Calendar.DATE, 1);
-        Date d4 = calendar.getTime();
 
         int tamanho = dataContagem.size();
         DataPoint[] dataPoints = new DataPoint[tamanho];
 
         for (int i =0;i<tamanho;i++){
-            dataPoints[i] = new DataPoint(dataContagem.get(i),popPragas.get(i));
+            dataPoints[i] = new DataPoint(dataContagem.get(i).getTime(),popPragas.get(i));
         }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
-
-        //for (int i =0;i<tamanho;i++){
-          //  series.appendData(new DataPoint(dataContagem.get(i),popPragas.get(i)), true, tamanho);
-        //}
-
         series.setColor(Color.parseColor("#659251"));
-        graph.addSeries(series);
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(RelatorioPragaPlano.this));
-        //graph.getGridLabelRenderer().setNumHorizontalLabels(4);
-        //graph.getViewport().setMinX(dataContagem.get(0).getTime());
-        //graph.getViewport().setMaxX(dataContagem.get(tamanho-1).getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getGridLabelRenderer().setHumanRounding(false);
-        /*
-        PointsGraphSeries<DataPoint> series1 = new PointsGraphSeries<>(new DataPoint[]{
-                new DataPoint(d1, 1),
-                new DataPoint(d2, 10),
-                new DataPoint(d3, 7),
-                new DataPoint(d4, 9)
-        });
+        PointsGraphSeries<DataPoint> series1 = new PointsGraphSeries<>(dataPoints);
         series1.setColor(Color.parseColor("#659251"));
-        graph.addSeries(series1);
 
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(RelatorioPragaPlano.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+        graph.getGridLabelRenderer().setHumanRounding(false,true);
+        graph.getViewport().setMinX(dataContagem.get(0).getTime());
+        graph.getViewport().setMaxX(dataContagem.get(tamanho-1).getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalableY(true);
+        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScrollableY(true);
+
+
+        graph.addSeries(series);
+        graph.addSeries(series1);
 
         series1.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(RelatorioPragaPlano.this, "Series1: On Data Point clicked: "+dataPoint, Toast.LENGTH_SHORT).show();
+                Double d = dataPoint.getX();
+                Long aux = d.longValue();
+                int indexInfos = dataContagemLong.indexOf(aux);
+
+                String dataFormatada = formataData.format(dataContagem.get(indexInfos));
+
+                AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPragaPlano.this);
+                dlgBox.setTitle("Informações");
+                dlgBox.setMessage("Data: "+dataFormatada+"\n\nPlantas amostradas: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
+                dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                dlgBox.show();
             }
+
         });
-        */
+
     }
 
 
-    public void resgataDados(int codCultura,int codPraga){
+    public void resgataDados(int codCultura,int codPraga, final GraphView graph){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
@@ -165,12 +210,15 @@ public class RelatorioPragaPlano extends AppCompatActivity {
                             JSONObject obj = array.getJSONObject(i);
                             try {
                                 dataContagem.add(formataData.parse(obj.getString("Data")));
+                                dataContagemLong.add(formataData.parse(obj.getString("Data")).getTime());
                             } catch (ParseException e) {
                                 Toast.makeText(RelatorioPragaPlano.this, e.toString(), Toast.LENGTH_LONG).show();
                             }
                             popPragas.add(obj.getInt("popPragas"));
                             numPlantas.add(obj.getInt("numPlantas"));
                         }
+                        popularDadosGráfico(graph);
+
                     } catch (JSONException e) {
                         Toast.makeText(RelatorioPragaPlano.this, e.toString(), Toast.LENGTH_LONG).show();
                     }

@@ -38,6 +38,11 @@
 
             $resultado [] = array("DiasPraContagem" => $DiasPraContagem->days);
         }else{
+            $sql2 = "UPDATE Cultura SET Aplicado = 0
+                WHERE Cultura.Cod_Cultura = '$Cod_Cultura'";
+                
+            $tiraAplica = $PDO->query($sql2);
+
             $resultado [] = array("DiasPraContagem" => "0");
         }
         echo json_encode($resultado);

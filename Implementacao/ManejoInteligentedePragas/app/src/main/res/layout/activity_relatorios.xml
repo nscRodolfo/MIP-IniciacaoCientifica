@@ -40,6 +40,35 @@
                 android:textSize="18sp"
 
                 />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/divisor4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:layout_below="@id/rlRelatoriosPragasContagens"/>
+
+        <RelativeLayout
+            android:id="@+id/rlRelatoriosAplicacoesContagens"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_below="@id/rlRelatoriosPragasContagens">
+
+
+            <TextView
+                android:id="@+id/tvRelatoriosAplicacoesContagens"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/popula_o_de_pragas_por_contagem"
+                android:textColor="#659251"
+                android:textSize="18sp"
+
+                />
 
         </RelativeLayout>
 
@@ -48,13 +77,13 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            android:layout_below="@id/rlRelatoriosPragasContagens" />
+            android:layout_below="@id/rlRelatoriosAplicacoesContagens" />
 
         <RelativeLayout
             android:id="@+id/rlRelatoriosPlanosDeAmostragem"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_below="@id/rlRelatoriosPragasContagens"
+            android:layout_below="@id/rlRelatoriosAplicacoesContagens"
             android:clickable="true"
             android:focusable="true">
 

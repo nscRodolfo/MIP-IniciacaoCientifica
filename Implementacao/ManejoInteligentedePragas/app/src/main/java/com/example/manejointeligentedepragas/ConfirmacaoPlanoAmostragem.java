@@ -131,7 +131,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/buscaCodPraga.php?Cod_Cultura="+ codCultura ;
-            RequestQueue queue = Volley.newRequestQueue(this);
+            final RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -150,6 +150,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                             if(codPragaComparacaoAux == codPraga){
                                 tvMostraControla.setText("Esta praga possui um controle recente, é necessário esperar o tempo de fitossanidade para realizar uma nova aplicação");
                                 btnSalvar.setText("OK");
+                                alteraStatus(codCultura, codPraga,1); //1 = amarelo
                             }else{
                                 tvMostraControla.setText("Método de controle aplicado recentemente. É necessário esperar o tempo de fitossanidade para realizar uma nova aplicação");
                                 btnSalvar.setText("OK");
