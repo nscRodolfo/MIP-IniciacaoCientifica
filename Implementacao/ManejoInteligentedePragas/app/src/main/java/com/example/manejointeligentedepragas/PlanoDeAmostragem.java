@@ -114,7 +114,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         ausenciaPraga = findViewById(R.id.btnAusenciaPraga);
         imgInfo = findViewById(R.id.ImgInfo);
 
-        setTitle("MIP² | "+nome);
+        setTitle("MIP² | "+nomePraga);
 
         ResgatarDataUltimoPlano(codPraga,codCultura);
 

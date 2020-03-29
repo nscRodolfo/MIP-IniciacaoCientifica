@@ -67,7 +67,6 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         tvMostraCultura.setText(nome);
         tvMostraPraga.setText(nomePraga);
 
-        setTitle("MIP² | "+nome);
         buscaCodPraga(codCultura);
 
 
@@ -84,6 +83,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Aplicado", aplicado);
                         i.putExtra("nomePropriedade", nomePropriedade);
+                        startActivity(i);
                     }else{
                         Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, AplicaMetodoDeControle.class);
                         i.putExtra("Cod_Propriedade", codPropriedade);
@@ -92,6 +92,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                         i.putExtra("Cod_Praga",codPraga);
                         i.putExtra("Aplicado", aplicado);
                         i.putExtra("nomePropriedade", nomePropriedade);
+                        startActivity(i);
                     }
                 }else{
                     Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, Pragas.class);

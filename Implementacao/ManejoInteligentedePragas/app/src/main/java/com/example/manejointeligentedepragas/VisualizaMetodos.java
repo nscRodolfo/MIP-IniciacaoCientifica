@@ -3,9 +3,13 @@ package com.example.manejointeligentedepragas;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,6 +35,12 @@ public class VisualizaMetodos extends AppCompatActivity {
     //Boolean específicos = false;
     Integer cod_Praga;
 
+    //pesquisa
+    EditText edtPesquisaMetodos;
+    Boolean pesquisado = false;
+    private ArrayList<String> pesquisa = new ArrayList<String>();
+    private ArrayList<Integer> codMetodoPesquisa = new ArrayList<Integer>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +48,14 @@ public class VisualizaMetodos extends AppCompatActivity {
 
         cod_Praga = getIntent().getIntExtra("Cod_Praga", 0);
 
-        ListView listView = findViewById(R.id.ListViewMetodos);
+        edtPesquisaMetodos = findViewById(R.id.PesquisaMetodos);
+        final ListView listView = findViewById(R.id.ListViewMetodos);
+
+
+        setTitle("MIP² | Métodos de controle");
+
+        //esconder teclado
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         if(cod_Praga != 0){
             ResgataMetodosEspecificos(listView,cod_Praga);
@@ -46,14 +63,50 @@ public class VisualizaMetodos extends AppCompatActivity {
             ResgataMetodos(listView);
         }
 
+        //pesquisa
+        edtPesquisaMetodos.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Pesquisar();
+                listView.setAdapter(new ArrayAdapter<String>(VisualizaMetodos.this, android.R.layout.simple_list_item_1, pesquisa));
+                if(s==null){
+                    pesquisado = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Pesquisar();
+                listView.setAdapter(new ArrayAdapter<String>(VisualizaMetodos.this, android.R.layout.simple_list_item_1, pesquisa));
+                if(s==null){
+                    pesquisado = false;
+                }
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i= new Intent(VisualizaMetodos.this,infoMetodo.class);
-                i.putExtra("Cod_Metodo",codMetodos.get(position));
-                startActivity(i);
+
+                if(pesquisado ==true) {
+                    Intent i= new Intent(VisualizaMetodos.this,infoMetodo.class);
+                    i.putExtra("Cod_Metodo",codMetodoPesquisa.get(position));
+                    startActivity(i);
+                }else{
+                    Intent i= new Intent(VisualizaMetodos.this,infoMetodo.class);
+                    i.putExtra("Cod_Metodo",codMetodos.get(position));
+                    startActivity(i);
+                }
+
             }
         });
+
+
 
 
     }
@@ -138,6 +191,26 @@ public class VisualizaMetodos extends AppCompatActivity {
                 }
             }));
 
+        }
+    }
+
+    public void Pesquisar(){
+        int textlength = edtPesquisaMetodos.getText().length();
+        pesquisa.clear();
+        codMetodoPesquisa.clear();
+        pesquisado = true;
+
+        for (int i = 0; i < nomeMetodos.size(); i++ ) {
+            if (textlength <= nomeMetodos.get(i).length()) {
+                //if (edtPesquisaPragas.getText().toString().equalsIgnoreCase((String)nomePragas.get(i).subSequence(0, textlength))) {
+                if(nomeMetodos.get(i).contains(edtPesquisaMetodos.getText().toString())){
+                    pesquisa.add(nomeMetodos.get(i));
+                    codMetodoPesquisa.add(codMetodos.get(i));
+                }else if(edtPesquisaMetodos.getText().toString().equalsIgnoreCase((String)nomeMetodos.get(i).subSequence(0, textlength))){
+                    pesquisa.add(nomeMetodos.get(i));
+                    codMetodoPesquisa.add(codMetodos.get(i));
+                }
+            }
         }
     }
 }

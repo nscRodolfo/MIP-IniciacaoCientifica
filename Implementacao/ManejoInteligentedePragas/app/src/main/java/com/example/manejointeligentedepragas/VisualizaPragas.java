@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class VisualizaPragas extends Activity {
+public class VisualizaPragas extends AppCompatActivity {
 
     ArrayList<String> nomePragas = new ArrayList<>();
     ArrayList<Integer> codPragas = new ArrayList<>();
@@ -51,6 +51,7 @@ public class VisualizaPragas extends Activity {
         final ListView listView = findViewById(R.id.ListViewPragas);
         edtPesquisaPragas = findViewById(R.id.PesquisaPragas);
 
+        setTitle("MIP² | Pragas");
 
 
         //esconder teclado
