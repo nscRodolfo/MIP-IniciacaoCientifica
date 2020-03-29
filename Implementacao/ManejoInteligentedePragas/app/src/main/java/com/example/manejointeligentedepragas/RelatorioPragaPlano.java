@@ -43,6 +43,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     int codPraga;
     String nome;
     boolean aplicado;
+    String nomePropriedade;
 
     ArrayList<Integer> popPragas = new ArrayList<Integer>();
     ArrayList<Integer> numPlantas = new ArrayList<Integer>();
@@ -64,6 +65,9 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+
+        setTitle("MIP² | "+nome);
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         //graph.getViewport().setScalable(true);

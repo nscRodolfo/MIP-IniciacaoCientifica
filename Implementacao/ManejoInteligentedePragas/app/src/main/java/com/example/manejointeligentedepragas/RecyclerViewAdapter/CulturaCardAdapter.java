@@ -49,13 +49,15 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
     private ArrayList<CulturaModel> cards = new ArrayList<>();
     private Context culturaContext;
     private int Cod_Propriedade;
+    private String nomePropriedade;
 
     String diasPraContagem;
 
-    public CulturaCardAdapter(Context culturaContext, ArrayList<CulturaModel> cards, int Cod_Propriedade) {
+    public CulturaCardAdapter(Context culturaContext, ArrayList<CulturaModel> cards, int Cod_Propriedade, String nomePropriedade) {
         this.cards = cards;
         this.culturaContext = culturaContext;
         this.Cod_Propriedade = Cod_Propriedade;
+        this.nomePropriedade = nomePropriedade;
     }
 
     @NonNull
@@ -94,17 +96,13 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
                 Log.d(TAG, "onClick:  clicked on: ");
                 Intent i = new Intent(culturaContext, AcoesCultura.class);
 
-                i.putExtra("Cod_Propriedade", Cod_Propriedade);
-
                 // chama a intent nesse adapter
                 // pega o contexr do construtor
-                int codigo = cards.get(position).getCod_Cultura();
-                i.putExtra("Cod_Cultura", codigo);
-
-                String nomeCultura= cards.get(position).getnomePlanta();
-                i.putExtra("NomeCultura", nomeCultura);
-
+                i.putExtra("Cod_Cultura", cards.get(position).getCod_Cultura());
+                i.putExtra("NomeCultura", cards.get(position).getnomePlanta());
+                i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", cards.get(position).isAplicado());
+                i.putExtra("nomePropriedade", nomePropriedade);
 
                 culturaContext.startActivity(i);
             }
@@ -180,6 +178,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
                         Intent k = new Intent(culturaContext, Cultura.class);
                         Toast.makeText(culturaContext, "Cultura excluída com sucesso!",Toast.LENGTH_LONG).show();
                         k.putExtra("Cod_Propriedade", cards.get(position).getFk_Cod_Propriedade());
+                        k.putExtra("nomePropriedade", nomePropriedade);
                         culturaContext.startActivity(k);
                     }else{
                         Toast.makeText(culturaContext, "Cultura não excluída! Tente novamente",Toast.LENGTH_LONG).show();

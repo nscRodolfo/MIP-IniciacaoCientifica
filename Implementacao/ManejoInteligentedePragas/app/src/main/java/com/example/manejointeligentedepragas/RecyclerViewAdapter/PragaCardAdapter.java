@@ -50,14 +50,16 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
     private String nome;
     private int Cod_Propriedade;
     private boolean aplicado;
+    private String nomePropriedade;
 
-    public PragaCardAdapter(Context pragaContext, ArrayList<PragaModel> cards, int codCultura, String nome, int Cod_Propriedade, boolean aplicado) {
+    public PragaCardAdapter(Context pragaContext, ArrayList<PragaModel> cards, int codCultura, String nome, int Cod_Propriedade, boolean aplicado,String nomePropriedade) {
         this.cards = cards;
         this.pragaContext = pragaContext;
         this.codCultura = codCultura;
         this.nome = nome;
         this.Cod_Propriedade = Cod_Propriedade;
         this.aplicado = aplicado;
+        this.nomePropriedade = nomePropriedade;
     }
 
     @NonNull
@@ -114,6 +116,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Cod_Propriedade", Cod_Propriedade);
                         i.putExtra("Aplicado", aplicado);
+                        i.putExtra("nomePropriedade", nomePropriedade);
                         pragaContext.startActivity(i);
                     }
                 }else if(cards.get(position).getStatus() == 2){
@@ -126,6 +129,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Cod_Propriedade", Cod_Propriedade);
                         i.putExtra("Aplicado", aplicado);
+                        i.putExtra("nomePropriedade", nomePropriedade);
                         pragaContext.startActivity(i);
                     }
                 }
@@ -226,6 +230,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 pragaContext.startActivity(i);
             }
         });
@@ -278,6 +283,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                         i.putExtra("Cod_Cultura", codCultura);
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                        i.putExtra("nomePropriedade", nomePropriedade);
                         pragaContext.startActivity(i);
                     }else{
                         Toast.makeText(pragaContext, "Praga não excluída! Tente novamente",Toast.LENGTH_LONG).show();

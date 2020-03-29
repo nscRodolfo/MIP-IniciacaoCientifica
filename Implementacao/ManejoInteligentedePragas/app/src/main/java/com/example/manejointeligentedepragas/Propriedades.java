@@ -39,8 +39,8 @@ public class Propriedades extends AppCompatActivity {
 
     public FloatingActionButton fab;
     public TextView textView;
+    public String nomePropriedade;
 
-    private static final String TAG = "Propriedades";
 
     //vars relative layout
     private ArrayList<PropriedadeModel> cards = new ArrayList<>();
@@ -82,10 +82,11 @@ public class Propriedades extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate:  started");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_propriedades);
+
+        setTitle("MIP² | Propriedades");
 
         resgatarDados();
 
@@ -149,7 +150,6 @@ public class Propriedades extends AppCompatActivity {
 
 
     private void resgatarDados(){
-        Log.d(TAG, "resgatarDados: resgatou");
 
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
@@ -207,7 +207,6 @@ public class Propriedades extends AppCompatActivity {
     }
 
     private void iniciarRecyclerView(){
-        Log.d(TAG, "iniciarRecyclerView:  init iniciar");
         RecyclerView rv = findViewById(R.id.RVPropriedade);
         PropriedadeCardAdapter adapter = new PropriedadeCardAdapter(this, cards);
 

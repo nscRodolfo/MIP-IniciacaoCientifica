@@ -48,6 +48,7 @@ public class Pragas extends AppCompatActivity {
     private ArrayList<PragaModel> cards = new ArrayList<>();
     int codCultura;
     int Cod_Propriedade;
+    String nomePropriedade;
     boolean aplicado;
     String nome;
     ArrayList<String> pragasAdd = new ArrayList<String>();
@@ -98,6 +99,9 @@ public class Pragas extends AppCompatActivity {
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+
+        setTitle("MIP² | "+nome);
 
         resgatarDados();
 
@@ -111,6 +115,7 @@ public class Pragas extends AppCompatActivity {
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("pragasAdd", pragasAdd);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -125,6 +130,7 @@ public class Pragas extends AppCompatActivity {
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("pragasAdd", pragasAdd);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -139,13 +145,14 @@ public class Pragas extends AppCompatActivity {
         i.putExtra("NomeCultura", nome);
         i.putExtra("Cod_Propriedade", Cod_Propriedade);
         i.putExtra("Aplicado", aplicado);
+        i.putExtra("nomePropriedade", nomePropriedade);
         startActivity(i);
     }
 
 
     private void iniciarRecyclerView() {
         RecyclerView rv = findViewById(R.id.RVPraga);
-        PragaCardAdapter adapter = new PragaCardAdapter(this, cards, codCultura, nome, Cod_Propriedade, aplicado);
+        PragaCardAdapter adapter = new PragaCardAdapter(this, cards, codCultura, nome, Cod_Propriedade, aplicado, nomePropriedade);
 
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -200,22 +207,22 @@ public class Pragas extends AppCompatActivity {
         AlertDialog.Builder dlgBox = new AlertDialog.Builder(Pragas.this);
         SpannableString ss =
                 new SpannableString("As cores nessa tela indicam diferentes situações:\n\n" +
-                "Verde: indica que a praga encontra-se controlada no momento(abaixo do nível de controle)." +
+                "Verde: indica que a praga encontra-se controlada no momento (abaixo do nível de controle)." +
                 "\n\nAmarelo: indica que é necessário realizar uma amostragem sobre a praga." +
                 "\n\nVermelho: indica que, após uma contagem, foi constatada a necessidade de aplicação de algum método de controle.");
         ForegroundColorSpan foregroundVerde = new ForegroundColorSpan(Color.parseColor("#659251"));
         ForegroundColorSpan foregroundAmarelo = new ForegroundColorSpan(Color.parseColor("#ECC911"));
         ForegroundColorSpan foregroundVermelho = new ForegroundColorSpan(Color.parseColor("#FD991111"));
         ss.setSpan(foregroundVerde, 51,58, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(foregroundAmarelo, 142,150, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(foregroundVermelho, 214,224, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(foregroundAmarelo, 143,151, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(foregroundVermelho, 215,225, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         StyleSpan negrito = new StyleSpan(Typeface.BOLD);
         StyleSpan negrito2 = new StyleSpan(Typeface.BOLD);
         StyleSpan negrito3 = new StyleSpan(Typeface.BOLD);
         ss.setSpan(negrito3, 51,58, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(negrito2, 142,150, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(negrito, 214,224, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(negrito2, 143,151, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(negrito, 215,225, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         dlgBox.setTitle("Informações");
         dlgBox.setMessage(ss);

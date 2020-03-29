@@ -62,6 +62,8 @@ public class AdicionarCultura extends AppCompatActivity {
 
     String nomeSelecionado;
 
+    String nomePropriedade;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -91,8 +93,7 @@ public class AdicionarCultura extends AppCompatActivity {
         setContentView(R.layout.activity_adicionar_cultura);
 
 
-
-
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         plantasadd = getIntent().getStringArrayListExtra("plantasadd");
 
@@ -103,6 +104,8 @@ public class AdicionarCultura extends AppCompatActivity {
 
         Spinner dropdown = findViewById(R.id.dropdownCultura);
         ResgatarPlantas(dropdown);
+
+        setTitle("MIP² | "+nomePropriedade);
 
         salvarCultura.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +266,7 @@ public class AdicionarCultura extends AppCompatActivity {
                         if(confirmacao){
                             Intent k = new Intent(AdicionarCultura.this, Cultura.class);
                             k.putExtra("Cod_Propriedade", Cod_Propriedade);
+                            k.putExtra("nomePropriedade", nomePropriedade);
                             startActivity(k);
                         }else{
                             Toast.makeText(AdicionarCultura.this, "Cultura não cadastrada! Tente novamente",Toast.LENGTH_LONG).show();

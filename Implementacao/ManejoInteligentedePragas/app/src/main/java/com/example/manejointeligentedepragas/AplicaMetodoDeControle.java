@@ -34,6 +34,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
     int codCultura;
     String nome;
     boolean aplicado;
+    String nomePropriedade;
 
     TextView tvMetodo;
     Spinner dropdown;
@@ -64,6 +65,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
         nome = getIntent().getStringExtra("NomeCultura");
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
         tvMetodo = findViewById(R.id.tvConfMetodo);
         dropdown = findViewById(R.id.dropdownConfMetodo);
@@ -71,6 +73,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
         btnInfoMetodo = findViewById(R.id.btnInfoMetodo);
         btnAplicaMetodo = findViewById(R.id.btnAplicaMetodo);
 
+        setTitle("MIP² | "+nome);
         resgataMetodos(dropdown, codPraga);
 
         btnSelecionaDepois.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +84,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -99,6 +103,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });

@@ -43,11 +43,13 @@ public class FuncionarioCardAdapter extends RecyclerView.Adapter<FuncionarioCard
     private ArrayList<UsuarioModel> cards = new ArrayList<>();
     private Context funcionarioContext;
     private int Cod_Propriedade;
+    private String nomePropriedade;
 
-    public FuncionarioCardAdapter(Context funcionarioContext, ArrayList<UsuarioModel> cards, int Cod_Propriedade) {
+    public FuncionarioCardAdapter(Context funcionarioContext, ArrayList<UsuarioModel> cards, int Cod_Propriedade, String nomePropriedade) {
         this.cards = cards;
         this.funcionarioContext = funcionarioContext;
         this.Cod_Propriedade = Cod_Propriedade;
+        this.nomePropriedade = nomePropriedade;
     }
 
     @NonNull
@@ -148,6 +150,7 @@ public class FuncionarioCardAdapter extends RecyclerView.Adapter<FuncionarioCard
                         Intent k = new Intent(funcionarioContext, VisualizaFuncionario.class);
                         Toast.makeText(funcionarioContext, "Funcionario removido da propriedade!",Toast.LENGTH_LONG).show();
                         k.putExtra("Cod_Propriedade", Cod_Propriedade);
+                        k.putExtra("nomePropriedade", nomePropriedade);
                         funcionarioContext.startActivity(k);
                     }else{
                         Toast.makeText(funcionarioContext, "Funcionário não removido! Tente novamente",Toast.LENGTH_LONG).show();

@@ -35,6 +35,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
     String nomePraga;
     boolean controla;
     boolean aplicado;
+    String nomePropriedade;
 
     int codPragaComparacaoAux;
 
@@ -56,6 +57,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         controla = getIntent().getBooleanExtra("Controla",false);
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
         tvMostraCultura = findViewById(R.id.tvConfMostraCultura);
         tvMostraPraga = findViewById(R.id.tvConfMostraPraga);
@@ -65,6 +67,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         tvMostraCultura.setText(nome);
         tvMostraPraga.setText(nomePraga);
 
+        setTitle("MIP² | "+nome);
         buscaCodPraga(codCultura);
 
 
@@ -80,7 +83,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                         i.putExtra("Cod_Cultura", codCultura);
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Aplicado", aplicado);
-                        startActivity(i);
+                        i.putExtra("nomePropriedade", nomePropriedade);
                     }else{
                         Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, AplicaMetodoDeControle.class);
                         i.putExtra("Cod_Propriedade", codPropriedade);
@@ -88,7 +91,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Cod_Praga",codPraga);
                         i.putExtra("Aplicado", aplicado);
-                        startActivity(i);
+                        i.putExtra("nomePropriedade", nomePropriedade);
                     }
                 }else{
                     Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, Pragas.class);
@@ -96,6 +99,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                     i.putExtra("Cod_Cultura", codCultura);
                     i.putExtra("NomeCultura", nome);
                     i.putExtra("Aplicado", aplicado);
+                    i.putExtra("nomePropriedade", nomePropriedade);
                     startActivity(i);
                 }
             }
@@ -111,6 +115,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         i.putExtra("Cod_Cultura", codCultura);
         i.putExtra("NomeCultura", nome);
         i.putExtra("Aplicado", aplicado);
+        i.putExtra("nomePropriedade", nomePropriedade);
         startActivity(i);
     }
 

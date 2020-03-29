@@ -12,6 +12,7 @@ public class Relatorios extends AppCompatActivity {
     int codCultura;
     String nome;
     boolean aplicado;
+    String nomePropriedade;
 
     RelativeLayout rlPragasContagem;
     RelativeLayout rlPlanosAmostragem;
@@ -26,8 +27,9 @@ public class Relatorios extends AppCompatActivity {
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
-
+        setTitle("MIP² | "+nome);
         rlPragasContagem = findViewById(R.id.rlRelatoriosPragasContagens);
 
 
@@ -39,6 +41,7 @@ public class Relatorios extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });

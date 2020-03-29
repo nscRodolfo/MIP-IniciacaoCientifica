@@ -37,6 +37,7 @@ public class RealizarPlano extends AppCompatActivity {
     int codCultura;
     String nome;
     boolean aplicado;
+    String nomePropriedade;
 
     Integer codigoSelecionado;
     String nomeSelecionado;
@@ -55,6 +56,9 @@ public class RealizarPlano extends AppCompatActivity {
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+
+        setTitle("MIP² | "+nome);
 
         ResgatarPragas(dropdown, codCultura);
 
@@ -77,6 +81,7 @@ public class RealizarPlano extends AppCompatActivity {
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Cod_Propriedade", Cod_Propriedade);
                         i.putExtra("Aplicado", aplicado);
+                        i.putExtra("nomePropriedade", nomePropriedade);
                         startActivity(i);
                     }
                 }else if(statusSelecionado == 2){
@@ -153,6 +158,7 @@ public class RealizarPlano extends AppCompatActivity {
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("pragasAdd", pragasAdd);
                                     i.putExtra("Aplicado", aplicado);
+                                    i.putExtra("nomePropriedade", nomePropriedade);
                                     startActivity(i);
                                 }
                             });
@@ -165,6 +171,7 @@ public class RealizarPlano extends AppCompatActivity {
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Aplicado", aplicado);
+                                    i.putExtra("nomePropriedade", nomePropriedade);
                                     startActivity(i);
                                 }
                             });
@@ -204,6 +211,7 @@ public class RealizarPlano extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -232,6 +240,7 @@ public class RealizarPlano extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -260,6 +269,7 @@ public class RealizarPlano extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -288,6 +298,7 @@ public class RealizarPlano extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });

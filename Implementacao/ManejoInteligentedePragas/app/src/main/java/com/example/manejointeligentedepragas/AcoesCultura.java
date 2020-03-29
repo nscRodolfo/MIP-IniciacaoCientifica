@@ -21,6 +21,7 @@ public class AcoesCultura extends AppCompatActivity {
     public RelativeLayout rlGR;
 
     int Cod_Propriedade;
+    String nomePropriedade;
 
     boolean aplicado;
 
@@ -63,6 +64,7 @@ public class AcoesCultura extends AppCompatActivity {
         setContentView(R.layout.activity_acoes_cultura);
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
         /*
         View actionBar = getLayoutInflater().inflate(R.layout.actionbar, null);
@@ -94,6 +96,7 @@ public class AcoesCultura extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -107,6 +110,7 @@ public class AcoesCultura extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -121,6 +125,7 @@ public class AcoesCultura extends AppCompatActivity {
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -129,6 +134,7 @@ public class AcoesCultura extends AppCompatActivity {
     public void onBackPressed() {
         Intent i = new Intent(AcoesCultura.this,Cultura.class);
         i.putExtra("Cod_Propriedade", Cod_Propriedade);
+        i.putExtra("nomePropriedade", nomePropriedade);
         startActivity(i);
     }
 }

@@ -45,6 +45,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
     String nome;
     String nomePraga;
     boolean aplicado;
+    String nomePropriedade;
 
     int plantasTalhao;
     int pontosTalhao;
@@ -100,6 +101,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         nomePraga = getIntent().getStringExtra("nomePraga");
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
         tvplantasTalhao = findViewById(R.id.tvNPlantasPorTalhao);
         tvplantaPonto = findViewById(R.id.tvNPlantasPorPonto);
@@ -112,6 +114,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         ausenciaPraga = findViewById(R.id.btnAusenciaPraga);
         imgInfo = findViewById(R.id.ImgInfo);
 
+        setTitle("MIP² | "+nome);
 
         ResgatarDataUltimoPlano(codPraga,codCultura);
 
@@ -435,6 +438,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -518,6 +522,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                                 i.putExtra("Cod_Praga",codPraga);
                                 i.putExtra("Controla",controla);
                                 i.putExtra("Aplicado", aplicado);
+                                i.putExtra("nomePropriedade", nomePropriedade);
                                 startActivity(i);
                             }else{
                                 Toast.makeText(PlanoDeAmostragem.this, "Plano de amostragem não cadastrado! Tente novamente",Toast.LENGTH_LONG).show();
@@ -607,6 +612,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                                             i.putExtra("Cod_Cultura", codCultura);
                                             i.putExtra("NomeCultura", nome);
                                             i.putExtra("Aplicado", aplicado);
+                                            i.putExtra("nomePropriedade", nomePropriedade);
                                             startActivity(i);
                                         }
                                     });

@@ -37,6 +37,7 @@ public class AdicionarFunc extends AppCompatActivity {
 
     public Button btnAddFunc;
     Integer Cod_Propriedade;
+    String nomePropriedade;
     ArrayList<String> emailsResgatados = new ArrayList<String>();
     EditText etEmail;
     EditText etSenha;
@@ -82,6 +83,8 @@ public class AdicionarFunc extends AppCompatActivity {
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         emailsResgatados = getIntent().getStringArrayListExtra("emailsFuncionarios");
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        setTitle("MIP² | "+nomePropriedade);
 
         etEmail = findViewById(R.id.etEmailAddFunc);
         etSenha = findViewById(R.id.etSenhaAddFunc);

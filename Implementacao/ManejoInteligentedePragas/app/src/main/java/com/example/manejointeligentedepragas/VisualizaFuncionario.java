@@ -39,6 +39,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
     private ArrayList<UsuarioModel> cards = new ArrayList<>();
     Integer Cod_Propriedade;
     ArrayList<String> emailsFuncionarios = new ArrayList<String>();
+    String nomePropriedade;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,6 +69,9 @@ public class VisualizaFuncionario extends AppCompatActivity {
         setContentView(R.layout.activity_visualiza_funcionario);
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        setTitle("MIP² | "+nomePropriedade);
+
 
         resgatarDados();
 
@@ -78,6 +82,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
                 Intent i = new Intent(VisualizaFuncionario.this, AdicionarFunc.class);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("emailsFuncionarios", emailsFuncionarios);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -89,6 +94,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
                 Intent i = new Intent(VisualizaFuncionario.this, AdicionarFunc.class);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("emailsFuncionarios", emailsFuncionarios);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -98,6 +104,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
     public void onBackPressed() {
         Intent i = new Intent(VisualizaFuncionario.this,Cultura.class);
         i.putExtra("Cod_Propriedade",Cod_Propriedade);
+        i.putExtra("nomePropriedade", nomePropriedade);
         startActivity(i);
     }
 
@@ -161,7 +168,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
 
     private void iniciarRecyclerView(){
         RecyclerView rv = findViewById(R.id.RVFuncionario);
-        FuncionarioCardAdapter adapter = new FuncionarioCardAdapter( this, cards, Cod_Propriedade);
+        FuncionarioCardAdapter adapter = new FuncionarioCardAdapter( this, cards, Cod_Propriedade, nomePropriedade);
 
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));

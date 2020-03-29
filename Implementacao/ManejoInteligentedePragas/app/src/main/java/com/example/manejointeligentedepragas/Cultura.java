@@ -46,6 +46,7 @@ public class Cultura extends AppCompatActivity {
     Integer Cod_Propriedade;
     ArrayList<String> plantasadd = new ArrayList<String>();
     Integer numFunc = 0;
+    String nomePropriedade;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +87,10 @@ public class Cultura extends AppCompatActivity {
         setContentView(R.layout.activity_cultura);
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+
+
+        setTitle("MIP² | "+nomePropriedade);
 
         tvNumFunc = findViewById(R.id.tvNumFunc);
         resgatarFunc();
@@ -107,6 +112,7 @@ public class Cultura extends AppCompatActivity {
                     Intent i = new Intent(Cultura.this, AdicionarCultura.class);
                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                     i.putExtra("plantasadd", plantasadd);
+                    i.putExtra("nomePropriedade", nomePropriedade);
                     startActivity(i);
                 }
             }
@@ -124,6 +130,7 @@ public class Cultura extends AppCompatActivity {
                     Intent i = new Intent(Cultura.this, AdicionarCultura.class);
                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                     i.putExtra("plantasadd", plantasadd);
+                    i.putExtra("nomePropriedade", nomePropriedade);
                     startActivity(i);
                 }
             }
@@ -135,6 +142,7 @@ public class Cultura extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Cultura.this, VisualizaFuncionario.class);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
             }
         });
@@ -218,7 +226,7 @@ public class Cultura extends AppCompatActivity {
 
         Log.d(TAG, "iniciarRecyclerView:  init iniciar");
         RecyclerView rv = findViewById(R.id.RVCultura);
-        CulturaCardAdapter adapter = new CulturaCardAdapter(this, cards, Cod_Propriedade);
+        CulturaCardAdapter adapter = new CulturaCardAdapter(this, cards, Cod_Propriedade,nomePropriedade);
 
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));

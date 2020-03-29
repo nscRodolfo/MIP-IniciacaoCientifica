@@ -38,6 +38,7 @@ public class PropriedadeCardAdapter extends RecyclerView.Adapter<PropriedadeCard
 
     private ArrayList<PropriedadeModel> cards = new ArrayList<>();
     private Context propriedadeContext;
+    private String nomePropriedade;
 
     public PropriedadeCardAdapter(Context propriedadeContext, ArrayList<PropriedadeModel> cards) {
         this.cards = cards;
@@ -64,6 +65,8 @@ public class PropriedadeCardAdapter extends RecyclerView.Adapter<PropriedadeCard
         holder.estado.setText("Estado: " + cards.get(position).getEstado());
 
 
+
+
         // true para, false continua pra proxima tela. função para click demorado
         holder.parent_layout_propriedade.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -78,14 +81,16 @@ public class PropriedadeCardAdapter extends RecyclerView.Adapter<PropriedadeCard
             public void onClick(View v) {
                 Log.d(TAG, "onClick:  clicked on: ");
                 Intent i = new Intent(propriedadeContext, Cultura.class);
-
+                nomePropriedade = cards.get(position).getNome();
                 // chama a intent nesse adapter
                 // pega o contexr do construtor
                 int codigo = cards.get(position).getCod_Propriedade();
                 i.putExtra("Cod_Propriedade", codigo);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 propriedadeContext.startActivity(i);
             }
         });
+
 
     }
 

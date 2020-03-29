@@ -50,6 +50,8 @@ public class AdicionarPraga extends AppCompatActivity {
 
     int Cod_Propriedade;
 
+    String nomePropriedade;
+
     String nome;
 
     Button InfoPraga;
@@ -96,14 +98,16 @@ public class AdicionarPraga extends AppCompatActivity {
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
         salvarPraga = findViewById(R.id.btnSalvrCultura);
         InfoPraga = findViewById(R.id.btnInfoPraga);
 
         pragasAdd = getIntent().getStringArrayListExtra("pragasAdd");
 
-
         Spinner dropdown = findViewById(R.id.dropdownPraga);
+
+        setTitle("MIP² | "+nome);
 
         ResgatarPragas(dropdown, codCultura);
 
@@ -147,6 +151,7 @@ public class AdicionarPraga extends AppCompatActivity {
         i.putExtra("NomeCultura", nome);
         i.putExtra("Cod_Propriedade", Cod_Propriedade);
         i.putExtra("Aplicado", aplicado);
+        i.putExtra("nomePropriedade", nomePropriedade);
         startActivity(i);
     }
 
@@ -224,6 +229,7 @@ public class AdicionarPraga extends AppCompatActivity {
                             k.putExtra("NomeCultura", nome);
                             k.putExtra("Cod_Propriedade", Cod_Propriedade);
                             k.putExtra("Aplicado", aplicado);
+                            k.putExtra("nomePropriedade", nomePropriedade);
                             startActivity(k);
                         }else{
                             Toast.makeText(AdicionarPraga.this, "Cultura não cadastrada! Tente novamente",Toast.LENGTH_LONG).show();
