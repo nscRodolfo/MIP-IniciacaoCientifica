@@ -47,6 +47,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     String nome;
     boolean aplicado;
     String nomePropriedade;
+    String nomePraga;
 
     ArrayList<Integer> popPragas = new ArrayList<Integer>();
     ArrayList<Integer> numPlantas = new ArrayList<Integer>();
@@ -70,6 +71,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        nomePraga = getIntent().getStringExtra("nomePraga");
 
         setTitle("MIP² | "+nome);
 
@@ -173,7 +175,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
 
                 AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPragaPlano.this);
                 dlgBox.setTitle("Informações");
-                dlgBox.setMessage("Data: "+dataFormatada+"\n\nPlantas amostradas: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
+                dlgBox.setMessage("\nData: "+dataFormatada+"\n\nPlantas amostradas: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
                 dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -189,7 +191,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     }
 
 
-    public void resgataDados(int codCultura,int codPraga, final GraphView graph){
+    public void resgataDados(final int codCultura, final int codPraga, final GraphView graph){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
@@ -217,7 +219,41 @@ public class RelatorioPragaPlano extends AppCompatActivity {
                             popPragas.add(obj.getInt("popPragas"));
                             numPlantas.add(obj.getInt("numPlantas"));
                         }
-                        popularDadosGráfico(graph);
+                        if(dataContagem.size() == 0){
+                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPragaPlano.this);
+                            dlgBox.setCancelable(false);
+                            dlgBox.setTitle("Aviso!");
+                            dlgBox.setMessage("Você não realizou nenhum plano de amostragem para esta praga, deseja realizar um agora?");
+                            dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(RelatorioPragaPlano.this, PlanoDeAmostragem.class);
+                                    i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                                    i.putExtra("Cod_Cultura", codCultura);
+                                    i.putExtra("NomeCultura", nome);
+                                    i.putExtra("nomePraga", nomePraga);
+                                    i.putExtra("Cod_Praga", codPraga);
+                                    i.putExtra("Aplicado", aplicado);
+                                    i.putExtra("nomePropriedade", nomePropriedade);
+                                    startActivity(i);
+                                }
+                            });
+                            dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(RelatorioPragaPlano.this, AcoesCultura.class);
+                                    i.putExtra("Cod_Cultura", codCultura);
+                                    i.putExtra("NomeCultura", nome);
+                                    i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                                    i.putExtra("Aplicado", aplicado);
+                                    i.putExtra("nomePropriedade", nomePropriedade);
+                                    startActivity(i);
+                                }
+                            });
+                            dlgBox.show();
+                        }else{
+                            popularDadosGráfico(graph);
+                        }
 
                     } catch (JSONException e) {
                         Toast.makeText(RelatorioPragaPlano.this, e.toString(), Toast.LENGTH_LONG).show();

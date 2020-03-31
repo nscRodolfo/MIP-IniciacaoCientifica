@@ -2,15 +2,55 @@
     include "conexao.php";
     $email = $_GET['email'];
 
-    $sql = "SELECT * FROM Usuario WHERE email = '$email'";
-    $dados = $PDO->query($sql); //recebe resultado da query do sql
-    $resultado = array();
-    while ($ed = $dados->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed
+    $sqlprod = "SELECT * FROM Usuario,Produtor WHERE email = '$email'
+                AND Usuario.Cod_Usuario = Produtor.fk_Usuario_Cod_Usuario";
+    
+    $sqladm = " SELECT * FROM Usuario,Administrador WHERE email = '$email'
+                AND Usuario.Cod_Usuario = Administrador.fk_Usuario_Cod_Usuario";
+
+    $sqlfunc ="SELECT * FROM Usuario,Funcionario,Trabalha WHERE email = '$email'
+                AND Usuario.Cod_Usuario = Funcionario.fk_Usuario_Cod_Usuario
+                AND Funcionario.Cod_Funcionario = Trabalha.fk_Funcionario_Cod_Funcionario";
+
+    $dadosprod = $PDO->query($sqlprod); //recebe resultado da query do sql
+
+    $dadosadm = $PDO->query($sqladm); //recebe resultado da query do sql
+
+    $dadosfunc = $PDO->query($sqlfunc); //recebe resultado da query do sql
+
+    $resultadofunc = array();
+    $resultadoadm = array();
+    $resultadoprod = array();
+    while ($edfunc = $dadosfunc->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed
     {
-        $resultado [] = array("Cod_Usuario" => $ed->Cod_Usuario, "Email" => $ed->Email, "Senha" => $ed->Senha, "Nome" => $ed->Nome, "Telefone" => $ed->Telefone);
-        //$ed->Cod_Usuario entr no obj ed e pega atributo Cod_Usuario
+        $resultadofunc [] = array("Tipo" => "Funcionario","Cod_Usuario" => $edfunc->Cod_Usuario, "Email" => $edfunc->Email, "Senha" => $edfunc->Senha, "Nome" => $edfunc->Nome, "Telefone" => $edfunc->Telefone, "Cod_Propriedade" => $edfunc->fk_Propriedade_Cod_Propriedade);
+        
     }
-    echo json_encode($resultado); //passa pro json todos os atributos retornados
+    while ($edprod = $dadosprod->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed
+    {
+        $resultadoprod [] = array("Tipo" => "Produtor", "Cod_Usuario" => $edprod->Cod_Usuario, "Email" => $edprod->Email, "Senha" => $edprod->Senha, "Nome" => $edprod->Nome, "Telefone" => $edprod->Telefone);
+        
+    }
+    while ($edadm = $dadosadm->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed
+    {
+        $resultadoadm [] = array("Tipo" => "Adm", "Cod_Usuario" => $edadm->Cod_Usuario, "Email" => $edadm->Email, "Senha" => $edadm->Senha, "Nome" => $edadm->Nome, "Telefone" => $edadm->Telefone);
+        
+    }
+
+    if(!empty($resultadoadm)){
+
+        echo json_encode($resultadoadm);
+
+    }else if(!empty($resultadofunc)){
+
+        echo json_encode($resultadofunc);
+
+    }else if(!empty($resultadoprod)){
+
+        echo json_encode($resultadoprod);
+
+    }
+     //passa pro json todos os atributos retornados
 
 
 

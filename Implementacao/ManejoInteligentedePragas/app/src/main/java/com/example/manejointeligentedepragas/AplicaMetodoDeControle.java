@@ -1,5 +1,7 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,6 +57,8 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
     Date data = new Date();
     String dataFormatada = formataData.format(data);
 
+    int IntervaloAplicacao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,16 +99,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
                 //salva no aplicacao
                 //muda status para amarelo = 1
                 //muda aplicado
-                FuncaoAplicacao(codCultura,codPraga,codSelecionado,dataFormatada);
-
-                aplicado = true;
-                Intent i = new Intent(AplicaMetodoDeControle.this, Pragas.class);
-                i.putExtra("Cod_Propriedade", codPropriedade);
-                i.putExtra("Cod_Cultura", codCultura);
-                i.putExtra("NomeCultura", nome);
-                i.putExtra("Aplicado", aplicado);
-                i.putExtra("nomePropriedade", nomePropriedade);
-                startActivity(i);
+                ResgataMetodos(codSelecionado);
             }
         });
 
@@ -190,6 +185,62 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
 
                 @Override
                 public void onResponse(String response) {
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(AplicaMetodoDeControle.this,error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }));
+
+        }
+    }
+
+    public void ResgataMetodos(int codM){
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext()))
+        {
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+        }else { // se tem acesso à internet
+            String url = "http://mip2.000webhostapp.com/infoMetodo.php?Cod_Metodo="+codM;
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    //Parsing json
+                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                    try {
+                        //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i< array.length(); i++){
+                            JSONObject obj = array.getJSONObject(i);
+                            IntervaloAplicacao  = obj.getInt("IntervaloAplicacao");
+                        }
+                        if (IntervaloAplicacao == 0){
+                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(AplicaMetodoDeControle.this);
+                            dlgBox.setTitle("Aviso:");
+                            dlgBox.setMessage("Esse método é de origem comercial, por favor, verifique no produto e aguarde o intervalo indicado entre as aplicações para evitar fitotoxidez na cultura.");
+                            dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    FuncaoAplicacao(codCultura,codPraga,codSelecionado,dataFormatada);
+                                    aplicado = true;
+                                    Intent i = new Intent(AplicaMetodoDeControle.this, Pragas.class);
+                                    i.putExtra("Cod_Propriedade", codPropriedade);
+                                    i.putExtra("Cod_Cultura", codCultura);
+                                    i.putExtra("NomeCultura", nome);
+                                    i.putExtra("Aplicado", aplicado);
+                                    i.putExtra("nomePropriedade", nomePropriedade);
+                                    startActivity(i);
+                                }
+                            });
+                            dlgBox.show();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(AplicaMetodoDeControle.this, e.toString(), Toast.LENGTH_LONG).show();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override

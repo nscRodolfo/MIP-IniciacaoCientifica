@@ -117,7 +117,6 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         setTitle("MIP² | "+nomePraga);
 
         ResgatarDataUltimoPlano(codPraga,codCultura);
-
         ResgatarAtinge(codPraga,codCultura);
         ChamaAmostra(codPraga);
 
@@ -375,7 +374,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                         tvContagemTalhoes.setText(String.valueOf(countTalhao));
                     }
 
-                    //checarTalhao();
+                    checarTalhao();
                 }
             });
 
@@ -482,14 +481,40 @@ public class PlanoDeAmostragem extends AppCompatActivity {
 
     public void SalvarPlanoAmostragem(ArrayList<PlanoAmostragemModel> planos){
         //verifica todos os talhões, se qualquer um tiver o nível de controle atingido, é necessário o controle em toda cultura
-        for(int j=0; j<planos.size();j++){
-            // cálculo da regra de 3 para conferir o nível de controle
-            double porcentagemInfestadas = ((planos.get(j).getPlantasInfestadas()*100)/ planos.get(j).getPlantasAmostradas())/100;
-            if(porcentagemInfestadas >= nivelControle){
-                controla = true;
-                break;
+        if(countTalhao ==1)
+        {
+                // cálculo para conferir o nível de controle
+                int ci = countInfestacao;
+                int cp = countPlantas;
+                double dCI;
+                double dCP;
+                dCI = (double)ci;
+                dCP = (double)cp;
+                double porcentagemInfestadas = (dCI/ dCP);
+                //Toast.makeText(PlanoDeAmostragem.this, ""+porcentagemInfestadas,Toast.LENGTH_LONG).show();
+                if(porcentagemInfestadas >= nivelControle){
+                    controla = true;
+                }
+        }else
+            {
+            for(int j=0; j<planos.size();j++)
+            {
+                // cálculo da regra de 3 para conferir o nível de controle
+                int ci = planos.get(j).getPlantasInfestadas();
+                int cp = planos.get(j).getPlantasAmostradas();
+                double dCI;
+                double dCP;
+                dCI = (double)ci;
+                dCP = (double)cp;
+                double porcentagemInfestadas = (dCI/dCP);
+                //Toast.makeText(PlanoDeAmostragem.this, ""+porcentagemInfestadas,Toast.LENGTH_LONG).show();
+                if(porcentagemInfestadas >= nivelControle){
+                    controla = true;
+                    break;
+                }
             }
         }
+
         for(int i=0; i< planos.size(); i++){
             Utils u = new Utils();
             if(!u.isConected(getBaseContext()))

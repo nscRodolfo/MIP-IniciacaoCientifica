@@ -40,6 +40,10 @@ public class Entrar extends AppCompatActivity {
     public EditText edt_senha;
     public ProgressBar pb;
 
+    String tipoUsu;
+
+    Integer Cod_Propriedade;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +82,7 @@ public class Entrar extends AppCompatActivity {
         String aux = edt_senha.getText().toString().trim();
         final String senha = convertPassMd5(aux);
         //Toast.makeText(Entrar.this,"MD5 da senha: "+senha, Toast.LENGTH_LONG).show();
-        final Intent k = new Intent(Entrar.this, Propriedades.class);
+
         if (login.isEmpty()){
             edt_login.setError("E-mail é obrigatório!");
             pb.setVisibility(View.GONE);
@@ -115,14 +119,27 @@ public class Entrar extends AppCompatActivity {
                         u.setSenha(obj.getString("Senha"));
                         u.setNome(obj.getString("Nome"));
                         u.setTelefone(obj.getString("Telefone"));
+                        tipoUsu = obj.getString("Tipo");
                         if(u.getSenha().trim().equals(finalSenha)){
 
                             boolean c = new Controller_Usuario(getBaseContext()).addUsuario(u);
                             // adiciona no banco local o Usuario
-
                             Toast.makeText(Entrar.this, "Logado com Sucesso!",Toast.LENGTH_LONG).show();
                             pb.setVisibility(View.GONE);
-                            startActivity(k);
+                            if(tipoUsu.equals("Funcionario")){
+                                Cod_Propriedade = obj.getInt("Cod_Propriedade");
+                                final Intent k = new Intent(Entrar.this, Cultura.class);
+                                k.putExtra("Cod_Propriedade", Cod_Propriedade);
+                                k.putExtra("nomePropriedade", "Genesis");
+                                startActivity(k);
+                            }else if(tipoUsu.equals("Produtor")){
+                                final Intent k = new Intent(Entrar.this, Propriedades.class);
+                                startActivity(k);
+                            }else if(tipoUsu.equals("Adm")){
+                                Toast.makeText(Entrar.this, "ADÊMI",Toast.LENGTH_LONG).show();
+                            }
+
+
                         }else{
                             Toast.makeText(Entrar.this, "Dados Invalidos!",Toast.LENGTH_LONG).show();
                             pb.setVisibility(View.GONE);

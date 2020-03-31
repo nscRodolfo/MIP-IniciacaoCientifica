@@ -148,11 +148,11 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                     if (controla){
                         if(aplicado){
                             if(codPragaComparacaoAux == codPraga){
-                                tvMostraControla.setText("Esta praga possui um controle recente, é necessário esperar o tempo de fitossanidade para realizar uma nova aplicação");
+                                tvMostraControla.setText("Aplicação realizada recentemente para esta praga. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
                                 btnSalvar.setText("OK");
                                 alteraStatus(codCultura, codPraga,1); //1 = amarelo
                             }else{
-                                tvMostraControla.setText("Método de controle aplicado recentemente. É necessário esperar o tempo de fitossanidade para realizar uma nova aplicação");
+                                tvMostraControla.setText("Método de controle aplicado recentemente. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
                                 btnSalvar.setText("OK");
                                 alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
                             }
@@ -162,7 +162,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                             alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
                         }
                     }else{
-                        tvMostraControla.setText("Não é necessário realizar nenhum tipo de controle");
+                        tvMostraControla.setText("Não é necessário realizar nenhum tipo de controle, a praga está controlada.");
                         btnSalvar.setText("OK");
                         //altera status praga
                         alteraStatus(codCultura, codPraga, 0); //0 = não precisa de controle

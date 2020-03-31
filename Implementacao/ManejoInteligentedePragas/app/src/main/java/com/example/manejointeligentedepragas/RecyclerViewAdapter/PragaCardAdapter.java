@@ -194,12 +194,18 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
     {
         AlertDialog.Builder dlgBox = new AlertDialog.Builder(pragaContext);
         dlgBox.setTitle("Aviso!");
-        dlgBox.setMessage("Essa praga está controlada, deseja ver informações?");
+        dlgBox.setMessage("Essa praga está controlada, deseja fazer uma contagem para fins de monitoramento? (caso seja constatada a necessidade, uma nova aplicação deverá ser realizada)");
         dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent i = new Intent(pragaContext, InfoPraga.class);
+                Intent i = new Intent(pragaContext, PlanoDeAmostragem.class);
                 i.putExtra("Cod_Praga", p.getCod_Praga());
+                i.putExtra("nomePraga", p.getNome());
+                i.putExtra("Cod_Cultura", codCultura);
+                i.putExtra("NomeCultura", nome);
+                i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
                 pragaContext.startActivity(i);
             }
         });
@@ -219,7 +225,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
     {
         AlertDialog.Builder dlgBox = new AlertDialog.Builder(pragaContext);
         dlgBox.setTitle("Aviso!");
-        dlgBox.setMessage("Aplicação realizada recentemente, deseja fazer uma contagem para fins de monitoramento?");
+        dlgBox.setMessage("Aplicação realizada recentemente, deseja fazer uma contagem para fins de monitoramento? (caso seja constatada a necessidade, uma nova aplicação deverá ser realizada)");
         dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -250,7 +256,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
     {
         AlertDialog.Builder dlgBox = new AlertDialog.Builder(pragaContext);
         dlgBox.setTitle("Aviso!");
-        dlgBox.setMessage("Aplicação realizada recentemente. É necessário esperar o tempo de fitossanidade para realizar uma nova aplicação.");
+        dlgBox.setMessage("Aplicação realizada recentemente. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
         dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
