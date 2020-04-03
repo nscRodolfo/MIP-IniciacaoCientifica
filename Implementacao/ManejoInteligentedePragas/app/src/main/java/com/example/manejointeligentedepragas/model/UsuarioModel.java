@@ -6,13 +6,15 @@ public class UsuarioModel {
     private String Telefone;
     private String Email;
     private String Senha;
+    private String Tipo;
 
-    public UsuarioModel(int cod_Usuario, String nome, String telefone, String email, String senha) {
+    public UsuarioModel(int cod_Usuario, String nome, String telefone, String email, String senha, String Tipo) {
         this.Cod_Usuario = cod_Usuario;
         this.Nome = nome;
         this.Telefone = telefone;
         this.Email = email;
         this.Senha = senha;
+        this.Tipo = Tipo;
     }
     public UsuarioModel() {
         this.Cod_Usuario = 0;
@@ -20,6 +22,7 @@ public class UsuarioModel {
         this.Telefone = null;
         this.Email = null;
         this.Senha = null;
+        this.Tipo = null;
     }
 
     public int getCod_Usuario() {
@@ -60,5 +63,13 @@ public class UsuarioModel {
 
     public void setSenha(String senha) {
         this.Senha = senha;
+    }
+
+    public String getTipo() {
+        return Tipo;
+    }
+
+    public void setTipo(String tipo) {
+        Tipo = tipo;
     }
 }

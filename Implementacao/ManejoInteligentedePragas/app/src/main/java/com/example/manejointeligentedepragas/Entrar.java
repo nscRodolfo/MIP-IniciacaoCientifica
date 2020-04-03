@@ -40,7 +40,6 @@ public class Entrar extends AppCompatActivity {
     public EditText edt_senha;
     public ProgressBar pb;
 
-    String tipoUsu;
 
     Integer Cod_Propriedade;
 
@@ -48,6 +47,7 @@ public class Entrar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrar);
+
 
         edt_login = findViewById(R.id.tbEmail2);
         edt_senha = findViewById(R.id.tbSenha);
@@ -119,25 +119,25 @@ public class Entrar extends AppCompatActivity {
                         u.setSenha(obj.getString("Senha"));
                         u.setNome(obj.getString("Nome"));
                         u.setTelefone(obj.getString("Telefone"));
-                        tipoUsu = obj.getString("Tipo");
-                        if(u.getSenha().trim().equals(finalSenha)){
+                        u.setTipo(obj.getString("Tipo"));
 
+
+                        if(u.getSenha().trim().equals(finalSenha)){
                             boolean c = new Controller_Usuario(getBaseContext()).addUsuario(u);
                             // adiciona no banco local o Usuario
                             Toast.makeText(Entrar.this, "Logado com Sucesso!",Toast.LENGTH_LONG).show();
                             pb.setVisibility(View.GONE);
-                            if(tipoUsu.equals("Funcionario")){
-                                Cod_Propriedade = obj.getInt("Cod_Propriedade");
-                                final Intent k = new Intent(Entrar.this, Cultura.class);
-                                k.putExtra("Cod_Propriedade", Cod_Propriedade);
-                                k.putExtra("nomePropriedade", "Genesis");
-                                startActivity(k);
-                            }else if(tipoUsu.equals("Produtor")){
+                            //if(u.getTipoUsu().equals("Funcionario")){
+                                //Cod_Propriedade = obj.getInt("Cod_Propriedade");
+                                //tela propriedade, seleciona as prop vinculadas ao func
                                 final Intent k = new Intent(Entrar.this, Propriedades.class);
                                 startActivity(k);
-                            }else if(tipoUsu.equals("Adm")){
-                                Toast.makeText(Entrar.this, "ADÊMI",Toast.LENGTH_LONG).show();
-                            }
+                            //}else if(u.getTipoUsu().equals("Produtor")){
+                                //final Intent k = new Intent(Entrar.this, Propriedades.class);
+                                //startActivity(k);
+                            //}else if(u.getTipoUsu().equals("Adm")){
+                                //Toast.makeText(Entrar.this, "ADÊMI",Toast.LENGTH_LONG).show();
+                            //}
 
 
                         }else{

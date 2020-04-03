@@ -132,5 +132,9 @@
     <string name="caldas_aplicadas">Caldas aplicadas</string>
     <string name="pesquisar">Pesquisar</string>
     <string name="selecione_uma_praga_para_visualizar_o_relat_rio">Selecione uma praga para visualizar o relatório:</string>
+    <string name="data">Data:</string>
+    <string name="plantas_amostradas">Plantas amostradas:</string>
+    <string name="plantas_infestadas">Plantas infestadas:</string>
+    <string name="nomecientifico">nomeCientifico</string>
     >
 </resources>

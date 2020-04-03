@@ -99,7 +99,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
                 //salva no aplicacao
                 //muda status para amarelo = 1
                 //muda aplicado
-                ResgataMetodos(codSelecionado);
+                ResgataMetodosSemIntervalo(codSelecionado);
             }
         });
 
@@ -196,7 +196,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
         }
     }
 
-    public void ResgataMetodos(int codM){
+    public void ResgataMetodosSemIntervalo(int codM){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
@@ -237,6 +237,16 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
                                 }
                             });
                             dlgBox.show();
+                        }else{
+                            FuncaoAplicacao(codCultura,codPraga,codSelecionado,dataFormatada);
+                            aplicado = true;
+                            Intent i = new Intent(AplicaMetodoDeControle.this, Pragas.class);
+                            i.putExtra("Cod_Propriedade", codPropriedade);
+                            i.putExtra("Cod_Cultura", codCultura);
+                            i.putExtra("NomeCultura", nome);
+                            i.putExtra("Aplicado", aplicado);
+                            i.putExtra("nomePropriedade", nomePropriedade);
+                            startActivity(i);
                         }
                     } catch (JSONException e) {
                         Toast.makeText(AplicaMetodoDeControle.this, e.toString(), Toast.LENGTH_LONG).show();

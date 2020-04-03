@@ -17,6 +17,7 @@ public class Relatorios extends AppCompatActivity {
     RelativeLayout rlPragasContagem;
     RelativeLayout rlPlanosAmostragem;
     RelativeLayout rlCaldasAplicadas;
+    RelativeLayout rlRelatoriosAplicacoesContagens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,9 @@ public class Relatorios extends AppCompatActivity {
 
         setTitle("MIP² | "+nome);
         rlPragasContagem = findViewById(R.id.rlRelatoriosPragasContagens);
-
+        rlPlanosAmostragem = findViewById(R.id.rlRelatoriosPlanosDeAmostragem);
+        rlCaldasAplicadas = findViewById(R.id.rlCaldasAplicadas);
+        rlRelatoriosAplicacoesContagens = findViewById(R.id.rlRelatoriosAplicacoesContagens);
 
         rlPragasContagem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +46,33 @@ public class Relatorios extends AppCompatActivity {
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
+            }
+        });
+
+        rlPlanosAmostragem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Relatorios.this, RelatorioPlanosRealizados.class);
+                i.putExtra("Cod_Cultura", codCultura);
+                i.putExtra("NomeCultura", nome);
+                i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
+                startActivity(i);
+            }
+        });
+
+        rlCaldasAplicadas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //intent aplicações realizadas na cultura
+            }
+        });
+
+        rlRelatoriosAplicacoesContagens.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // intent grafico aplicações
             }
         });
 

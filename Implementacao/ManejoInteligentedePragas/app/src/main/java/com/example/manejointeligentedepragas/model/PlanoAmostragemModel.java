@@ -25,6 +25,15 @@ public class PlanoAmostragemModel {
         this.fk_Cod_Praga = fk_Cod_Praga;
     }
 
+    public PlanoAmostragemModel() {
+        this.Cod_Plano = 0;
+        this.date = null;
+        this.PlantasInfestadas = 0;
+        this.PlantasAmostradas = 0;
+        this.fk_Cod_Talhao = 0;
+        this.fk_Cod_Praga = 0;
+    }
+
     public int getCod_Plano() {
         return Cod_Plano;
     }

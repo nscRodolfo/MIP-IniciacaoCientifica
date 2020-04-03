@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.VisualizaAdapter.VisuPragasAdapter;
 import com.example.manejointeligentedepragas.model.PragaModel;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ public class VisualizaPragas extends AppCompatActivity {
 
     ArrayList<String> nomePragas = new ArrayList<>();
     ArrayList<Integer> codPragas = new ArrayList<>();
+    private ArrayList<PragaModel> cards = new ArrayList<>();
 
     EditText edtPesquisaPragas;
     private ArrayList<String> pesquisa = new ArrayList<String>();
@@ -209,5 +211,12 @@ public class VisualizaPragas extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void iniciarListView() {
+        ListView lv = findViewById(R.id.ListViewPragas);
+        ArrayAdapter adapter1 = new VisuPragasAdapter(this, cards);
+        lv.setAdapter(adapter1);
+
     }
 }

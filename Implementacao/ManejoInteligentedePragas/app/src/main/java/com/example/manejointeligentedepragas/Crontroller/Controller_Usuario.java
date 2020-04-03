@@ -24,6 +24,7 @@ public class Controller_Usuario {
         cv.put(bancoLocal.Senha, usuario.getSenha());
         cv.put(bancoLocal.Nome, usuario.getNome());
         cv.put(bancoLocal.Telefone, usuario.getTelefone());
+        cv.put(bancoLocal.Tipo, usuario.getTipo());
         return db.insert(bancoLocal.Usuario, null, cv) != -1;
     }
 
@@ -35,6 +36,7 @@ public class Controller_Usuario {
         cv.put(bancoLocal.Senha, usuario.getSenha());
         cv.put(bancoLocal.Nome, usuario.getNome());
         cv.put(bancoLocal.Telefone, usuario.getTelefone());
+        cv.put(bancoLocal.Tipo, usuario.getTipo());
         String where = " Cod_Usuario = '"+ usuario.getCod_Usuario()+"'";
         return db.update(bancoLocal.Usuario, cv, where, null) > 0;
     }
@@ -51,6 +53,7 @@ public class Controller_Usuario {
                 user.setSenha(c.getString(2));
                 user.setNome(c.getString(3));
                 user.setTelefone(c.getString(4));
+                user.setTipo(c.getString(5));
             } while (c.moveToNext());
         }
         c.close();

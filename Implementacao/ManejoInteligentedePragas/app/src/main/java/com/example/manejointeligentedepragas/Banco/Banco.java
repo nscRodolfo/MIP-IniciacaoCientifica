@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Banco extends SQLiteOpenHelper{
 
         private static final String NOME_BANCO = "bancoLocal.db";
-        private static final int VERSAO = 1;
+        private static final int VERSAO = 3;
 
         public static final String Usuario = "Usuario";
         public static final String Cod_Usuario = "Cod_Usuario";
@@ -15,6 +15,7 @@ public class Banco extends SQLiteOpenHelper{
         public static final String Senha = "Senha";
         public static final String Nome = "Nome";
         public static final String Telefone = "Telefone";
+        public static final String Tipo = "Tipo";
 
 
         public Banco(Context context) {
@@ -28,7 +29,8 @@ public class Banco extends SQLiteOpenHelper{
                     + Email+ " text,"
                     + Senha+ " text,"
                     + Nome+ " text,"
-                    + Telefone+ " text"
+                    + Telefone+ " text,"
+                    + Tipo+ " text"
                     + ")";
 
             db.execSQL(sql);
@@ -37,6 +39,7 @@ public class Banco extends SQLiteOpenHelper{
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+            db.execSQL("DROP TABLE IF EXISTS "+Usuario);
             onCreate(db);
         }
     }

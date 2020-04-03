@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SelecionaPragaRelatorioPragaPlano"></activity>
+        <activity android:name=".RelatorioPlanosRealizados"></activity>
+        <activity android:name=".SelecionaPragaRelatorioPragaPlano" />
         <activity android:name=".RelatorioPragaPlano" />
         <activity android:name=".Relatorios" />
         <activity android:name=".VisualizaInimigos" />

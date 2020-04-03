@@ -1,6 +1,8 @@
 package com.example.manejointeligentedepragas;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +42,7 @@ public class Propriedades extends AppCompatActivity {
     public FloatingActionButton fab;
     public TextView textView;
     public String nomePropriedade;
+    public String tipoUsu;
 
 
     //vars relative layout
@@ -86,11 +89,30 @@ public class Propriedades extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_propriedades);
 
-        setTitle("MIP² | Propriedades");
 
-        resgatarDados();
+
+        Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+
+        tipoUsu = cu.getUser().getTipo();
 
         fab = findViewById(R.id.fabAddProp);
+        textView = findViewById(R.id.tvAddPropriedade);
+
+        if(tipoUsu.equals("Funcionario")){
+            setTitle("MIP² | Propriedades vinculadas");
+            fab.hide();
+            textView.setVisibility(View.GONE);
+            resgatarDadosFunc(cu.getUser().getCod_Usuario());
+        }else if(tipoUsu.equals("Produtor")){
+            setTitle("MIP² | Propriedades");
+            resgatarDados(cu.getUser().getCod_Usuario());
+        }else if(tipoUsu.equals("Adm")){
+
+        }
+
+        //setTitle("MIP² | Propriedades");
+        //resgatarDados();
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +127,7 @@ public class Propriedades extends AppCompatActivity {
             }
         });
 
-        textView = findViewById(R.id.tvAddPropriedade);
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,7 +171,7 @@ public class Propriedades extends AppCompatActivity {
     }
 
 
-    private void resgatarDados(){
+    private void resgatarDados(int codUsuario){
 
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
@@ -157,9 +179,7 @@ public class Propriedades extends AppCompatActivity {
             Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
 
-            Controller_Usuario cu = new Controller_Usuario(getBaseContext());
-            String url = "http://mip2.000webhostapp.com/resgatarPropriedades.php?Cod_Usuario=" + cu.getUser().getCod_Usuario();
-
+            String url = "http://mip2.000webhostapp.com/resgatarPropriedades.php?Cod_Usuario=" + codUsuario;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -178,7 +198,6 @@ public class Propriedades extends AppCompatActivity {
                                 u.setNome(obj.getString("Nome"));
                                 u.setCidade(obj.getString("Cidade"));
                                 u.setEstado(obj.getString("Estado"));
-                                u.setFk_Cod_Produtor(obj.getInt("fk_Produtor_Cod_Produtor"));
                                 cards.add(u);
                             }
                             iniciarRecyclerView();
@@ -196,22 +215,59 @@ public class Propriedades extends AppCompatActivity {
         }
         /*
         PropriedadeModel p1 = new PropriedadeModel(0,"Espera Feliz","Rio Pomba","MG",0);
-        PropriedadeModel p2 = new PropriedadeModel(0,"Espera Triste","Juiz de Fora","MG",0);
-        PropriedadeModel p3 = new PropriedadeModel(0,"Espera Alegre","Ubá","MG",0);
-        PropriedadeModel p4 = new PropriedadeModel(0,"Espera Dark","Mercês","MG",0);
-        cards.add(p1);
-        cards.add(p2);
-        cards.add(p3);
-        cards.add(p4);
         */
     }
 
     private void iniciarRecyclerView(){
         RecyclerView rv = findViewById(R.id.RVPropriedade);
         PropriedadeCardAdapter adapter = new PropriedadeCardAdapter(this, cards);
-
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
     }
+
+
+    private void resgatarDadosFunc(int codUsuario){
+
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext()))
+        {
+            Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+        }else { // se tem acesso à internet
+
+            String url = "http://mip2.000webhostapp.com/resgatarPropriedadesFunc.php?Cod_Usuario=" + codUsuario;
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    //Parsing json
+                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                    try {
+                        //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i< array.length(); i++){
+                            JSONObject obj = array.getJSONObject(i);
+                            PropriedadeModel u = new PropriedadeModel();
+                            u.setCod_Propriedade(obj.getInt("Cod_Propriedade"));
+                            u.setNome(obj.getString("Nome"));
+                            u.setCidade(obj.getString("Cidade"));
+                            u.setEstado(obj.getString("Estado"));
+                            cards.add(u);
+                        }
+                        iniciarRecyclerView();
+                    } catch (JSONException e) {
+                        Toast.makeText(Propriedades.this, e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(Propriedades.this,error.toString(), Toast.LENGTH_LONG).show();
+                }
+            }));
+
+        }
+    }
+
 }

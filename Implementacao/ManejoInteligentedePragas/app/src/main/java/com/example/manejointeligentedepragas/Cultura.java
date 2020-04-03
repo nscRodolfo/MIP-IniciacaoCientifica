@@ -41,6 +41,8 @@ public class Cultura extends AppCompatActivity {
     public TextView tvNumFunc;
     public CardView cardCultura;
     public CardView cardFuncionario;
+    public String tipoUsu;
+
     private static final String TAG = "Cultura";
     private ArrayList<CulturaModel> cards = new ArrayList<>();
     Integer Cod_Propriedade;
@@ -90,17 +92,26 @@ public class Cultura extends AppCompatActivity {
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
 
+        cardFuncionario = findViewById(R.id.CardFuncionario);
+        tvAddCultura = findViewById(R.id.AddCultura);
+        fabAddCultura = findViewById(R.id.fabAddCultura);
+        tvNumFunc = findViewById(R.id.tvNumFunc);
+
+        Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+        tipoUsu = cu.getUser().getTipo();
+
+        if(tipoUsu.equals("Funcionario")){
+            tvAddCultura.setVisibility(View.GONE);
+            fabAddCultura.hide();
+            cardFuncionario.setVisibility(View.GONE);
+            resgatarDados();
+        }else if(tipoUsu.equals("Produtor")){
+            resgatarFunc();
+            resgatarDados();
+        }
+
         setTitle("MIP² | "+nomePropriedade);
 
-        tvNumFunc = findViewById(R.id.tvNumFunc);
-        resgatarFunc();
-
-           //Toast.makeText(this, Integer.toString(Cod_Propriedade), Toast.LENGTH_SHORT).show();
-        resgatarDados();
-
-
-
-        fabAddCultura = findViewById(R.id.fabAddCultura);
         fabAddCultura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +129,6 @@ public class Cultura extends AppCompatActivity {
             }
         });
 
-        tvAddCultura = findViewById(R.id.AddCultura);
         tvAddCultura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +146,7 @@ public class Cultura extends AppCompatActivity {
             }
         });
 
-        cardFuncionario = findViewById(R.id.CardFuncionario);
+
         cardFuncionario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
