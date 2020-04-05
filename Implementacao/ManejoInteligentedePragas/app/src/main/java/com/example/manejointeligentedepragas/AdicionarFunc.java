@@ -70,6 +70,11 @@ public class AdicionarFunc extends AppCompatActivity {
                 startActivity(l);
                 return true;
 
+            case R.id.sobre_o_mip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                return  true;
+
         }
 
         return super.onOptionsItemSelected(item);

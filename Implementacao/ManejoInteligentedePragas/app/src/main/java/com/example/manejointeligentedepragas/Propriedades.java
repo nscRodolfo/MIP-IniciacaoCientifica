@@ -1,8 +1,12 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +19,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +49,10 @@ public class Propriedades extends AppCompatActivity {
     public TextView textView;
     public String nomePropriedade;
     public String tipoUsu;
+
+
+    private Dialog mDialog;
+
 
 
     //vars relative layout
@@ -78,6 +88,11 @@ public class Propriedades extends AppCompatActivity {
                 startActivity(l);
                 return true;
 
+            case R.id.sobre_o_mip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                return  true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -89,7 +104,7 @@ public class Propriedades extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_propriedades);
 
-
+        openDialog();
 
         Controller_Usuario cu = new Controller_Usuario(getBaseContext());
 
@@ -120,6 +135,7 @@ public class Propriedades extends AppCompatActivity {
                 if(!u.isConected(getBaseContext()))
                 {
                     Toast.makeText(Propriedades.this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }else {
                     Intent i = new Intent(Propriedades.this, AdicionarPropriedade.class);
                     startActivity(i);
@@ -135,6 +151,7 @@ public class Propriedades extends AppCompatActivity {
                 if(!u.isConected(getBaseContext()))
                 {
                     Toast.makeText(Propriedades.this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }else {
                     Intent i = new Intent(Propriedades.this, AdicionarPropriedade.class);
                     startActivity(i);
@@ -177,6 +194,7 @@ public class Propriedades extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
 
             String url = "http://mip2.000webhostapp.com/resgatarPropriedades.php?Cod_Usuario=" + codUsuario;
@@ -201,6 +219,7 @@ public class Propriedades extends AppCompatActivity {
                                 cards.add(u);
                             }
                             iniciarRecyclerView();
+                            mDialog.dismiss();
                         } catch (JSONException e) {
                             Toast.makeText(Propriedades.this, e.toString(), Toast.LENGTH_LONG).show();
                         }
@@ -233,6 +252,7 @@ public class Propriedades extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
 
             String url = "http://mip2.000webhostapp.com/resgatarPropriedadesFunc.php?Cod_Usuario=" + codUsuario;
@@ -256,6 +276,7 @@ public class Propriedades extends AppCompatActivity {
                             cards.add(u);
                         }
                         iniciarRecyclerView();
+                        mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(Propriedades.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
@@ -268,6 +289,26 @@ public class Propriedades extends AppCompatActivity {
             }));
 
         }
+    }
+
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 
 }

@@ -1,12 +1,16 @@
 package com.example.manejointeligentedepragas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -54,6 +58,9 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     ArrayList<Date> dataContagem = new ArrayList<Date>();
     ArrayList<Long> dataContagemLong = new ArrayList<Long>();
 
+
+    private Dialog mDialog;
+
     /*private XYPlot grafico;*/
 
     //data
@@ -64,6 +71,8 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relatorio_praga_plano);
+
+        openDialog();
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
@@ -157,6 +166,8 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         graph.addSeries(series);
         graph.addSeries(series1);
 
+        mDialog.dismiss();
+
         series1.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
@@ -189,6 +200,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -260,5 +272,23 @@ public class RelatorioPragaPlano extends AppCompatActivity {
             }));
 
         }
+    }
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 }

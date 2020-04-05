@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class SobreMIP extends AppCompatActivity {
 
@@ -43,9 +44,21 @@ public class SobreMIP extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    TextView explicacao;
+    TextView praga;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sobre_mip);
+
+       // setTitle("MIP² | Sobre o aplicativo");
+
+        explicacao = findViewById(R.id.tvExplicacao);
+        explicacao.setText("O Manejo Integrado de Pragas (MIP) é uma filosofia de controle de pragas que procura preservar e incrementar os fatores de mortalidade natural," +
+                            " através do uso integrado de todas as técnicas de combate possíveis, selecionadas com base nos parâmetros econômicos, ecológicos e sociológicos.");
+
+        praga = findViewById(R.id.tvSobrePraga);
+        praga.setText("Praga: é qualquer organismo que causa um dano econômico.");
     }
 }

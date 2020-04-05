@@ -1,10 +1,12 @@
 package com.example.manejointeligentedepragas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +56,8 @@ public class Pragas extends AppCompatActivity {
     boolean aplicado;
     String nome;
     ArrayList<String> pragasAdd = new ArrayList<String>();
+    private Dialog mDialog;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,6 +90,11 @@ public class Pragas extends AppCompatActivity {
                 startActivity(l);
                 return true;
 
+            case R.id.sobre_o_mip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                return  true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -94,6 +105,8 @@ public class Pragas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pragas);
+
+        openDialog();
 
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
@@ -165,6 +178,7 @@ public class Pragas extends AppCompatActivity {
         Utils u = new Utils();
         if (!u.isConected(getBaseContext())) {
             Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         } else { // se tem acesso à internet
 
             String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Cultura=" + codCultura;
@@ -188,6 +202,7 @@ public class Pragas extends AppCompatActivity {
                             pragasAdd.add(obj.getString("Nome"));
                         }
                         iniciarRecyclerView();
+                        mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(Pragas.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
@@ -239,5 +254,24 @@ public class Pragas extends AppCompatActivity {
         });
 
         dlgBox.show();
+    }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 }

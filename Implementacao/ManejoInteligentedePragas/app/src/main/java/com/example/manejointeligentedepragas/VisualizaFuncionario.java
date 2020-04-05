@@ -11,7 +11,10 @@ import com.example.manejointeligentedepragas.RecyclerViewAdapter.FuncionarioCard
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.PropriedadeCardAdapter;
 import com.example.manejointeligentedepragas.model.PropriedadeModel;
 import com.example.manejointeligentedepragas.model.UsuarioModel;
+
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +45,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
     Integer Cod_Propriedade;
     ArrayList<String> emailsFuncionarios = new ArrayList<String>();
     String nomePropriedade;
+    private Dialog mDialog;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,6 +73,8 @@ public class VisualizaFuncionario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualiza_funcionario);
+
+        openDialog();
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
@@ -115,6 +123,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
 
             Controller_Usuario cu = new Controller_Usuario(getBaseContext());
@@ -142,6 +151,7 @@ public class VisualizaFuncionario extends AppCompatActivity {
                             cards.add(u);
                         }
                         iniciarRecyclerView();
+                        mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(VisualizaFuncionario.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
@@ -175,6 +185,22 @@ public class VisualizaFuncionario extends AppCompatActivity {
 
     }
 
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
 
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+    }
 
 }

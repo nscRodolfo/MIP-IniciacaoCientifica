@@ -1,15 +1,19 @@
 package com.example.manejointeligentedepragas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,10 +94,14 @@ public class PlanoDeAmostragem extends AppCompatActivity {
     //data ultimo plano
     String ultimoPlano;
 
+    private Dialog mDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plano_de_amostragem);
+        openDialog();
 
         codPropriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
@@ -117,8 +125,8 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         setTitle("MIP² | "+nomePraga);
 
         ResgatarDataUltimoPlano(codPraga,codCultura);
-        ResgatarAtinge(codPraga,codCultura);
         ChamaAmostra(codPraga);
+        ResgatarAtinge(codPraga,codCultura);
 
         tvContagemPlantas.setText(String.valueOf(countPlantas));
         tvContagemTalhoes.setText(String.valueOf(countTalhao));
@@ -223,6 +231,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgatarAtinge.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
 
@@ -249,6 +258,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                         tvplantaPonto.setText(String.valueOf(plantaPonto));
                         tvpontosTalhao.setText(String.valueOf(pontosTalhao));
                         ResgatarTalhao(codCultura);
+                        mDialog.dismiss();
 
                     } catch (JSONException e) {
                         Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
@@ -269,6 +279,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgatarTalhao.php?Cod_Cultura="+codCultura;
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -520,6 +531,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
             if(!u.isConected(getBaseContext()))
             {
                 Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                mDialog.dismiss();
             }else { // se tem acesso à internet
                 String url = "http://mip2.000webhostapp.com/salvaPlanoAmostragem.php?Cod_Talhao=" + planos.get(i).getFk_Cod_Talhao()
                         +"&&Data="+dataFormatada
@@ -572,6 +584,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/ChamaAmostra.php?Cod_Praga=" + codPraga;
 
@@ -606,6 +619,7 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgataDataUltimoPlano.php?Cod_Praga=" + codPraga+"&&Cod_Cultura="+codCultura;
 
@@ -669,6 +683,25 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         });
 
         dlgBox.show();
+    }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 
 }

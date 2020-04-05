@@ -1,14 +1,18 @@
 package com.example.manejointeligentedepragas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,11 +48,14 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
     TextView tvMostraControla;
 
     Button btnSalvar;
+    private Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmacao_plano_amostragem);
+
+        openDialog();
 
         codPropriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
@@ -129,6 +136,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/buscaCodPraga.php?Cod_Cultura="+ codCultura ;
             final RequestQueue queue = Volley.newRequestQueue(this);
@@ -148,11 +156,11 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                     if (controla){
                         if(aplicado){
                             if(codPragaComparacaoAux == codPraga){
-                                tvMostraControla.setText("Aplicação realizada recentemente para esta praga. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
+                                tvMostraControla.setText("É necessário o controle, porém percebemos que uma aplicação foi realizada recentemente para esta praga. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
                                 btnSalvar.setText("OK");
                                 alteraStatus(codCultura, codPraga,1); //1 = amarelo
                             }else{
-                                tvMostraControla.setText("Método de controle aplicado recentemente. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
+                                tvMostraControla.setText("É necessário o controle, porém percebemos que um método de controle foi aplicado recentemente. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
                                 btnSalvar.setText("OK");
                                 alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
                             }
@@ -182,6 +190,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/alteraStatus.php?Cod_Praga=" + codPraga + "&&Cod_Cultura="+ codCultura + "&&Status=" + status;
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -189,7 +198,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
 
                 @Override
                 public void onResponse(String response) {
-
+                    mDialog.dismiss();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -198,5 +207,24 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                 }
             }));
         }
+    }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 }

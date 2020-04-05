@@ -82,6 +82,20 @@ public class AdicionarCultura extends AppCompatActivity {
                 Intent k = new Intent(this, VisualizaPragas.class);
                 startActivity(k);
                 return true;
+            case R.id.plantas:
+                Intent j = new Intent(this, VisualizaPlantas.class);
+                startActivity(j);
+                return true;
+
+            case R.id.metodo_de_controle:
+                Intent l = new Intent(this, VisualizaMetodos.class);
+                startActivity(l);
+                return true;
+
+            case R.id.sobre_o_mip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                return  true;
         }
 
         return super.onOptionsItemSelected(item);

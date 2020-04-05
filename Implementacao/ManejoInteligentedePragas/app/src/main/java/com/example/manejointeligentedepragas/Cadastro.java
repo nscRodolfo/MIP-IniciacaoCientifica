@@ -47,6 +47,8 @@ public class Cadastro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
+        setTitle("MIP² | Cadastro");
+
         pbc = findViewById(R.id.progressBarC);
 
         tbNome = findViewById(R.id.tbNome);

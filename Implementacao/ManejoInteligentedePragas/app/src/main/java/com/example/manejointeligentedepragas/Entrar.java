@@ -48,6 +48,7 @@ public class Entrar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrar);
 
+        setTitle("MIP² | Login");
 
         edt_login = findViewById(R.id.tbEmail2);
         edt_senha = findViewById(R.id.tbSenha);

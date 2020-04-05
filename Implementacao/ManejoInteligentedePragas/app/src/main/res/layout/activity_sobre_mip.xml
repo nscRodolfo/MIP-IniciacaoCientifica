@@ -6,4 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".SobreMIP">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/LLSobreoMiP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tvSobreMIP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Sobre o MIP²"
+                android:textColor="#659251"
+                android:textColorLink="#659251"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tvExplicacao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:id="@+id/tvSobrePraga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="5dp"/>
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

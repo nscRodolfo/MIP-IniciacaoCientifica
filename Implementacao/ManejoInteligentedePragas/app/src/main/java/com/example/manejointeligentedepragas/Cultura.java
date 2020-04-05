@@ -1,6 +1,8 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +54,9 @@ public class Cultura extends AppCompatActivity {
     Integer numFunc = 0;
     String nomePropriedade;
 
+
+    private Dialog mDialog;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -78,6 +85,11 @@ public class Cultura extends AppCompatActivity {
                 startActivity(l);
                 return true;
 
+            case R.id.sobre_o_mip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -87,6 +99,8 @@ public class Cultura extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cultura);
+
+        openDialog();
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
@@ -119,6 +133,7 @@ public class Cultura extends AppCompatActivity {
                 if(!u.isConected(getBaseContext()))
                 {
                     Toast.makeText(Cultura.this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }else {
                     Intent i = new Intent(Cultura.this, AdicionarCultura.class);
                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -136,6 +151,7 @@ public class Cultura extends AppCompatActivity {
                 if(!u.isConected(getBaseContext()))
                 {
                     Toast.makeText(Cultura.this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }else {
                     Intent i = new Intent(Cultura.this, AdicionarCultura.class);
                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -175,6 +191,7 @@ public class Cultura extends AppCompatActivity {
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+            mDialog.dismiss();
         }else { // se tem acesso à internet
 
             String url = "http://mip2.000webhostapp.com/resgatarCulturas.php?Cod_Propriedade=" + Cod_Propriedade;
@@ -206,6 +223,7 @@ public class Cultura extends AppCompatActivity {
                             plantasadd.add(obj.getString("NomePlanta"));
                         }
                         iniciarRecyclerView();
+                        mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(Cultura.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
@@ -271,6 +289,25 @@ public class Cultura extends AppCompatActivity {
                     Toast.makeText(Cultura.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
+
+    }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
 
     }
 
