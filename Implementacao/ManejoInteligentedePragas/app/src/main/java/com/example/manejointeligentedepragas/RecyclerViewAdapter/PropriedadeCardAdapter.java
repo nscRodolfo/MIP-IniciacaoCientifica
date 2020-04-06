@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.AdicionarPropriedade;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.Cultura;
 import com.example.manejointeligentedepragas.Propriedades;
 import com.example.manejointeligentedepragas.R;
@@ -66,16 +67,22 @@ public class PropriedadeCardAdapter extends RecyclerView.Adapter<PropriedadeCard
 
 
 
+        Controller_Usuario cu = new Controller_Usuario(propriedadeContext);
+        holder.tipoUsu = cu.getUser().getTipo();
+
+
 
         // true para, false continua pra proxima tela. função para click demorado
-        holder.parent_layout_propriedade.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                exibirCaixaDialogo(cards.get(position));
-                return true;
-            }
-        });
 
+        if(holder.tipoUsu.equals("Produtor")) {
+            holder.parent_layout_propriedade.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    exibirCaixaDialogo(cards.get(position));
+                    return true;
+                }
+            });
+        }
         holder.parent_layout_propriedade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +113,8 @@ public class PropriedadeCardAdapter extends RecyclerView.Adapter<PropriedadeCard
         TextView cidade;
 
         RelativeLayout parent_layout_propriedade;
+
+        String tipoUsu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

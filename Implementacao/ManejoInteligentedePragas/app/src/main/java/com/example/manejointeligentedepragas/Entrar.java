@@ -1,15 +1,19 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.security.MessageDigest;
 import java.math.BigInteger;
@@ -38,10 +42,14 @@ public class Entrar extends AppCompatActivity {
 
     public EditText edt_login;
     public EditText edt_senha;
-    public ProgressBar pb;
+    TextView esqueciSenha;
 
 
     Integer Cod_Propriedade;
+
+
+    private Dialog mDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +60,9 @@ public class Entrar extends AppCompatActivity {
 
         edt_login = findViewById(R.id.tbEmail2);
         edt_senha = findViewById(R.id.tbSenha);
+        esqueciSenha = findViewById(R.id.tvEsqueci);
 
         btnLogin = findViewById(R.id.btnEntrarL);
-        pb = findViewById(R.id.progressBar3);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,11 +71,22 @@ public class Entrar extends AppCompatActivity {
                 {
                     Toast.makeText(Entrar.this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
                 }else { // se tem acesso à internet chama logar
-                    pb.setVisibility(View.VISIBLE);
+                    openDialog();
                     logar();
                 }
             }
         });
+
+        esqueciSenha.setClickable(true);
+        esqueciSenha.setFocusable(true);
+
+        esqueciSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
     }
 
@@ -86,13 +105,13 @@ public class Entrar extends AppCompatActivity {
 
         if (login.isEmpty()){
             edt_login.setError("E-mail é obrigatório!");
-            pb.setVisibility(View.GONE);
+            mDialog.dismiss();
         }else if (!isEmailValid(login)){
             edt_login.setError("E-mail não é valido!");
-            pb.setVisibility(View.GONE);
+            mDialog.dismiss();
         }else if (senha.isEmpty()){
             edt_senha.setError("Senha é obrigatório");
-            pb.setVisibility(View.GONE);
+           mDialog.dismiss();
         }else {
             //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
 
@@ -126,28 +145,18 @@ public class Entrar extends AppCompatActivity {
                         if(u.getSenha().trim().equals(finalSenha)){
                             boolean c = new Controller_Usuario(getBaseContext()).addUsuario(u);
                             // adiciona no banco local o Usuario
-                            Toast.makeText(Entrar.this, "Logado com Sucesso!",Toast.LENGTH_LONG).show();
-                            pb.setVisibility(View.GONE);
-                            //if(u.getTipoUsu().equals("Funcionario")){
-                                //Cod_Propriedade = obj.getInt("Cod_Propriedade");
-                                //tela propriedade, seleciona as prop vinculadas ao func
-                                final Intent k = new Intent(Entrar.this, Propriedades.class);
-                                startActivity(k);
-                            //}else if(u.getTipoUsu().equals("Produtor")){
-                                //final Intent k = new Intent(Entrar.this, Propriedades.class);
-                                //startActivity(k);
-                            //}else if(u.getTipoUsu().equals("Adm")){
-                                //Toast.makeText(Entrar.this, "ADÊMI",Toast.LENGTH_LONG).show();
-                            //}
-
-
+                            Toast.makeText(Entrar.this, "Logado com sucesso!",Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
+                            final Intent k = new Intent(Entrar.this, Propriedades.class);
+                            startActivity(k);
                         }else{
-                            Toast.makeText(Entrar.this, "Dados Invalidos!",Toast.LENGTH_LONG).show();
-                            pb.setVisibility(View.GONE);
+                            Toast.makeText(Entrar.this, "Dados invalidos!",Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
                         }
                     } catch (JSONException e) {
-                        Toast.makeText(Entrar.this, "Email Não Cadastrado",Toast.LENGTH_LONG).show();
-                        pb.setVisibility(View.GONE);
+                        Toast.makeText(Entrar.this, "Email não cadastrado",Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
+                        logar();
                     }
 
                 }
@@ -155,11 +164,12 @@ public class Entrar extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(Entrar.this,error.toString(), Toast.LENGTH_LONG).show();
-                    pb.setVisibility(View.GONE);
+                   mDialog.dismiss();
                 }
             }));
         }
     }
+
 
 
     public static boolean isEmailValid(String email) {
@@ -185,6 +195,25 @@ public class Entrar extends AppCompatActivity {
             e1.printStackTrace();
         }
         return password;
+    }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 
 

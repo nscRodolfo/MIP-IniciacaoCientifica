@@ -147,7 +147,7 @@ public class InfoPraga extends AppCompatActivity {
                             controleCultural = obj.getString("ControleCultural");
                         }
 
-                        tvDescricaoBioecologia.setText("Descrição: "+descricao_bioecologia);
+                        tvDescricaoBioecologia.setText("Bioecologia: "+descricao_bioecologia);
                         tvInjurias.setText("Injúrias: "+injurias);
                          tvNome.setText("Nome: "+nome);
                          tvFamilia.setText("Família: "+familia);
@@ -157,7 +157,7 @@ public class InfoPraga extends AppCompatActivity {
                          tvAmbientePropicio.setText("Ambiente propício: "+ambientePropicio);
                          tvCicloVida.setText("Ciclo de vida: "+cicloVida);
                          tvObservacoes.setText("Observações: "+observacoes);
-                         tvHorarioAtuacao.setText("Horário de Atuação: "+horarioAtuacao);
+                         tvHorarioAtuacao.setText("Horário de atuação: "+horarioAtuacao);
                          tvEstagioDeAtuacao.setText("Estágio de atuação: "+estagioDeAtuacao);
                          tvControleCultural.setText("Controles culturais: "+controleCultural);
 

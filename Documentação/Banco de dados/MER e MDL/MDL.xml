@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<DIAGRAMA ID="1" TIPO="tpLogico" UniversalUnicID="A23E-79-A8BD-36-AA72-BC-86">
+<DIAGRAMA ID="1" TIPO="tpLogico" UniversalUnicID="764D-A-AD2B-A8-B437-0-3B">
     <InfoDiagrama ID="1">
         <Versao Valor="3.2.0"/>
         <Autores/>
@@ -10,7 +10,7 @@
         <Alinhamento_h Valor="60"/>
         <Zoom Valor="75"/>
         <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
-        <Localizacao Left="617" Top="1130"/>
+        <Localizacao Left="591" Top="1094"/>
         <Realce Valor="false"/>
         <SeparatorSQL Valor=";"/>
         <Prefixo Valor=""/>
@@ -1320,7 +1320,7 @@
         </Constraints>
     </Tabela>
     <Tabela ID="15">
-        <Bounds Height="259" Left="883" Top="1892" Width="150"/>
+        <Bounds Height="259" Left="821" Top="2003" Width="150"/>
         <DisablePainted Valor="false"/>
         <Texto>Aplicacao</Texto>
         <Observacao/>
@@ -2225,7 +2225,7 @@
         </LogicoCardinalidade>
     </LogicoLinha>
     <Tabela ID="46">
-        <Bounds Height="127" Left="1419" Top="1892" Width="150"/>
+        <Bounds Height="127" Left="1443" Top="1876" Width="150"/>
         <DisablePainted Valor="false"/>
         <Texto>Controla</Texto>
         <Observacao/>
@@ -2332,12 +2332,12 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="46" PontaB="10"/>
         <Pontos>
-            <Ponto Left="1495" Top="2017"/>
-            <Ponto Left="1495" Top="2115"/>
+            <Ponto Left="1519" Top="2001"/>
+            <Ponto Left="1519" Top="2115"/>
             <Ponto Left="1771" Top="2115"/>
         </Pontos>
         <LogicoCardinalidade ID="48">
-            <Bounds Height="14" Left="1459" Top="2027" Width="38"/>
+            <Bounds Height="14" Left="1483" Top="2011" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_19</Texto>
             <Observacao/>
@@ -2379,12 +2379,12 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="46" PontaB="8"/>
         <Pontos>
-            <Ponto Left="1493" Top="1888"/>
-            <Ponto Left="1493" Top="1709"/>
+            <Ponto Left="1517" Top="1872"/>
+            <Ponto Left="1517" Top="1709"/>
             <Ponto Left="1623" Top="1709"/>
         </Pontos>
         <LogicoCardinalidade ID="51">
-            <Bounds Height="14" Left="1457" Top="1870" Width="38"/>
+            <Bounds Height="14" Left="1481" Top="1854" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_21</Texto>
             <Observacao/>
@@ -2663,14 +2663,13 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="15" PontaB="10"/>
         <Pontos>
-            <Ponto Left="960" Top="2149"/>
-            <Ponto Left="960" Top="2158"/>
-            <Ponto Left="1401" Top="2158"/>
-            <Ponto Left="1401" Top="2149"/>
-            <Ponto Left="1771" Top="2149"/>
+            <Ponto Left="898" Top="2260"/>
+            <Ponto Left="898" Top="2275"/>
+            <Ponto Left="1811" Top="2275"/>
+            <Ponto Left="1811" Top="2265"/>
         </Pontos>
         <LogicoCardinalidade ID="81">
-            <Bounds Height="14" Left="924" Top="2159" Width="38"/>
+            <Bounds Height="14" Left="862" Top="2270" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_39</Texto>
             <Observacao/>
@@ -2684,7 +2683,7 @@
             <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
         </LogicoCardinalidade>
         <LogicoCardinalidade ID="82">
-            <Bounds Height="14" Left="1731" Top="2137" Width="36"/>
+            <Bounds Height="14" Left="1777" Top="2275" Width="36"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_40</Texto>
             <Observacao/>
@@ -2712,12 +2711,12 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="15" PontaB="7"/>
         <Pontos>
-            <Ponto Left="962" Top="1888"/>
-            <Ponto Left="962" Top="955"/>
+            <Ponto Left="900" Top="1999"/>
+            <Ponto Left="900" Top="955"/>
             <Ponto Left="1560" Top="955"/>
         </Pontos>
         <LogicoCardinalidade ID="84">
-            <Bounds Height="14" Left="926" Top="1870" Width="38"/>
+            <Bounds Height="14" Left="864" Top="1981" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_41</Texto>
             <Observacao/>
@@ -3708,13 +3707,12 @@
         <Largura Valor="1"/>
         <Ligacoes PontaA="8" PontaB="15"/>
         <Pontos>
-            <Ponto Left="1623" Top="1607"/>
-            <Ponto Left="1327" Top="1607"/>
-            <Ponto Left="1327" Top="1952"/>
-            <Ponto Left="1030" Top="1952"/>
+            <Ponto Left="1677" Top="1865"/>
+            <Ponto Left="1677" Top="2063"/>
+            <Ponto Left="968" Top="2063"/>
         </Pontos>
         <LogicoCardinalidade ID="396">
-            <Bounds Height="14" Left="1583" Top="1595" Width="36"/>
+            <Bounds Height="14" Left="1643" Top="1875" Width="36"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_55</Texto>
             <Observacao/>
@@ -3728,7 +3726,7 @@
             <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
         </LogicoCardinalidade>
         <LogicoCardinalidade ID="397">
-            <Bounds Height="14" Left="1040" Top="1940" Width="38"/>
+            <Bounds Height="14" Left="978" Top="2051" Width="38"/>
             <DisablePainted Valor="false"/>
             <Texto>Cardinalidade_56</Texto>
             <Observacao/>
@@ -3737,6 +3735,156 @@
             <Ancorado Valor="false"/>
             <TamanhoAutmatico Valor="true"/>
             <Card Valor="3"/>
+            <MovimentacaoManual Valor="false"/>
+            <Papel Valor=""/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+        </LogicoCardinalidade>
+    </LogicoLinha>
+    <Tabela ID="417">
+        <Bounds Height="171" Left="1156" Top="1734" Width="150"/>
+        <DisablePainted Valor="false"/>
+        <Texto>Aplicacao_Plano</Texto>
+        <Observacao/>
+        <Dicionario/>
+        <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+        <Ancorado Valor="false"/>
+        <Delimite Valor="true"/>
+        <Roundrect Valor="22"/>
+        <Gradiente Valor="true"/>
+        <GradienteStartColor Valor="0,0,0,255"/>
+        <GradienteEndColor Valor="204,204,204,255"/>
+        <CorBorda Valor="0,0,0,255"/>
+        <GDirecao Valor="0"/>
+        <Alfa Valor="25"/>
+        <Autosize Valor="true"/>
+        <Gradiente Valor="true"/>
+        <GradienteStartColor Valor="0,0,0,255"/>
+        <GradienteEndColor Valor="204,204,204,255"/>
+        <GDirecao Valor="0"/>
+        <Alfa Valor="25"/>
+        <ShowDDL Valor="false"/>
+        <ShowInPlain Valor="false"/>
+        <MostrarConstraints Valor="true"/>
+        <PlainIR Valor="true"/>
+        <Campos>
+            <Campo>
+                <Texto>Cod_Aplicacao_Plano</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="true"/>
+                <Fkey Valor="false"/>
+                <Unique Valor="false"/>
+            </Campo>
+            <Campo>
+                <Texto>DataPlano</Texto>
+                <Tipo>Date</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="false"/>
+                <Fkey Valor="false"/>
+                <Unique Valor="false"/>
+            </Campo>
+            <Campo>
+                <Texto>PlantasInfestadas</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="false"/>
+                <Fkey Valor="false"/>
+                <Unique Valor="false"/>
+            </Campo>
+            <Campo>
+                <Texto>PlantasAmostradas</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="false"/>
+                <Fkey Valor="false"/>
+                <Unique Valor="false"/>
+            </Campo>
+            <Campo>
+                <Texto>fk_Aplicacao_Cod_Aplicacao</Texto>
+                <Tipo>integer(11)</Tipo>
+                <Complemento/>
+                <Dicionario/>
+                <Observacao/>
+                <Key Valor="false"/>
+                <Fkey Valor="true"/>
+                <Unique Valor="false"/>
+            </Campo>
+        </Campos>
+        <Constraints>
+            <Constraint>
+                <Nome Valor=""/>
+                <Nomeada Valor="false"/>
+                <Tipo Valor="0"/>
+                <Dicionario/>
+                <Observacao/>
+                <DdlOnUpdate/>
+                <DdlOnDelete/>
+                <LigacaoParaOrigem ID="-1"/>
+                <ConstraintOrigem CamposDestino="[-1]" CamposOrigem="[0]" ID="-1,-1"/>
+            </Constraint>
+            <Constraint>
+                <Nome Valor=""/>
+                <Nomeada Valor="false"/>
+                <Tipo Valor="2"/>
+                <Dicionario/>
+                <Observacao/>
+                <DdlOnUpdate/>
+                <DdlOnDelete/>
+                <LigacaoParaOrigem ID="421"/>
+                <ConstraintOrigem CamposDestino="[4]" CamposOrigem="[0]" ID="15,0">IR chave primária</ConstraintOrigem>
+            </Constraint>
+        </Constraints>
+    </Tabela>
+    <LogicoLinha ID="421">
+        <DisablePainted Valor="false"/>
+        <Tag LinhaMestre="-1"/>
+        <Dashed Valor="false"/>
+        <Ancorado Valor="false"/>
+        <TemSetaPontaA Valor="true"/>
+        <TemSetaPontaB Valor="true"/>
+        <SetaAberta Valor="true"/>
+        <SetaLargura Valor="10"/>
+        <Inteligente Valor="true"/>
+        <SetaAutomatica Valor="true"/>
+        <Largura Valor="1"/>
+        <Ligacoes PontaA="417" PontaB="15"/>
+        <Pontos>
+            <Ponto Left="1225" Top="1903"/>
+            <Ponto Left="1225" Top="2023"/>
+            <Ponto Left="968" Top="2023"/>
+        </Pontos>
+        <LogicoCardinalidade ID="422">
+            <Bounds Height="14" Left="1191" Top="1913" Width="36"/>
+            <DisablePainted Valor="false"/>
+            <Texto>Cardinalidade_59</Texto>
+            <Observacao/>
+            <Dicionario/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+            <Ancorado Valor="false"/>
+            <TamanhoAutmatico Valor="true"/>
+            <Card Valor="0"/>
+            <MovimentacaoManual Valor="false"/>
+            <Papel Valor=""/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+        </LogicoCardinalidade>
+        <LogicoCardinalidade ID="423">
+            <Bounds Height="14" Left="978" Top="2011" Width="36"/>
+            <DisablePainted Valor="false"/>
+            <Texto>Cardinalidade_60</Texto>
+            <Observacao/>
+            <Dicionario/>
+            <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>
+            <Ancorado Valor="false"/>
+            <TamanhoAutmatico Valor="true"/>
+            <Card Valor="0"/>
             <MovimentacaoManual Valor="false"/>
             <Papel Valor=""/>
             <Fonte Estilo="1" Nome="Arial" Tamanho="12"/>

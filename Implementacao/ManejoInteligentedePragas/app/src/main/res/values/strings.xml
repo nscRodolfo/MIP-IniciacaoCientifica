@@ -136,5 +136,7 @@
     <string name="plantas_amostradas">Plantas amostradas:</string>
     <string name="plantas_infestadas">Plantas infestadas:</string>
     <string name="nomecientifico">nomeCientifico</string>
+    <string name="digite_o_e_mail_para_recuperar_a_senha">Digite o e-mail para recuperar a senha:</string>
+    <string name="enviar_requisi_o">Enviar requisição</string>
     >
 </resources>

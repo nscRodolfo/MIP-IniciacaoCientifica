@@ -8,9 +8,8 @@
     $sqladm = " SELECT * FROM Usuario,Administrador WHERE email = '$email'
                 AND Usuario.Cod_Usuario = Administrador.fk_Usuario_Cod_Usuario";
 
-    $sqlfunc ="SELECT * FROM Usuario,Funcionario,Trabalha WHERE email = '$email'
-                AND Usuario.Cod_Usuario = Funcionario.fk_Usuario_Cod_Usuario
-                AND Funcionario.Cod_Funcionario = Trabalha.fk_Funcionario_Cod_Funcionario";
+    $sqlfunc ="SELECT * FROM Usuario,Funcionario WHERE email = '$email'
+                AND Usuario.Cod_Usuario = Funcionario.fk_Usuario_Cod_Usuario";
 
     $dadosprod = $PDO->query($sqlprod); //recebe resultado da query do sql
 
@@ -23,7 +22,7 @@
     $resultadoprod = array();
     while ($edfunc = $dadosfunc->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed
     {
-        $resultadofunc [] = array("Tipo" => "Funcionario","Cod_Usuario" => $edfunc->Cod_Usuario, "Email" => $edfunc->Email, "Senha" => $edfunc->Senha, "Nome" => $edfunc->Nome, "Telefone" => $edfunc->Telefone, "Cod_Propriedade" => $edfunc->fk_Propriedade_Cod_Propriedade);
+        $resultadofunc [] = array("Tipo" => "Funcionario","Cod_Usuario" => $edfunc->Cod_Usuario, "Email" => $edfunc->Email, "Senha" => $edfunc->Senha, "Nome" => $edfunc->Nome, "Telefone" => $edfunc->Telefone);
         
     }
     while ($edprod = $dadosprod->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed

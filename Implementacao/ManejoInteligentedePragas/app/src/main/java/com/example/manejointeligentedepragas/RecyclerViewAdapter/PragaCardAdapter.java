@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.AdicionarPropriedade;
 import com.example.manejointeligentedepragas.AplicaMetodoDeControle;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.Cultura;
 import com.example.manejointeligentedepragas.InfoPraga;
 import com.example.manejointeligentedepragas.PlanoDeAmostragem;
@@ -79,6 +80,8 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
 
 
         holder.praga.setText(cards.get(position).getNome());
+        Controller_Usuario cu = new Controller_Usuario(pragaContext);
+        holder.tipoUsu = cu.getUser().getTipo();
 
         if(cards.get(position).getStatus() == 0){
             holder.cardView.setCardBackgroundColor(Color.parseColor("#659251"));
@@ -90,14 +93,15 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
         }
 
         // true para, false continua pra proxima tela. função para click demorado
-        holder.parent_layout_praga.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                exibirCaixaDialogo(cards.get(position));
-                return true;
-            }
-        });
-
+        if(holder.tipoUsu.equals("Produtor")) {
+            holder.parent_layout_praga.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    exibirCaixaDialogo(cards.get(position));
+                    return true;
+                }
+            });
+        }
         holder.parent_layout_praga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +157,8 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
 
         TextView praga;
         CardView cardView;
+
+        String tipoUsu;
 
         RelativeLayout parent_layout_praga;
 

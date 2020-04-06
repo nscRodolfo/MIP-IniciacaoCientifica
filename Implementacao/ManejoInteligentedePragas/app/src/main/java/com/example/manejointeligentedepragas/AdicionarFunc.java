@@ -1,6 +1,8 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +45,9 @@ public class AdicionarFunc extends AppCompatActivity {
     ArrayList<String> emailsResgatados = new ArrayList<String>();
     EditText etEmail;
     EditText etSenha;
+
+    private Dialog mDialog;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,7 +106,7 @@ public class AdicionarFunc extends AppCompatActivity {
         btnAddFunc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                openDialog();
                 adicionarFuncionario();
             }
         });
@@ -114,14 +121,19 @@ public class AdicionarFunc extends AppCompatActivity {
 
         if(email.isEmpty()){
             etEmail.setError("E-mail é obrigatório!");
+            mDialog.dismiss();
         }else if (!isEmailValid(email)){
             etEmail.setError("E-mail não é valido!");
+            mDialog.dismiss();
         }else if(senha.isEmpty()){
             etSenha.setError("Senha é obrigatório!");
+            mDialog.dismiss();
         }else if (senha.length() < 6){
             etSenha.setError("A senha precisa ter mais que 6 digitos");
+            mDialog.dismiss();
         }else if(emailsResgatados.contains(email)){
             etEmail.setError("Este funcionário já está vinculado à propriedade");
+            mDialog.dismiss();
         }else {
             senha = convertPassMd5(senha);
 
@@ -142,6 +154,7 @@ public class AdicionarFunc extends AppCompatActivity {
                         boolean confirmacao = Obj.getBoolean("confirmacao");
 
                         if(confirmacao){
+                            mDialog.dismiss();
                             Toast.makeText(AdicionarFunc.this, "Funcionário vinculado!",Toast.LENGTH_LONG).show();
                             k.putExtra("Cod_Propriedade", Cod_Propriedade);
                             startActivity(k);
@@ -185,4 +198,24 @@ public class AdicionarFunc extends AppCompatActivity {
         }
         return password;
     }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
+    }
+
 }

@@ -26,6 +26,7 @@ import com.example.manejointeligentedepragas.AdicionarCultura;
 import com.example.manejointeligentedepragas.AdicionarPropriedade;
 import com.example.manejointeligentedepragas.AplicaMetodoDeControle;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.Cultura;
 import com.example.manejointeligentedepragas.Pragas;
 import com.example.manejointeligentedepragas.Propriedades;
@@ -80,16 +81,20 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
 
         CalculaDiasPraContagem(cards.get(position).getCod_Cultura(), holder, position);
 
+        Controller_Usuario cu = new Controller_Usuario(culturaContext);
+
+        holder.tipoUsu = cu.getUser().getTipo();
 
 
-        holder.parent_layout_cultura.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-               exibirCaixaConfirmacao(cards.get(position), position);
-               return true;
-            }
-        });
-
+        if(holder.tipoUsu.equals("Produtor")) {
+            holder.parent_layout_cultura.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    exibirCaixaConfirmacao(cards.get(position), position);
+                    return true;
+                }
+            });
+        }
         holder.parent_layout_cultura.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +127,8 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
         TextView contagem;
 
         RelativeLayout parent_layout_cultura;
+
+        String tipoUsu;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

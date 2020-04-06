@@ -275,7 +275,20 @@ public class Propriedades extends AppCompatActivity {
                             u.setEstado(obj.getString("Estado"));
                             cards.add(u);
                         }
-                        iniciarRecyclerView();
+                        if(cards.isEmpty()){
+                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(Propriedades.this);
+                            dlgBox.setTitle("Aviso!");
+                            dlgBox.setMessage("Você não está vinculado à nenhuma propriedade.");
+                            dlgBox.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // não faz nada
+                                }
+                            });
+                            dlgBox.show();
+                        }else{
+                            iniciarRecyclerView();
+                        }
                         mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(Propriedades.this, e.toString(), Toast.LENGTH_LONG).show();
