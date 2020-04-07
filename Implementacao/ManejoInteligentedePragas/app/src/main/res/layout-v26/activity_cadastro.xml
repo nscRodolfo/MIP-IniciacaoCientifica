@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/btnCadastrar"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="57dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -20,12 +20,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbConSenha" />
-
+        app:layout_constraintTop_toBottomOf="@+id/olho4" />
 
     <RadioGroup
         android:id="@+id/rgTipousuario"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
@@ -56,7 +55,7 @@
 
     <EditText
         android:id="@+id/tbTelefone"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -64,89 +63,133 @@
         android:width="333dp"
         android:ems="10"
         android:hint="@string/ddd_telefone"
+        android:importantForAutofill="no"
         android:inputType="phone"
+        android:maxLength="11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbNome"
-        android:importantForAutofill="no" tools:targetApi="o"/>
+        tools:targetApi="o" />
 
-    <EditText
-        android:id="@+id/tbSenhaC"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/olho3"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:width="333dp"
-        android:ems="10"
-        android:hint="@string/senhaCadastro"
-        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbConEmail"
-        android:importantForAutofill="no" tools:targetApi="o"/>
+        app:passwordToggleEnabled="true">
 
-    <EditText
-        android:id="@+id/tbConSenha"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/tbSenhaC"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:width="333dp"
+            android:ems="10"
+            android:hint="@string/senhaCadastro"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:targetApi="o" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/olho4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:width="333dp"
-        android:ems="10"
-        android:hint="@string/confirmar_senha"
-        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/olho3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbSenhaC"
-        android:autofillHints="" tools:targetApi="o"/>
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:id="@+id/tbConSenha"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:width="333dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/confirmar_senha"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:targetApi="o" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <EditText
         android:id="@+id/tbConEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:width="333dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/confirmar_e_mail"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbEmailC"
-        android:autofillHints="" />
+        tools:targetApi="o" />
 
     <EditText
         android:id="@+id/tbEmailC"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:width="333dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/e_mail_cadastro"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tbTelefone"
-        android:autofillHints="" />
+        tools:targetApi="o" />
 
     <EditText
         android:id="@+id/tbNome"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:width="333dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/nomeCadastro"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rgTipousuario"
-        android:autofillHints="" />
+        tools:targetApi="o" />
+
+    <ProgressBar
+        android:id="@+id/progressBarC"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="32dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnCadastrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/olho4" />
 </android.support.constraint.ConstraintLayout>

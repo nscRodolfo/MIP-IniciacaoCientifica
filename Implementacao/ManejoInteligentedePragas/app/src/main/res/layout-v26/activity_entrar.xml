@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/btnEntrarL"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="57dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -23,19 +23,20 @@
 
     <EditText
         android:id="@+id/tbEmail2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:width="333dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/ex_seunome_gmail_com"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/tvSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:autofillHints="" tools:targetApi="o" />
+        tools:targetApi="o" />
 
     <TextView
         android:id="@+id/tvEmail2"
@@ -52,7 +53,7 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="313dp"
+        android:layout_width="0dp"
         android:layout_height="198dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
@@ -98,9 +99,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="32dp"
             android:width="333dp"
             android:autofillHints=""
             android:ems="10"
@@ -114,16 +112,17 @@
 
     <TextView
         android:id="@+id/tvEsqueci"
-        android:layout_width="199dp"
+        android:layout_width="0dp"
         android:layout_height="27dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
+        android:gravity="center"
         android:text="@string/esqueci_minha_senha"
         android:textColor="#659251"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
