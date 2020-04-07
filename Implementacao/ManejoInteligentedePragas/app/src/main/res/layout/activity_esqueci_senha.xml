@@ -32,8 +32,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:inputType="text|textEmailAddress"
-                android:importantForAutofill="no" />
+                android:hint="@string/seuemail_exemplo_com"
+                android:importantForAutofill="no"
+                android:inputType="text|textEmailAddress" />
 
             <Button
                 android:id="@+id/btnRequisicao"

@@ -83,7 +83,8 @@ public class Entrar extends AppCompatActivity {
         esqueciSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent k = new Intent(Entrar.this, EsqueciSenha.class);
+                startActivity(k);
             }
         });
 

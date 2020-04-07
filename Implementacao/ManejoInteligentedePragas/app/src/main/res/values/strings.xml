@@ -143,5 +143,6 @@
     <string name="data_de_aplica_o">Data de aplicação:</string>
     <string name="m_todo_aplicado">Método aplicado:</string>
     <string name="aplica_es_realizadas">Aplicações realizadas</string>
+    <string name="seuemail_exemplo_com">seuEmail@exemplo.com</string>
     >
 </resources>
