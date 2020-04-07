@@ -1,34 +1,32 @@
-
 package com.example.manejointeligentedepragas;
 
-        import android.app.AlertDialog;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.Spinner;
-        import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-        import com.android.volley.Request;
-        import com.android.volley.RequestQueue;
-        import com.android.volley.Response;
-        import com.android.volley.VolleyError;
-        import com.android.volley.toolbox.StringRequest;
-        import com.android.volley.toolbox.Volley;
-        import com.example.manejointeligentedepragas.Auxiliar.Utils;
-        import com.example.manejointeligentedepragas.model.PragaModel;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.manejointeligentedepragas.Auxiliar.Utils;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
-public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity {
+public class SelecionaPragaPlanosRealizados extends AppCompatActivity {
 
     ArrayList<String> nomePraga = new ArrayList<String>();
     ArrayList<Integer> codPraga = new ArrayList<Integer>();
@@ -44,13 +42,12 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity {
 
     Button selecionar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seleciona_praga_relatorio_praga_plano);
+        setContentView(R.layout.activity_seleciona_praga_planos_realizados);
 
-        Spinner dropdown = findViewById(R.id.dropdownSelecionaSelecionaPragaPlano);
+        Spinner dropdown = findViewById(R.id.dropdownSelecionaPragaPlanosRealizados);
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
@@ -61,13 +58,13 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity {
 
         ResgatarPragas(dropdown, codCultura);
 
-        selecionar = findViewById(R.id.btnSelecionaSelecionarPragaPA);
+        selecionar = findViewById(R.id.btnSelecionaSelecionarPragaPR);
 
         selecionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(SelecionaPragaRelatorioPragaPlano.this, RelatorioPragaPlano.class);
+                Intent i = new Intent(SelecionaPragaPlanosRealizados.this, RelatorioPlanosRealizados.class);
                 i.putExtra("Cod_Praga", codigoSelecionado);
                 i.putExtra("nomePraga", nomeSelecionado);
                 i.putExtra("Cod_Cultura", codCultura);
@@ -120,14 +117,14 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity {
                         }
                         if(nomePraga.size()  == 0 && codPraga.size() == 0){
                             selecionar.setVisibility(View.INVISIBLE);
-                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(SelecionaPragaRelatorioPragaPlano.this);
+                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(SelecionaPragaPlanosRealizados.this);
                             dlgBox.setTitle("Aviso!");
                             dlgBox.setMessage("Você não possui nenhuma praga cadastrada nessa cultura, deseja adicionar agora?");
                             dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     ArrayList<String> pragasAdd = new ArrayList<String>();
-                                    Intent i = new Intent(SelecionaPragaRelatorioPragaPlano.this, AdicionarPraga.class);
+                                    Intent i = new Intent(SelecionaPragaPlanosRealizados.this, AdicionarPraga.class);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -141,7 +138,7 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity {
                             dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(SelecionaPragaRelatorioPragaPlano.this, AcoesCultura.class);
+                                    Intent i = new Intent(SelecionaPragaPlanosRealizados.this, AcoesCultura.class);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -159,13 +156,13 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity {
 
 
                     } catch (JSONException e) {
-                        Toast.makeText(SelecionaPragaRelatorioPragaPlano.this, e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(SelecionaPragaPlanosRealizados.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(SelecionaPragaRelatorioPragaPlano.this,error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(SelecionaPragaPlanosRealizados.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
 

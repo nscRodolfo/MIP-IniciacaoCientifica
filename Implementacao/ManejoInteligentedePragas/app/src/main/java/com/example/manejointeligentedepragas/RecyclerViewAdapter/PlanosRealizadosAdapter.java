@@ -60,7 +60,8 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        holder.tvData.setText(planos.get(position).getDate());
+        holder.tvAutor.setText("Autor: "+planos.get(position).getAutor());
+        holder.tvData.setText("Data do plano: "+planos.get(position).getDate());
         holder.tvPlantas.setText("Plantas amostradas: " + planos.get(position).getPlantasAmostradas());
         holder.tvPopPragas.setText("Plantas infestadas: " + planos.get(position).getPlantasInfestadas());
     }
@@ -75,6 +76,7 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
         TextView tvData;
         TextView tvPlantas;
         TextView tvPopPragas;
+        TextView tvAutor;
 
         RelativeLayout parent_layout_planos_realizados;
 
@@ -84,7 +86,7 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
             tvData = itemView.findViewById(R.id.tvDataPlanosRealizados);
             tvPopPragas = itemView.findViewById(R.id.tvPopPragasPlanosRealizados);
             tvPlantas = itemView.findViewById(R.id.tvNumPlantasPlanosRealizados);
-
+            tvAutor = itemView.findViewById(R.id.tvAutorPlano);
             parent_layout_planos_realizados = itemView.findViewById(R.id.parent_layout_planos_realizados);
 
         }

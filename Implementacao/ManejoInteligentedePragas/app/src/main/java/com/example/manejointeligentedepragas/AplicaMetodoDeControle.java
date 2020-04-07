@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -179,7 +180,10 @@ public class AplicaMetodoDeControle extends AppCompatActivity {
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/aplicacao.php?Cod_Praga=" + codPraga + "&&Cod_Cultura="+ codCultura + "&&Data=" + data + "&&Cod_Metodo="+codMetodo;
+            Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+            String Autor = cu.getUser().getNome();
+
+            String url = "http://mip2.000webhostapp.com/aplicacao.php?Cod_Praga=" + codPraga + "&&Cod_Cultura="+ codCultura + "&&Data=" + data + "&&Cod_Metodo="+codMetodo+"&&Autor="+Autor;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 

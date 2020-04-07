@@ -34,7 +34,7 @@
     <string name="confirmar_senha">Confirmar Senha</string>
     <string name="confirmar_e_mail">Confirmar E-mail</string>
     <string name="e_mail_cadastro">E-mail</string>
-    <string name="nomeCadastro">Nome</string>
+    <string name="nomeCadastro">Nome completo</string>
     <string name="ex_seunome_gmail_com">ex: seunome@gmail.com</string>
     <string name="emailEntrar">Email</string>
     <string name="senhaEntrar">Senha</string>
@@ -138,5 +138,10 @@
     <string name="nomecientifico">nomeCientifico</string>
     <string name="digite_o_e_mail_para_recuperar_a_senha">Digite o e-mail para recuperar a senha:</string>
     <string name="enviar_requisi_o">Enviar requisição</string>
+    <string name="popula_o_de_pragas_por_aplica_o">População de pragas por aplicação</string>
+    <string name="autor">Autor:</string>
+    <string name="data_de_aplica_o">Data de aplicação:</string>
+    <string name="m_todo_aplicado">Método aplicado:</string>
+    <string name="aplica_es_realizadas">Aplicações realizadas</string>
     >
 </resources>

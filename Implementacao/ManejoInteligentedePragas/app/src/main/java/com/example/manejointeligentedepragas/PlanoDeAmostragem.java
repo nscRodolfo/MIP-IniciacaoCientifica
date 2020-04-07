@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.model.PlanoAmostragemModel;
 import com.example.manejointeligentedepragas.model.PragaModel;
 
@@ -533,11 +534,15 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                 Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
                 mDialog.dismiss();
             }else { // se tem acesso à internet
+                Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+                String Autor = cu.getUser().getNome();
+
                 String url = "http://mip2.000webhostapp.com/salvaPlanoAmostragem.php?Cod_Talhao=" + planos.get(i).getFk_Cod_Talhao()
                         +"&&Data="+dataFormatada
                         +"&&PlantasInfestadas="+planos.get(i).getPlantasInfestadas()
                         +"&&PlantasAmostradas="+planos.get(i).getPlantasAmostradas()
-                        +"&&Cod_Praga="+codPraga;
+                        +"&&Cod_Praga="+codPraga
+                        +"&&Autor="+Autor;
 
                 RequestQueue queue = Volley.newRequestQueue(this);
                 queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

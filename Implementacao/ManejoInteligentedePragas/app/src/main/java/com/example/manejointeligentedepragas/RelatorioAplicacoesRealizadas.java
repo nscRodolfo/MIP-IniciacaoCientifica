@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,21 +23,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
-import com.example.manejointeligentedepragas.RecyclerViewAdapter.CulturaCardAdapter;
+import com.example.manejointeligentedepragas.RecyclerViewAdapter.AplicacoesRealizadasAdapter;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.PlanosRealizadosAdapter;
-import com.example.manejointeligentedepragas.model.CulturaModel;
+import com.example.manejointeligentedepragas.model.AplicacaoModel;
 import com.example.manejointeligentedepragas.model.PlanoAmostragemModel;
-import com.jjoe64.graphview.GraphView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
-
-public class RelatorioPlanosRealizados extends AppCompatActivity {
+public class RelatorioAplicacoesRealizadas extends AppCompatActivity {
 
     int Cod_Propriedade;
     int codCultura;
@@ -48,9 +44,10 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
     String nomePropriedade;
     String nomePraga;
 
-    private ArrayList<PlanoAmostragemModel> planos = new ArrayList<>();
+    private ArrayList<AplicacaoModel> aplicacoes = new ArrayList<>();
 
     private Dialog mDialog;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,11 +89,10 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_relatorio_planos_realizados);
+        setContentView(R.layout.activity_relatorio_aplicacoes_realizadas);
 
         openDialog();
 
@@ -113,6 +109,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
         resgataDados(codCultura, codPraga);
     }
 
+
     public void resgataDados(final int codCultura, final int codPraga){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
@@ -120,7 +117,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
+            String url = "http://mip2.000webhostapp.com/resgataDadosGraphAplicacao.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -134,21 +131,23 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
                         JSONArray array = new JSONArray(response);
                         for (int i = 0; i< array.length(); i++){
                             JSONObject obj = array.getJSONObject(i);
-                            PlanoAmostragemModel pa = new PlanoAmostragemModel();
-                            pa.setDate(obj.getString("Data"));
-                            pa.setPlantasAmostradas(obj.getInt("numPlantas"));
-                            pa.setPlantasInfestadas(obj.getInt("popPragas"));
-                            pa.setAutor(obj.getString("Autor"));
-                            planos.add(pa);
-                        }if(planos.isEmpty()){
-                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPlanosRealizados.this);
+                            AplicacaoModel am = new AplicacaoModel();
+                            am.setData(obj.getString("DataAplicacao"));
+                            am.setDataPlano(obj.getString("DataPlano"));
+                            am.setPopPragas(obj.getInt("popPragas"));
+                            am.setNumPlantas(obj.getInt("numPlantas"));
+                            am.setAutor(obj.getString("Autor"));
+                            am.setMetodoAplicado(obj.getString("Metodo"));
+                            aplicacoes.add(am);
+                        }if(aplicacoes.isEmpty()){
+                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioAplicacoesRealizadas.this);
                             dlgBox.setCancelable(false);
                             dlgBox.setTitle("Aviso!");
-                            dlgBox.setMessage("Você não realizou nenhum plano de amostragem para esta praga, deseja realizar um agora?");
+                            dlgBox.setMessage("Você não aplicou nenhum método para esta praga, deseja realizar um plano de amostragem para verificar a necessidade?");
                             dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(RelatorioPlanosRealizados.this, PlanoDeAmostragem.class);
+                                    Intent i = new Intent(RelatorioAplicacoesRealizadas.this, PlanoDeAmostragem.class);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
@@ -162,7 +161,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
                             dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(RelatorioPlanosRealizados.this, AcoesCultura.class);
+                                    Intent i = new Intent(RelatorioAplicacoesRealizadas.this, AcoesCultura.class);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -177,14 +176,15 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
                         }
                         mDialog.dismiss();
 
+
                     } catch (JSONException e) {
-                        Toast.makeText(RelatorioPlanosRealizados.this, e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RelatorioAplicacoesRealizadas.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(RelatorioPlanosRealizados.this,error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(RelatorioAplicacoesRealizadas.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
 
@@ -192,8 +192,8 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
     }
 
     private void iniciarRecyclerView(){
-        RecyclerView rv = findViewById(R.id.rvPlanosRealizados);
-        PlanosRealizadosAdapter adapter = new PlanosRealizadosAdapter(this, planos, 1,codCultura);
+        RecyclerView rv = findViewById(R.id.rvAplicacoesRealizadas);
+        AplicacoesRealizadasAdapter adapter = new AplicacoesRealizadasAdapter(this, aplicacoes, codCultura,codPraga);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -216,4 +216,5 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
         // mDialog.dismiss(); -> para fechar a dialog
 
     }
+
 }

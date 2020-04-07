@@ -3,14 +3,16 @@ package com.example.manejointeligentedepragas.model;
 public class PlanoAmostragemModel {
     private int Cod_Plano;
     private String date;
+    private String Autor;
     private int PlantasInfestadas;
     private int PlantasAmostradas;
     private int fk_Cod_Talhao;
     private int fk_Cod_Praga;
 
-    public PlanoAmostragemModel(int cod_Plano, String date, int plantasInfestadas, int plantasAmostradas, int fk_Cod_Talhao, int fk_Cod_Praga) {
+    public PlanoAmostragemModel(String Autor, int cod_Plano, String date, int plantasInfestadas, int plantasAmostradas, int fk_Cod_Talhao, int fk_Cod_Praga) {
         this.Cod_Plano = cod_Plano;
         this.date = date;
+        this.Autor = Autor;
         this.PlantasInfestadas = plantasInfestadas;
         this.PlantasAmostradas = plantasAmostradas;
         this.fk_Cod_Talhao = fk_Cod_Talhao;
@@ -27,6 +29,7 @@ public class PlanoAmostragemModel {
 
     public PlanoAmostragemModel() {
         this.Cod_Plano = 0;
+        this.Autor = null;
         this.date = null;
         this.PlantasInfestadas = 0;
         this.PlantasAmostradas = 0;
@@ -80,5 +83,13 @@ public class PlanoAmostragemModel {
 
     public void setFk_Cod_Praga(int fk_Cod_Praga) {
         this.fk_Cod_Praga = fk_Cod_Praga;
+    }
+
+    public String getAutor() {
+        return Autor;
+    }
+
+    public void setAutor(String autor) {
+        Autor = autor;
     }
 }

@@ -13,7 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EsqueciSenha"></activity>
+        <activity android:name=".SelecionaPragaRelatorioAplicacoesRealizadas"></activity>
+        <activity android:name=".SelecionaPragaPlanosRealizados" />
+        <activity android:name=".RelatorioAplicacoesRealizadas" />
+        <activity android:name=".SelecionaPragaRelatorioAplicacoesPlanos" />
+        <activity android:name=".RelatorioAplicacoesPlanos" />
+        <activity android:name=".EsqueciSenha" />
         <activity android:name=".RelatorioPlanosRealizados" />
         <activity android:name=".SelecionaPragaRelatorioPragaPlano" />
         <activity android:name=".RelatorioPragaPlano" />

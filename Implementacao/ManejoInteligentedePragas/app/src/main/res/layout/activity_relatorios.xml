@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/popula_o_de_pragas_por_contagem"
+                android:text="@string/popula_o_de_pragas_por_aplica_o"
                 android:textColor="#659251"
                 android:textSize="18sp"
 

@@ -203,7 +203,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:padding="8dp"
-                android:layout_marginStart="5dp"/>
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="8dp"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

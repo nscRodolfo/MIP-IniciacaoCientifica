@@ -95,7 +95,7 @@ public class Relatorios extends AppCompatActivity {
         rlPlanosAmostragem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Relatorios.this, RelatorioPlanosRealizados.class);
+                Intent i = new Intent(Relatorios.this, SelecionaPragaPlanosRealizados.class);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -109,6 +109,13 @@ public class Relatorios extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //intent aplicações realizadas na cultura
+                Intent i = new Intent(Relatorios.this, SelecionaPragaRelatorioAplicacoesRealizadas.class);
+                i.putExtra("Cod_Cultura", codCultura);
+                i.putExtra("NomeCultura", nome);
+                i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
+                startActivity(i);
             }
         });
 
@@ -116,6 +123,13 @@ public class Relatorios extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // intent grafico aplicações
+                Intent i = new Intent(Relatorios.this, SelecionaPragaRelatorioAplicacoesPlanos.class);
+                i.putExtra("Cod_Cultura", codCultura);
+                i.putExtra("NomeCultura", nome);
+                i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                i.putExtra("Aplicado", aplicado);
+                i.putExtra("nomePropriedade", nomePropriedade);
+                startActivity(i);
             }
         });
 

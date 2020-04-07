@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/parent_layout_planos_realizados"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout_aplicacoes_realizadas"
     android:paddingTop="8dp"
     android:paddingEnd="8dp"
     android:paddingStart="8dp">
 
     <TextView
-        android:id="@+id/tvAutorPlano"
+        android:id="@+id/tvAutorAplicacao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -23,23 +21,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvDataPlanosRealizados"
+        android:id="@+id/tvMetodoUtiizado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvAutorPlano"
+        android:layout_below="@id/tvAutorAplicacao"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="@string/data"
+        android:text="@string/m_todo_aplicado"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDataAplicacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMetodoUtiizado"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/data_de_aplica_o"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
-        android:id="@+id/tvNumPlantasPlanosRealizados"
+        android:id="@+id/tvNumPlantasAplicacoesRealizadas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvDataPlanosRealizados"
+        android:layout_below="@id/tvDataAplicacao"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/plantas_amostradas"
@@ -49,10 +59,10 @@
 
 
     <TextView
-        android:id="@+id/tvPopPragasPlanosRealizados"
+        android:id="@+id/tvPopPragasAplicacoesRealizadas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvNumPlantasPlanosRealizados"
+        android:layout_below="@id/tvNumPlantasAplicacoesRealizadas"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/plantas_infestadas"
@@ -65,7 +75,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/tvPopPragasPlanosRealizados"
+        android:layout_below="@id/tvPopPragasAplicacoesRealizadas"
         android:background="?android:attr/listDivider" />
+
 
 </RelativeLayout>
