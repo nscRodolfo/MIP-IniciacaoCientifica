@@ -159,16 +159,19 @@ public class AdicionarFunc extends AppCompatActivity {
                             k.putExtra("Cod_Propriedade", Cod_Propriedade);
                             startActivity(k);
                         }else{
+                            mDialog.dismiss();
                             Toast.makeText(AdicionarFunc.this, "Funcionário não encontrado.",Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         Toast.makeText(AdicionarFunc.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(AdicionarFunc.this, error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }
             }));
         }

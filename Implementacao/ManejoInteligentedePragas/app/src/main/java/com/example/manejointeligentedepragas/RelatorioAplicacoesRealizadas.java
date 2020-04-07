@@ -176,14 +176,15 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity {
                         }
                         mDialog.dismiss();
 
-
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(RelatorioAplicacoesRealizadas.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(RelatorioAplicacoesRealizadas.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));

@@ -1,17 +1,21 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,6 +60,9 @@ public class AdicionarPraga extends AppCompatActivity {
 
     Button InfoPraga;
 
+    private Dialog mDialog;
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -98,6 +105,8 @@ public class AdicionarPraga extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_praga);
+
+        openDialog();
 
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
@@ -164,11 +173,10 @@ public class AdicionarPraga extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
+            mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/selecionarPragasAtinge.php?cod_Cultura=" + codCultura;
-
-
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -188,14 +196,17 @@ public class AdicionarPraga extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, nomePraga);
                         dropdown.setAdapter(adapter);
 
+                        mDialog.dismiss();
 
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(AdicionarPraga.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(AdicionarPraga.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
@@ -208,8 +219,10 @@ public class AdicionarPraga extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
+            mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else if(pragasAdd.contains(nomeSelecionado)){
+            mDialog.dismiss();
             Toast.makeText(this,"Esta praga já existe em sua cultura.", Toast.LENGTH_LONG).show();
         }else{ // se tem acesso à internet
             click = false;
@@ -229,6 +242,7 @@ public class AdicionarPraga extends AppCompatActivity {
                         boolean confirmacao = obj1.getBoolean("confirmacao");
 
                         if(confirmacao){
+                            mDialog.dismiss();
                             Intent k = new Intent(AdicionarPraga.this, Pragas.class);
                             k.putExtra("Cod_Cultura", codCultura);
                             k.putExtra("NomeCultura", nome);
@@ -238,18 +252,40 @@ public class AdicionarPraga extends AppCompatActivity {
                             startActivity(k);
                         }else{
                             Toast.makeText(AdicionarPraga.this, "Cultura não cadastrada! Tente novamente",Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
                         }
                     } catch (JSONException e) {
                         Toast.makeText(AdicionarPraga.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(AdicionarPraga.this,error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }
             }));
 
         }
+    }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 }

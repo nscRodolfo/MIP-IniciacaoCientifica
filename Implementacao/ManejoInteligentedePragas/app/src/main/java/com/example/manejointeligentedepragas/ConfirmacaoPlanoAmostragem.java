@@ -135,8 +135,8 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/buscaCodPraga.php?Cod_Cultura="+ codCultura ;
             final RequestQueue queue = Volley.newRequestQueue(this);
@@ -150,6 +150,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
                             codPragaComparacaoAux = obj1.getInt("fk_Praga_Cod_Praga");
                         }
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(ConfirmacaoPlanoAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
 
@@ -179,6 +180,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(ConfirmacaoPlanoAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
@@ -189,8 +191,8 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/alteraStatus.php?Cod_Praga=" + codPraga + "&&Cod_Cultura="+ codCultura + "&&Status=" + status;
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -203,6 +205,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(ConfirmacaoPlanoAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));

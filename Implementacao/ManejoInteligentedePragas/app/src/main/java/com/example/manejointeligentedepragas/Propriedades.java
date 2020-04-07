@@ -222,12 +222,14 @@ public class Propriedades extends AppCompatActivity {
                             mDialog.dismiss();
                         } catch (JSONException e) {
                             Toast.makeText(Propriedades.this, e.toString(), Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
                         }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(Propriedades.this,error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }
             }));
 
@@ -254,7 +256,6 @@ public class Propriedades extends AppCompatActivity {
             Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-
             String url = "http://mip2.000webhostapp.com/resgatarPropriedadesFunc.php?Cod_Usuario=" + codUsuario;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -292,12 +293,14 @@ public class Propriedades extends AppCompatActivity {
                         mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(Propriedades.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(Propriedades.this,error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }
             }));
 

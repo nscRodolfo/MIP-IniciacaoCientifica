@@ -150,8 +150,8 @@ public class RelatorioAplicacoesPlanos extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgataDadosGraphAplicacao.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -214,12 +214,14 @@ public class RelatorioAplicacoesPlanos extends AppCompatActivity {
                         }
 
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(RelatorioAplicacoesPlanos.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(RelatorioAplicacoesPlanos.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));

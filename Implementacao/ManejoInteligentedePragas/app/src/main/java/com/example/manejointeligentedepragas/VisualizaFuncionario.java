@@ -154,26 +154,18 @@ public class VisualizaFuncionario extends AppCompatActivity {
                         mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(VisualizaFuncionario.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(VisualizaFuncionario.this,error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }
             }));
 
         }
-        /*
-        PropriedadeModel p1 = new PropriedadeModel(0,"Espera Feliz","Rio Pomba","MG",0);
-        PropriedadeModel p2 = new PropriedadeModel(0,"Espera Triste","Juiz de Fora","MG",0);
-        PropriedadeModel p3 = new PropriedadeModel(0,"Espera Alegre","Ubá","MG",0);
-        PropriedadeModel p4 = new PropriedadeModel(0,"Espera Dark","Mercês","MG",0);
-        cards.add(p1);
-        cards.add(p2);
-        cards.add(p3);
-        cards.add(p4);
-        */
     }
 
     private void iniciarRecyclerView(){

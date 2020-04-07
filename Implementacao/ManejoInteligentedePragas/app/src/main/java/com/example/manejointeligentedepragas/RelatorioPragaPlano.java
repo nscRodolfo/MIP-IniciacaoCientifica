@@ -259,14 +259,15 @@ public class RelatorioPragaPlano extends AppCompatActivity {
                         }else{
                             popularDadosGráfico(graph);
                         }
-
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(RelatorioPragaPlano.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(RelatorioPragaPlano.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));

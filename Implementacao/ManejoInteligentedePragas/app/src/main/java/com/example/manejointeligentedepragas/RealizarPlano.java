@@ -1,14 +1,18 @@
 package com.example.manejointeligentedepragas;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -45,11 +49,16 @@ public class RealizarPlano extends AppCompatActivity {
 
     Button selecionar;
 
+    private Dialog mDialog;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_realizar_plano);
+
+        openDialog();
 
         Spinner dropdown = findViewById(R.id.dropdownSelecionaPragaPlano);
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
@@ -122,11 +131,10 @@ public class RealizarPlano extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
+            mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Cultura=" + codCultura;
-
-
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -143,6 +151,7 @@ public class RealizarPlano extends AppCompatActivity {
                             codPraga.add(obj.getInt("Cod_Praga"));
                             statusPraga.add(obj.getInt("Status"));
                         }
+                        mDialog.dismiss();
                         if(nomePraga.size()  == 0 && codPraga.size() == 0){
                             selecionar.setVisibility(View.INVISIBLE);
                             AlertDialog.Builder dlgBox = new AlertDialog.Builder(RealizarPlano.this);
@@ -184,12 +193,14 @@ public class RealizarPlano extends AppCompatActivity {
 
 
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(RealizarPlano.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(RealizarPlano.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
@@ -310,5 +321,24 @@ public class RealizarPlano extends AppCompatActivity {
             }
         });
         dlgBox.show();
+    }
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
     }
 }

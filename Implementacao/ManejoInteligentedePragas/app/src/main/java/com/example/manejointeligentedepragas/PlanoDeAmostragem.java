@@ -262,12 +262,14 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                         mDialog.dismiss();
 
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
@@ -279,8 +281,8 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgatarTalhao.php?Cod_Cultura="+codCultura;
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -301,12 +303,14 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                             btnTalhaoSuperior.setText("Finalizar");
                         }
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
@@ -531,8 +535,8 @@ public class PlanoDeAmostragem extends AppCompatActivity {
             Utils u = new Utils();
             if(!u.isConected(getBaseContext()))
             {
-                Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
                 mDialog.dismiss();
+                Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             }else { // se tem acesso à internet
                 Controller_Usuario cu = new Controller_Usuario(getBaseContext());
                 String Autor = cu.getUser().getNome();
@@ -567,15 +571,18 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                                 i.putExtra("nomePropriedade", nomePropriedade);
                                 startActivity(i);
                             }else{
+                                mDialog.dismiss();
                                 Toast.makeText(PlanoDeAmostragem.this, "Plano de amostragem não cadastrado! Tente novamente",Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
+                            mDialog.dismiss();
                             Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        mDialog.dismiss();
                         Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }));
@@ -588,8 +595,8 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/ChamaAmostra.php?Cod_Praga=" + codPraga;
 
@@ -607,12 +614,14 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                             amostra = obj.getString("Localizacao");
                         }
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
@@ -623,8 +632,8 @@ public class PlanoDeAmostragem extends AppCompatActivity {
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgataDataUltimoPlano.php?Cod_Praga=" + codPraga+"&&Cod_Cultura="+codCultura;
 
@@ -664,12 +673,14 @@ public class PlanoDeAmostragem extends AppCompatActivity {
                                 }
                         }
                     } catch (JSONException e) {
+                        mDialog.dismiss();
                         Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    mDialog.dismiss();
                     Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));

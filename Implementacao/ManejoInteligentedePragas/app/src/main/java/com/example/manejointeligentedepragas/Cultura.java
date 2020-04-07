@@ -226,28 +226,18 @@ public class Cultura extends AppCompatActivity {
                         mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(Cultura.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                    Toast.makeText(Cultura.this,error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }
             }));
 
         }
-
-/*
-        CulturaModel p1 = new CulturaModel(0,0,"Rio Pomba",0);
-        CulturaModel p2 = new CulturaModel(0,0,"Juiz de Fora",0);
-        CulturaModel p3 = new CulturaModel(0,0,"Ubá",0);
-        CulturaModel p4 = new CulturaModel(0,0,"Mercês",0);
-        cards.add(p1);
-        cards.add(p2);
-        cards.add(p3);
-        cards.add(p4);
-        iniciarRecyclerView();
-*/
     }
 
     private void iniciarRecyclerView(){
@@ -281,12 +271,14 @@ public class Cultura extends AppCompatActivity {
                         }
                     } catch (JSONException e) {
                         Toast.makeText(Cultura.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(Cultura.this,error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
                 }
             }));
 
