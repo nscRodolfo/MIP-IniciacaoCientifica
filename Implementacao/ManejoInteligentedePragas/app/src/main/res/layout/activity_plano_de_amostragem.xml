@@ -159,7 +159,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginBottom="75dp"
         android:background="#925158"
-        android:text="@string/presen_a"
+        android:text="Encontrado"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/btnTalhaoAnterior"
         app:layout_constraintStart_toStartOf="parent" />
@@ -171,7 +171,7 @@
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="75dp"
         android:background="#939393"
-        android:text="@string/aus_ncia"
+        android:text="Não encontrado"
         android:textColor="#FFFFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/btnTalhaoSuperior"
         app:layout_constraintEnd_toEndOf="parent" />

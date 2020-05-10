@@ -74,7 +74,7 @@ public class SelecionaPragaRelatorioAplicacoesPlanos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(SelecionaPragaRelatorioAplicacoesPlanos.this, RelatorioAplicacoesPlanos.class);
+                Intent i = new Intent(SelecionaPragaRelatorioAplicacoesPlanos.this, RelatorioAplicacoesPlanos2.class);
                 i.putExtra("Cod_Praga", codigoSelecionado);
                 i.putExtra("nomePraga", nomeSelecionado);
                 i.putExtra("Cod_Cultura", codCultura);

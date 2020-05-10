@@ -78,7 +78,7 @@ public class EsqueciSenha extends AppCompatActivity {
                             mDialog.dismiss();
                             AlertDialog.Builder dlgBox = new AlertDialog.Builder(EsqueciSenha.this);
                             dlgBox.setTitle("Alteração de senha");
-                            dlgBox.setMessage("Sua senha foi alterada, verifique seu e-mail (confira na caixa de spams)!");
+                            dlgBox.setMessage("Sua senha foi alterada, verifique seu e-mail (confira na caixa de spams)! Caso não tenha recebido seu e-mail, tente novamente.");
                             dlgBox.setCancelable(false);
                             dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override

@@ -21,6 +21,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp" />
 
+            <LinearLayout
+                android:id="@+id/SliderDotsInimigo"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
             <TextView
                 android:id="@+id/InfoInimigoNome"
                 android:layout_width="match_parent"

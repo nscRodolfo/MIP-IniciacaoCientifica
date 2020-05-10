@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -19,10 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -30,10 +25,10 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.itextpdf.text.pdf.parser.Line;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -50,11 +45,10 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class RelatorioPragaPlano extends AppCompatActivity {
+public class RelatorioAplicacoesPlanos2 extends AppCompatActivity{
 
     int Cod_Propriedade;
     int codCultura;
@@ -66,7 +60,9 @@ public class RelatorioPragaPlano extends AppCompatActivity {
 
     ArrayList<Integer> popPragas = new ArrayList<Integer>();
     ArrayList<Integer> numPlantas = new ArrayList<Integer>();
+    ArrayList<String> metodos = new ArrayList<String>();
     ArrayList<Date> dataContagem = new ArrayList<Date>();
+    ArrayList<Date> dataContagemPlano = new ArrayList<Date>();
     ArrayList<Long> dataContagemLong = new ArrayList<Long>();
 
 
@@ -78,12 +74,11 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     SimpleDateFormat formataData = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formataDataBR = new SimpleDateFormat("dd-MM-yyyy");
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_relatorio_praga_plano);
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_relatorio_aplicacoes_planos2);
         openDialog();
 
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
@@ -96,16 +91,18 @@ public class RelatorioPragaPlano extends AppCompatActivity {
 
         setTitle("MIP² | "+nome);
 
-        LineChart chart = findViewById(R.id.graph);
+        LineChart chart = findViewById(R.id.graphMP);
+
+
         resgataDados(codCultura,codPraga,chart);
     }
-
 
     public void popularDadosGráfico(LineChart chart){
         final List<Entry> entries = new ArrayList<Entry>();
         for(int i=0; i <dataContagem.size(); i++){
             entries.add(new Entry(dataContagem.get(i).getTime(), popPragas.get(i)));
         }
+
         LineDataSet dataSet = new LineDataSet(entries, "População de pragas");
         dataSet.setDrawFilled(true);
         dataSet.setDrawValues(false);
@@ -118,15 +115,16 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);
         chart.getDescription().setEnabled(false);
+
         chart.getAxisRight().setEnabled(false);
+
         chart.getLineData().setHighlightEnabled(true);
-        //resolve o problema do X cortado
+
         chart.setExtraBottomOffset(40);
-        chart.setExtraRightOffset(20);
+
+
         // Desativa o ZOOM do Touch
         chart.setDoubleTapToZoomEnabled(false);
-
-
 
 
         ValueFormatter formatter = new ValueFormatter() {
@@ -136,14 +134,23 @@ public class RelatorioPragaPlano extends AppCompatActivity {
                 return aux;
             }
         };
+
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
+                //Toast.makeText(RelatorioAplicacoesPlanos2.this, "R$ " + e.getY(),
+                  //      Toast.LENGTH_SHORT).show();
+
+
                 int indexInfos = entries.indexOf(e);
+
+
                 String dataFormatadaAplicacao = formataDataBR.format(dataContagem.get(indexInfos));
-                AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPragaPlano.this);
+                String dataFormatadaPlano = formataDataBR.format(dataContagemPlano.get(indexInfos));
+
+                AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioAplicacoesPlanos2.this);
                 dlgBox.setTitle("Informações:");
-                dlgBox.setMessage("\nData : "+dataFormatadaAplicacao+"\n\nPlantas amostradas: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
+                dlgBox.setMessage("\nMétodo aplicado: "+metodos.get(indexInfos)+"\n\nData da aplicação: "+dataFormatadaAplicacao+"\n\nPlantas amostradas: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos) + "\n\nData da última contagem: "+dataFormatadaPlano);
                 dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -159,8 +166,12 @@ public class RelatorioPragaPlano extends AppCompatActivity {
 
             }
         });
+        // Efeito de animação
+        //chart.animateXY(3000, 3000);
 
         chart.invalidate();
+
+
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(formatter);
@@ -174,14 +185,14 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     }
 
 
-    public void resgataDados(final int codCultura, final int codPraga, final LineChart graph){
+    public void resgataDados(final int codCultura, final int codPraga, final LineChart graphA){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
+            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
+            String url = "http://mip2.000webhostapp.com/resgataDadosGraphAplicacao.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -195,23 +206,25 @@ public class RelatorioPragaPlano extends AppCompatActivity {
                         for (int i = 0; i< array.length(); i++){
                             JSONObject obj = array.getJSONObject(i);
                             try {
-                                dataContagem.add(formataData.parse(obj.getString("Data")));
-                                dataContagemLong.add(formataData.parse(obj.getString("Data")).getTime());
+                                dataContagemPlano.add(formataData.parse(obj.getString("DataPlano")));
+                                dataContagem.add(formataData.parse(obj.getString("DataAplicacao")));
+                                dataContagemLong.add(formataData.parse(obj.getString("DataAplicacao")).getTime());
                             } catch (ParseException e) {
-                                Toast.makeText(RelatorioPragaPlano.this, e.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(RelatorioAplicacoesPlanos2.this, e.toString(), Toast.LENGTH_LONG).show();
                             }
                             popPragas.add(obj.getInt("popPragas"));
                             numPlantas.add(obj.getInt("numPlantas"));
+                            metodos.add(obj.getString("Metodo"));
                         }
                         if(dataContagem.size() == 0){
-                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPragaPlano.this);
+                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioAplicacoesPlanos2.this);
                             dlgBox.setCancelable(false);
                             dlgBox.setTitle("Aviso!");
                             dlgBox.setMessage("Você não realizou nenhum plano de amostragem para esta praga, deseja realizar um agora?");
                             dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(RelatorioPragaPlano.this, PlanoDeAmostragem.class);
+                                    Intent i = new Intent(RelatorioAplicacoesPlanos2.this, PlanoDeAmostragem.class);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
@@ -225,7 +238,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
                             dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(RelatorioPragaPlano.this, AcoesCultura.class);
+                                    Intent i = new Intent(RelatorioAplicacoesPlanos2.this, AcoesCultura.class);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -236,23 +249,25 @@ public class RelatorioPragaPlano extends AppCompatActivity {
                             });
                             dlgBox.show();
                         }else{
-                            popularDadosGráfico(graph);
+                            popularDadosGráfico(graphA);
                         }
+
                     } catch (JSONException e) {
                         mDialog.dismiss();
-                        Toast.makeText(RelatorioPragaPlano.this, e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RelatorioAplicacoesPlanos2.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     mDialog.dismiss();
-                    Toast.makeText(RelatorioPragaPlano.this,error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(RelatorioAplicacoesPlanos2.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
 
         }
     }
+
     public void openDialog(){
         mDialog = new Dialog(this);
         //vamos remover o titulo da Dialog
@@ -267,7 +282,6 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
 
         mDialog.show();
-
         // mDialog.dismiss(); -> para fechar a dialog
 
     }

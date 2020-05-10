@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".RelatorioPragaPlano">
 
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/graph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+        </com.github.mikephil.charting.charts.LineChart>
+
+
+        <!--
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
             android:layout_width="match_parent"
@@ -13,7 +23,7 @@
             app:seriesType="line"
             android:layout_margin="15dp"
             />
-
+       -->
     <!--
     <com.androidplot.xy.XYPlot
         android:id="@+id/graficoPragaPlano"
