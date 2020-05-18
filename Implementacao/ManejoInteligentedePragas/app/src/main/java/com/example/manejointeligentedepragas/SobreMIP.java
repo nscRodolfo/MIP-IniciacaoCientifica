@@ -1,52 +1,33 @@
 package com.example.manejointeligentedepragas;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-public class SobreMIP extends AppCompatActivity {
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.perfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
-                return true;
-            case R.id.pragas:
-                Intent k = new Intent(this, VisualizaPragas.class);
-                startActivity(k);
-                return true;
-            case R.id.plantas:
-                Intent j = new Intent(this, VisualizaPlantas.class);
-                startActivity(j);
-                return true;
-
-            case R.id.metodo_de_controle:
-                Intent l = new Intent(this, VisualizaMetodos.class);
-                startActivity(l);
-                return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
+public class SobreMIP extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+{
 
     TextView pergunta1;
     TextView resposta1;
+    TextView adicional;
+    TextView adicional1;
+    TextView adicional2;
+    TextView adicional3;
+    TextView adicional4;
+    TextView adicional5;
     TextView pergunta2;
     TextView resposta2;
     TextView pergunta3;
@@ -64,25 +45,71 @@ public class SobreMIP extends AppCompatActivity {
     TextView pergunta9;
     TextView resposta9;
 
+    private DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sobre_mip);
 
-       // setTitle("MIP² | Sobre o aplicativo");
+
+
+        //menu novo
+        Toolbar toolbar = findViewById(R.id.toolbar_sobre_mip);
+        setSupportActionBar(toolbar);
+        drawerLayout= findViewById(R.id.drawer_layout_sobre_mip);
+        NavigationView navigationView = findViewById(R.id.nav_view_sobre_mip);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        View headerView = navigationView.getHeaderView(0);
+
+        Controller_Usuario controller_usuario = new Controller_Usuario(getBaseContext());
+        String nomeUsu = controller_usuario.getUser().getNome();
+        String emailUsu = controller_usuario.getUser().getEmail();
+
+        TextView nomeMenu = headerView.findViewById(R.id.nomeMenu);
+        nomeMenu.setText(nomeUsu);
+
+        TextView emailMenu = headerView.findViewById(R.id.emailMenu);
+        emailMenu.setText(emailUsu);
+
+        setTitle("MIP² | Sobre o MIP");
 
 
         pergunta1 = findViewById(R.id.tvPergunta1);
-        pergunta1.setText("O que é o MIP? E quais seus componentes?");
+        pergunta1.setText("O que é o Manejo Integrado de Pragas (MIP)?");
         resposta1 = findViewById(R.id.tvResp1);
-        resposta1.setText("O MIP, como é conhecido o Manejo Integrado de Pragas, trata-se de uma filosofia de controle de pragas que procura preservar e incrementar os fatores de mortalidade natural, através do uso integrado de todas as técnicas de combate possíveis, selecionadas com base nos parâmetros econômicos, ecológicos e sociológicos. O MIP possui 4 componentes principais sendo eles: avaliação do agroecossistema/Diagnose que trata da identificação correta das pragas da cultura (pragas-chave) e seus inimigos naturais; amostragem das populações de pragas para determinar se esta se encontra no nível de dano econômico (onde necessita fazer o uso de um método de controle); tomada de decisão de acordo com a amostragem para verificar se há ou não a necessidade de utilizar métodos de controle e a seleção dos métodos de controle de pragas de acordo com parâmetros técnicos (eficácia), econômicos (maior lucro), ecotoxicológicos (preservação do ambiente e da saúde humana) e sociológicos (adaptáveis ao usuário).");
+        resposta1.setText("O MIP, como é conhecido o Manejo Integrado de Pragas, trata-se de uma filosofia de controle de pragas que procura preservar e incrementar os fatores de mortalidade natural, através do uso integrado de todas as técnicas de combate possíveis, selecionadas com base nos parâmetros econômicos, ecológicos e sociológicos. O MIP possui 4 componentes principais sendo eles: diagnose/identificação das pragas; amostragem das populações de pragas; tomada de decisão e a seleção dos métodos de controle.");
+
+        adicional = findViewById(R.id.tvAdicional);
+        adicional.setText("Como realizar a identificação correta das pragas?");
+        adicional1 = findViewById(R.id.tvAdicional1);
+        adicional1.setText("Para realizar a identificação correta das pragas em sua propriedade você deverá avaliar as pragas chaves que acometem a cultura escolhida. Utilize as fotos de cada praga para comparar com as pragas encontradas em campo. Na descrição de cada praga é possível encontrar o local, horário e estágio fenológico em que a praga atua sobre as plantas, bem como o material necessário para realizar sua identificação e os danos por elas causados. É importante identificar também os inimigos naturais dessas pragas, para evitar eliminá-los da área de cultivo. O plantio de espécies atrativas é recomendado para aumentar o controle natural realizado pela predação e demais relações entre os inimigos naturais e as pragas-chaves de sua cultura.");
+
+        adicional2 = findViewById(R.id.tvAdicional2);
+        adicional2.setText("Como realizar a amostragem?");
+        adicional3 = findViewById(R.id.tvAdicional3);
+        adicional3.setText("A amostragem pode ser realizada para determinar se a praga se encontra no nível de dano econômico (onde necessita fazer o uso de um método de controle). Para realiza-la é necessário seguir alguns passos importantes, realizando a inspeção das amostras de todas as plantas solicitas para cada talhão, desta forma estará assegurado que a tomada de decisão será correta, ou seja, a contagem foi representativa - caso tenha menos plantas que o necessário, realize o plano de amostragem apenas com o número de plantas presentes em sua cultura.\n" +
+                "Para realizar a amostragem é necessário dividir a área de cultivo em talhões, cada talhão possui um tamanho máximo em função da cultura a ser amostrada, listado na cultura escolhida. O talhão trata-se de uma área que contém as plantas com o mesmo genótipo, idade, espaçamento, sistema de condução, tipo de solo e topografia.\n" +
+                "A forma de caminhamento para realizar esta amostragem é sugerida na tela de amostragem, contendo o número de pontos e plantas por talhão, bem como o número fixo de plantas a serem amostrados. No entanto é possível fazer o caminhamento de várias formas, devendo realiza-la da forma mais representativa em cada talhão. A seguir são listados alguns exemplos de caminhamento: U, X, C, Z e por pontos.\n"+
+                "As amostras no MIP representam a unidade de avaliação da praga ou inimigo natural, no MIP² as amostras selecionadas são feitas para avaliar apenas as pragas, cada amostra está listada nas informações das pragas ou no ícone de informação na tela de amostragem. As formas de obtenção das amostras também estão listadas em cada praga, sendo a mais comum a contagem direta da população do inseto com o uso de lupa. O número de amostras por talhão nos planos convencionais de amostragem é fixo, portanto cada talhão no MIP² terá um valor fixo de plantas a serem amostrados, listados também na tela de amostragem. A época e frequência de amostragem é importante para determinar se as pragas se encontram sob controle e se o método de controle teve resultado. A amostragem deve ser realizada com maior frequência em períodos de maiores incidências das pragas e de maior suscetibilidade da cultura, listados para cada praga."
+                );
+
+        adicional4 = findViewById(R.id.tvAdicional4);
+        adicional4.setText("Como é feita a tomada de decisão e a seleção de métodos de controle?");
+        adicional5 = findViewById(R.id.tvAdicional5);
+        adicional5.setText("De acordo com a amostragem realizada, o aplicativo irá informar se há ou não a necessidade de realizar o controle da praga. É importante lembrar que a seleção do método de controle só deverá ser realizada para controle de uma praga por vez na mesma cultura, não podendo aplicar mais caldas/extratos durante o período descrito em cada método de controle, a fim de evitar fitotoxidez na planta. Portanto, se a cultura apresenta mais de uma praga acima do nível de dano econômico (no qual precisa de controle) é importante verificar a calda/extrato que melhor se adeque para ambos os tratamentos.\n" +
+                " Os métodos de controle listados neste aplicativo são retirados de cartilhas da EMBRAPA, MAPA e demais órgãos e grupos competentes, bem como trabalhos científicos. Por se tratarem de métodos alternativos, estes deverão ser testados na localidade do agricultor, sob suas características climáticas para verificar se há ou não a eficácia. Cada método de controle possui uma especificação quanto a fabricação e efeitos nocivos, devendo produzi-lo com atenção e de forma responsável.");
+
+
 
 
         pergunta2 = findViewById(R.id.tvPergunta2);
-        pergunta2.setText("O que é o MIP²? ");
+        pergunta2.setText("O que é o Monitoramento Inteligente de Pragas (MIP²)? ");
         resposta2 = findViewById(R.id.tvResp2);
-        resposta2.setText("O MIP² (Manejo Inteligente de Pragas) trata-se de uma ferramenta computacional agroecológica baseada no MIP, que tem a função de facilitar a adoção do Manejo Integrado de Pragas nas propriedades com cultivo orgânico/agroecológico.");
-
+        resposta2.setText("O MIP² trata-se de uma ferramenta computacional agroecológica baseada no MIP, que tem a função de facilitar a adoção do Manejo Integrado de Pragas nas propriedades com cultivo orgânico/agroecológico.");
 
         pergunta3 = findViewById(R.id.tvPergunta3);
         pergunta3.setText("Como utilizar o aplicativo?");
@@ -127,4 +154,59 @@ public class SobreMIP extends AppCompatActivity {
         resposta9 = findViewById(R.id.tvResp9);
         resposta9.setText("Em cada cultura é possível clicar no botão GERAR RELATÓRIOS, onde são descritos os relatórios de maior relevância para a gestão de sua propriedade.");
     }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.drawerPerfil:
+                Intent i= new Intent(this, Perfil.class);
+                startActivity(i);
+                break;
+            case R.id.drawerProp:
+                Intent prop= new Intent(this, Propriedades.class);
+                startActivity(prop);
+                break;
+
+            case R.id.drawerPlantas:
+                Intent j = new Intent(this, VisualizaPlantas.class);
+                startActivity(j);
+                break;
+
+            case R.id.drawerPrag:
+                Intent k = new Intent(this, VisualizaPragas.class);
+                startActivity(k);
+                break;
+
+            case R.id.drawerMet:
+                Intent l = new Intent(this, VisualizaMetodos.class);
+                startActivity(l);
+                break;
+
+            case R.id.drawerSobreMip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                break;
+
+            case R.id.drawerTutorial:
+
+                break;
+
+            case R.id.drawerSobre:
+                Intent pp = new Intent(this, SobreMIP.class);
+                startActivity(pp);
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
 }

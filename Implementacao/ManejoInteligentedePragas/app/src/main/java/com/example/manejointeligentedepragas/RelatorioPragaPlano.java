@@ -6,11 +6,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,6 +33,7 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -54,7 +64,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class RelatorioPragaPlano extends AppCompatActivity {
+public class RelatorioPragaPlano extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     int Cod_Propriedade;
     int codCultura;
@@ -69,6 +79,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
     ArrayList<Date> dataContagem = new ArrayList<Date>();
     ArrayList<Long> dataContagemLong = new ArrayList<Long>();
 
+    private DrawerLayout drawerLayout;
 
     private Dialog mDialog;
 
@@ -94,10 +105,87 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         nomePraga = getIntent().getStringExtra("nomePraga");
 
-        setTitle("MIP² | "+nome);
+        //menu novo
+        Toolbar toolbar = findViewById(R.id.toolbar_RPP);
+        setSupportActionBar(toolbar);
+        drawerLayout= findViewById(R.id.drawer_layout_RPP);
+        NavigationView navigationView = findViewById(R.id.nav_view_RPP);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        View headerView = navigationView.getHeaderView(0);
+
+        Controller_Usuario controller_usuario = new Controller_Usuario(getBaseContext());
+        String nomeUsu = controller_usuario.getUser().getNome();
+        String emailUsu = controller_usuario.getUser().getEmail();
+
+        TextView nomeMenu = headerView.findViewById(R.id.nomeMenu);
+        nomeMenu.setText(nomeUsu);
+
+        TextView emailMenu = headerView.findViewById(R.id.emailMenu);
+        emailMenu.setText(emailUsu);
+
+
+        setTitle("MIP² | "+nome+" x "+nomePraga);
 
         LineChart chart = findViewById(R.id.graph);
         resgataDados(codCultura,codPraga,chart);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.drawerPerfil:
+                Intent i= new Intent(this, Perfil.class);
+                startActivity(i);
+                break;
+            case R.id.drawerProp:
+                Intent prop= new Intent(this, Propriedades.class);
+                startActivity(prop);
+                break;
+
+            case R.id.drawerPlantas:
+                Intent j = new Intent(this, VisualizaPlantas.class);
+                startActivity(j);
+                break;
+
+            case R.id.drawerPrag:
+                Intent k = new Intent(this, VisualizaPragas.class);
+                startActivity(k);
+                break;
+
+            case R.id.drawerMet:
+                Intent l = new Intent(this, VisualizaMetodos.class);
+                startActivity(l);
+                break;
+
+            case R.id.drawerSobreMip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                break;
+
+            case R.id.drawerTutorial:
+
+                break;
+
+            case R.id.drawerSobre:
+                Intent pp = new Intent(this, SobreMIP.class);
+                startActivity(pp);
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 
@@ -123,6 +211,7 @@ public class RelatorioPragaPlano extends AppCompatActivity {
         //resolve o problema do X cortado
         chart.setExtraBottomOffset(40);
         chart.setExtraRightOffset(20);
+        chart.setExtraTopOffset(58);
         // Desativa o ZOOM do Touch
         chart.setDoubleTapToZoomEnabled(false);
 

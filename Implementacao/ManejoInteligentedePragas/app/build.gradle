@@ -54,6 +54,9 @@ dependencies {
     //gerar pdf
     implementation 'com.itextpdf:itextg:5.5.10'
 
+    //show case view
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:2.5.0'
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

@@ -5,8 +5,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +41,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class AdicionarPraga extends AppCompatActivity {
+public class AdicionarPraga extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     ArrayList<String> nomePraga = new ArrayList<String>();
     ArrayList<Integer> codPraga = new ArrayList<Integer>();
@@ -62,44 +70,7 @@ public class AdicionarPraga extends AppCompatActivity {
 
     private Dialog mDialog;
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_lateral, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.perfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
-                return true;
-            case R.id.pragas:
-                Intent k = new Intent(this, VisualizaPragas.class);
-                startActivity(k);
-                return true;
-            case R.id.plantas:
-                Intent j = new Intent(this, VisualizaPlantas.class);
-                startActivity(j);
-                return true;
-
-            case R.id.metodo_de_controle:
-                Intent l = new Intent(this, VisualizaMetodos.class);
-                startActivity(l);
-                return true;
-
-            case R.id.sobre_o_mip:
-                Intent p = new Intent(this, SobreMIP.class);
-                startActivity(p);
-                return  true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +91,28 @@ public class AdicionarPraga extends AppCompatActivity {
         pragasAdd = getIntent().getStringArrayListExtra("pragasAdd");
 
         Spinner dropdown = findViewById(R.id.dropdownPraga);
+
+
+        //menu novo
+        Toolbar toolbar = findViewById(R.id.toolbar_add_praga);
+        setSupportActionBar(toolbar);
+        drawerLayout= findViewById(R.id.drawer_layout_add_praga);
+        NavigationView navigationView = findViewById(R.id.nav_view_add_praga);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        View headerView = navigationView.getHeaderView(0);
+
+        Controller_Usuario controller_usuario = new Controller_Usuario(getBaseContext());
+        String nomeUsu = controller_usuario.getUser().getNome();
+        String emailUsu = controller_usuario.getUser().getEmail();
+
+        TextView nomeMenu = headerView.findViewById(R.id.nomeMenu);
+        nomeMenu.setText(nomeUsu);
+
+        TextView emailMenu = headerView.findViewById(R.id.emailMenu);
+        emailMenu.setText(emailUsu);
 
         setTitle("MIP² | "+nome);
 
@@ -158,16 +151,67 @@ public class AdicionarPraga extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(AdicionarPraga.this,Pragas.class);
-        i.putExtra("Cod_Cultura", codCultura);
-        i.putExtra("NomeCultura", nome);
-        i.putExtra("Cod_Propriedade", Cod_Propriedade);
-        i.putExtra("Aplicado", aplicado);
-        i.putExtra("nomePropriedade", nomePropriedade);
-        startActivity(i);
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            Intent i = new Intent(AdicionarPraga.this,Pragas.class);
+            i.putExtra("Cod_Cultura", codCultura);
+            i.putExtra("NomeCultura", nome);
+            i.putExtra("Cod_Propriedade", Cod_Propriedade);
+            i.putExtra("Aplicado", aplicado);
+            i.putExtra("nomePropriedade", nomePropriedade);
+            startActivity(i);
+        }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.drawerPerfil:
+                Intent i= new Intent(this, Perfil.class);
+                startActivity(i);
+                break;
+            case R.id.drawerProp:
+                Intent prop= new Intent(this, Propriedades.class);
+                startActivity(prop);
+                break;
+
+            case R.id.drawerPlantas:
+                Intent j = new Intent(this, VisualizaPlantas.class);
+                startActivity(j);
+                break;
+
+            case R.id.drawerPrag:
+                Intent k = new Intent(this, VisualizaPragas.class);
+                startActivity(k);
+                break;
+
+            case R.id.drawerMet:
+                Intent l = new Intent(this, VisualizaMetodos.class);
+                startActivity(l);
+                break;
+
+            case R.id.drawerSobreMip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                break;
+
+            case R.id.drawerTutorial:
+
+                break;
+
+            case R.id.drawerSobre:
+                Intent pp = new Intent(this, SobreMIP.class);
+                startActivity(pp);
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
 
     public void ResgatarPragas(final Spinner dropdown, int codCultura){
         Utils u = new Utils();

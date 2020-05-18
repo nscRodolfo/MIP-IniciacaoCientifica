@@ -7,13 +7,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,71 +51,27 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Propriedades extends AppCompatActivity {
+public class Propriedades extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     public FloatingActionButton fab;
     public TextView textView;
     public String nomePropriedade;
     public String tipoUsu;
-
-
     private Dialog mDialog;
 
-
+    private DrawerLayout drawerLayout;
 
     //vars relative layout
     private ArrayList<PropriedadeModel> cards = new ArrayList<>();
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_lateral, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.perfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
-                return true;
-
-            case R.id.pragas:
-                Intent k = new Intent(this, VisualizaPragas.class);
-                startActivity(k);
-                return true;
-
-            case R.id.plantas:
-                Intent j = new Intent(this, VisualizaPlantas.class);
-                startActivity(j);
-                return true;
-
-            case R.id.metodo_de_controle:
-                Intent l = new Intent(this, VisualizaMetodos.class);
-                startActivity(l);
-                return true;
-
-            case R.id.sobre_o_mip:
-                Intent p = new Intent(this, SobreMIP.class);
-                startActivity(p);
-                return  true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_propriedades);
-
         openDialog();
 
         Controller_Usuario cu = new Controller_Usuario(getBaseContext());
-
         tipoUsu = cu.getUser().getTipo();
 
         fab = findViewById(R.id.fabAddProp);
@@ -125,8 +89,29 @@ public class Propriedades extends AppCompatActivity {
 
         }
 
-        //setTitle("MIP² | Propriedades");
-        //resgatarDados();
+        //menu novo
+        Toolbar toolbar = findViewById(R.id.toolbar_propriedades);
+        setSupportActionBar(toolbar);
+        drawerLayout= findViewById(R.id.drawer_layout_propriedades);
+        NavigationView navigationView = findViewById(R.id.nav_view_propriedades);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        View headerView = navigationView.getHeaderView(0);
+
+        Controller_Usuario controller_usuario = new Controller_Usuario(getBaseContext());
+        String nomeUsu = controller_usuario.getUser().getNome();
+        String emailUsu = controller_usuario.getUser().getEmail();
+
+        TextView nomeMenu = headerView.findViewById(R.id.nomeMenu);
+        nomeMenu.setText(nomeUsu);
+
+        TextView emailMenu = headerView.findViewById(R.id.emailMenu);
+        emailMenu.setText(emailUsu);
+
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,6 +161,9 @@ public class Propriedades extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
             if (this.backPressedOnce) {
                 // Finaliza a aplicacao
                 finishAffinity();
@@ -185,7 +173,53 @@ public class Propriedades extends AppCompatActivity {
             this.backPressedOnce = true;
             Toast.makeText(this, "Pressione novamente para fechar",Toast.LENGTH_SHORT).show();
             backPressedHandler.postDelayed(backPressedTimeoutAction, BACK_PRESSED_DELAY);
+        }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.drawerPerfil:
+                Intent i= new Intent(this, Perfil.class);
+                startActivity(i);
+                break;
+            case R.id.drawerProp:
+                Toast.makeText(Propriedades.this,"Você já está na tela de propriedades.", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.drawerPlantas:
+                Intent j = new Intent(this, VisualizaPlantas.class);
+                startActivity(j);
+                break;
+
+            case R.id.drawerPrag:
+                Intent k = new Intent(this, VisualizaPragas.class);
+                startActivity(k);
+                break;
+
+            case R.id.drawerMet:
+                Intent l = new Intent(this, VisualizaMetodos.class);
+                startActivity(l);
+                break;
+
+            case R.id.drawerSobreMip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                break;
+
+            case R.id.drawerTutorial:
+
+                break;
+
+            case R.id.drawerSobre:
+                Intent pp = new Intent(this, SobreMIP.class);
+                startActivity(pp);
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
 
 
     private void resgatarDados(int codUsuario){

@@ -5,13 +5,23 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,7 +37,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class EsqueciSenha extends AppCompatActivity {
+public class EsqueciSenha extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    private DrawerLayout drawerLayout;
 
     EditText edtRecupera;
     Button Recupera;
@@ -43,6 +55,31 @@ public class EsqueciSenha extends AppCompatActivity {
         edtRecupera = findViewById(R.id.edtEmailRecupera);
         Recupera = findViewById(R.id.btnRequisicao);
 
+        //menu novo
+        Toolbar toolbar = findViewById(R.id.toolbar_esqueci);
+        setSupportActionBar(toolbar);
+        drawerLayout= findViewById(R.id.drawer_layout_esqueci);
+        NavigationView navigationView = findViewById(R.id.nav_view_esqueci);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        View headerView = navigationView.getHeaderView(0);
+
+        ImageView imageView = headerView.findViewById(R.id.imageMenu);
+        Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher);
+        imageView.setImageDrawable(drawable);
+
+        TextView nomeMenu = headerView.findViewById(R.id.nomeMenu);
+        //nomeMenu.setVisibility(View.GONE);
+        nomeMenu.setText("Monitoramento Inteligente de Pragas");
+
+        TextView emailMenu = headerView.findViewById(R.id.emailMenu);
+        emailMenu.setVisibility(View.GONE);
+
+
+
         Recupera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +89,59 @@ public class EsqueciSenha extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.drawerPerfil:
+                Toast.makeText(EsqueciSenha.this,"Para acessar seu perfil, faça login!", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.drawerProp:
+                Toast.makeText(EsqueciSenha.this,"Para acessar as propriedades, faça login!", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.drawerPlantas:
+                Intent j = new Intent(this, VisualizaPlantas.class);
+                startActivity(j);
+                break;
+
+            case R.id.drawerPrag:
+                Intent k = new Intent(this, VisualizaPragas.class);
+                startActivity(k);
+                break;
+
+            case R.id.drawerMet:
+                Intent l = new Intent(this, VisualizaMetodos.class);
+                startActivity(l);
+                break;
+
+            case R.id.drawerSobreMip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                break;
+
+            case R.id.drawerTutorial:
+
+                break;
+
+            case R.id.drawerSobre:
+                Intent pp = new Intent(this, SobreMIP.class);
+                startActivity(pp);
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
 
     public void RecuperaSenha(String email){
         Utils u = new Utils();

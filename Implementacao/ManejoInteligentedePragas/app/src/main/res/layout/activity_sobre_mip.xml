@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SobreMIP">
+    tools:context=".SobreMIP"
+    android:id="@+id/drawer_layout_sobre_mip"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+    >
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_sobre_mip"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,10 +43,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/sobre_o_mip"
+                android:text="@string/sobre_o_mipii"
                 android:textColor="#659251"
                 android:textColorLink="#659251"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
@@ -41,6 +63,66 @@
 
             <TextView
                 android:id="@+id/tvResp1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:id="@+id/tvAdicional"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvAdicional1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:id="@+id/tvAdicional2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvAdicional3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:id="@+id/tvAdicional4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvAdicional5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -207,4 +289,14 @@
                 android:layout_marginBottom="8dp"/>
         </LinearLayout>
     </ScrollView>
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view_sobre_mip"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu" />
+
+</android.support.v4.widget.DrawerLayout>

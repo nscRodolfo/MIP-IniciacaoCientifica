@@ -80,8 +80,8 @@
     <string name="pragas_menu_main">Pragas</string>
     <string name="m_todos_de_controle_menu_maian">Métodos de Controle</string>
     <string name="title_activity_navigation_drawer">NavigationDrawer</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -144,5 +144,6 @@
     <string name="m_todo_aplicado">Método aplicado:</string>
     <string name="aplica_es_realizadas">Aplicações realizadas</string>
     <string name="seuemail_exemplo_com">seuEmail@exemplo.com</string>
+    <string name="sobre_o_mipii">Sobre o MIP</string>
     >
 </resources>

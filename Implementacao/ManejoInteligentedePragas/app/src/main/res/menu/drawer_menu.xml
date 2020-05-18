@@ -3,35 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:id="@+id/drawerPerfil"
+            android:icon="@drawable/ic_avatar"
+            android:title="Perfil" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/drawerProp"
+            android:icon="@drawable/ic_barn"
+            android:title="Propriedades" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/drawerPlantas"
+            android:icon="@drawable/ic_tomate"
+            android:title="Plantas" />
         <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />
+            android:id="@+id/drawerPrag"
+            android:icon="@drawable/ic_cricket"
+            android:title="Pragas" />
+        <item
+            android:id="@+id/drawerMet"
+            android:icon="@drawable/ic_repelente_de_insetos"
+            android:title="Métodos de controle" />
+
+        <item
+            android:id="@+id/drawerSobreMip"
+            android:icon="@drawable/ic_lupa_loca"
+            android:title="Manejo Integrado de Pragas" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Ajuda">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
+                android:id="@+id/drawerTutorial"
+                android:icon="@drawable/ic_educacao"
+                android:title="Tutorial" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:id="@+id/drawerSobre"
+                android:icon="@drawable/ic_help_outline_black_24dp"
+                android:title="Sobre" />
         </menu>
     </item>
 

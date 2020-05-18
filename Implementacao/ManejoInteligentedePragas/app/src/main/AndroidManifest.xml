@@ -38,14 +38,9 @@
         <activity android:name=".InfoPraga" />
         <activity android:name=".VisualizaPragas" />
         <activity android:name=".PlanoDeAmostragem" />
-        <activity
-            android:name=".NavigationDrawer"
-            android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RealizarPlano" />
         <activity android:name=".SobreMIP" />
         <activity android:name=".VisualizaFuncionario" />
-        <activity android:name=".model.SobreMIP" />
         <activity android:name=".Perfil" />
         <activity android:name=".AdicionarPraga" />
         <activity android:name=".Pragas" />
@@ -60,6 +55,7 @@
         <activity android:name=".Cadastro" />
         <activity android:name=".Entrar" />
         <activity android:name=".MainActivity">
+            //android:theme="@style/AppTheme.NoActionBar"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -11,31 +11,6 @@
             android:icon="@drawable/ic_info_outline_black_24dp"
             app:showAsAction="ifRoom"
             ></item>
-        <item
-            android:id="@+id/perfil_praga"
-            android:title="@string/perfil">
-
-        </item>
-        <item
-            android:id="@+id/plantas_praga"
-            android:title="@string/plantas">
-
-        </item>
-        <item
-            android:id="@+id/pragas_praga"
-            android:title="@string/pragas">
-
-        </item>
-        <item
-            android:id="@+id/metodo_de_controle_praga"
-            android:title="@string/m_todos_de_controle">
-
-        </item>
-        <item
-            android:id="@+id/sobre_o_mip_praga"
-            android:title="@string/sobre_o_mip">
-
-        </item>
-    </group>
+           </group>
 
 </menu>

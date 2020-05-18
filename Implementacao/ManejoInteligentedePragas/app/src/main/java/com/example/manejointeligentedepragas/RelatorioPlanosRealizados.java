@@ -10,18 +10,26 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,6 +39,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.CulturaCardAdapter;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.PlanosRealizadosAdapter;
 import com.example.manejointeligentedepragas.model.CulturaModel;
@@ -62,7 +71,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class RelatorioPlanosRealizados extends AppCompatActivity {
+public class RelatorioPlanosRealizados extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     int Cod_Propriedade;
     int codCultura;
@@ -84,6 +93,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
     SimpleDateFormat formataDataBR = new SimpleDateFormat("dd-MM-yyyy");
     Date data = new Date();
 
+    private DrawerLayout drawerLayout;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,9 +129,84 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         nomePraga = getIntent().getStringExtra("nomePraga");
 
+        //menu novo
+        Toolbar toolbar = findViewById(R.id.toolbar_RPR);
+        setSupportActionBar(toolbar);
+        drawerLayout= findViewById(R.id.drawer_layout_RPR);
+        NavigationView navigationView = findViewById(R.id.nav_view_RPR);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        View headerView = navigationView.getHeaderView(0);
+
+        Controller_Usuario controller_usuario = new Controller_Usuario(getBaseContext());
+        String nomeUsu = controller_usuario.getUser().getNome();
+        String emailUsu = controller_usuario.getUser().getEmail();
+
+        TextView nomeMenu = headerView.findViewById(R.id.nomeMenu);
+        nomeMenu.setText(nomeUsu);
+
+        TextView emailMenu = headerView.findViewById(R.id.emailMenu);
+        emailMenu.setText(emailUsu);
+
         setTitle("MIP² | " + nomePraga);
 
         resgataDados(codCultura, codPraga);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.drawerPerfil:
+                Intent i= new Intent(this, Perfil.class);
+                startActivity(i);
+                break;
+            case R.id.drawerProp:
+                Intent prop= new Intent(this, Propriedades.class);
+                startActivity(prop);
+                break;
+
+            case R.id.drawerPlantas:
+                Intent j = new Intent(this, VisualizaPlantas.class);
+                startActivity(j);
+                break;
+
+            case R.id.drawerPrag:
+                Intent k = new Intent(this, VisualizaPragas.class);
+                startActivity(k);
+                break;
+
+            case R.id.drawerMet:
+                Intent l = new Intent(this, VisualizaMetodos.class);
+                startActivity(l);
+                break;
+
+            case R.id.drawerSobreMip:
+                Intent p = new Intent(this, SobreMIP.class);
+                startActivity(p);
+                break;
+
+            case R.id.drawerTutorial:
+
+                break;
+
+            case R.id.drawerSobre:
+                Intent pp = new Intent(this, SobreMIP.class);
+                startActivity(pp);
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     public void resgataDados(final int codCultura, final int codPraga){
@@ -296,7 +381,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity {
         table.setWidthPercentage(100);
         table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell("Autor");
-        table.addCell("Data da do plano de amostragem");
+        table.addCell("Data do plano de amostragem");
         table.addCell("Plantas infestadas");
         table.addCell("Plantas amostradas");
         table.setHeaderRows(1);

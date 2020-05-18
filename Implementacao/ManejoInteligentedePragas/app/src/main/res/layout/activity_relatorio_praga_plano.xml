@@ -1,49 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_RPP"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RelatorioPragaPlano">
+    android:fitsSystemWindows="true"
+    tools:context=".RelatorioPragaPlano"
+    tools:openDrawer="start">
 
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_RPP"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/graph"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
-        </com.github.mikephil.charting.charts.LineChart>
+            android:layout_margin="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_RPP"
+            ></com.github.mikephil.charting.charts.LineChart>
 
 
-        <!--
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/graph"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:seriesType="line"
-            android:layout_margin="15dp"
-            />
-       -->
-    <!--
-    <com.androidplot.xy.XYPlot
-        android:id="@+id/graficoPragaPlano"
-        style="@style/APDefacto.Light"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        ap:domainTitle="Pragas"
-        ap:layout_constraintBottom_toBottomOf="parent"
-        ap:layout_constraintEnd_toEndOf="parent"
-        ap:layout_constraintStart_toStartOf="parent"
-        ap:layout_constraintTop_toTopOf="parent"
-        ap:paddingTop="10dp"
-        ap:paddingBottom="10dp"
-        ap:lineLabelRotationBottom="-45"
-        ap:lineLabels="left|bottom"
-        ap:rangeTitle="Contagens"
-        ap:title="Pragas X Contagens"
-        ap:titleTextColor="#659251"
-        ap:renderMode="use_background_thread"
-        />
-    -->
+    </android.support.constraint.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view_RPP"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu" />
+
+</android.support.v4.widget.DrawerLayout>
