@@ -14,6 +14,7 @@ import com.example.manejointeligentedepragas.model.UsuarioModel;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -88,7 +89,7 @@ public class VisualizaFuncionario extends AppCompatActivity implements Navigatio
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
-        setTitle("MIP² | "+nomePropriedade);
+        setTitle("MIP² | Funcionários");
 
 
         resgatarDados();
@@ -163,7 +164,13 @@ public class VisualizaFuncionario extends AppCompatActivity implements Navigatio
                 break;
 
             case R.id.drawerTutorial:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
 
+                Intent intro = new Intent(this, IntroActivity.class);
+                startActivity(intro);
                 break;
 
             case R.id.drawerSobre:

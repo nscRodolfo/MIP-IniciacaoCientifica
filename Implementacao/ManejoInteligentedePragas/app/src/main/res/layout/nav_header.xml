@@ -17,19 +17,23 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="8dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/nomeMenu"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:text="Nome do usuário"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:layout_gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        />
     
     <TextView
         android:id="@+id/emailMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/exemplo_gmail_com"/>
+        android:text="@string/exemplo_gmail_com"
+        android:layout_gravity="center"/>
 </LinearLayout>

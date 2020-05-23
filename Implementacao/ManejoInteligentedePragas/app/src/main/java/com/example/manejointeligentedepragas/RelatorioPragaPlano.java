@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -176,7 +177,13 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                 break;
 
             case R.id.drawerTutorial:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
 
+                Intent intro = new Intent(this, IntroActivity.class);
+                startActivity(intro);
                 break;
 
             case R.id.drawerSobre:

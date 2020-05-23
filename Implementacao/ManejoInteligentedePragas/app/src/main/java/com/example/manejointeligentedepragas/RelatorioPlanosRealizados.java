@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -197,7 +198,13 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
                 break;
 
             case R.id.drawerTutorial:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
 
+                Intent intro = new Intent(this, IntroActivity.class);
+                startActivity(intro);
                 break;
 
             case R.id.drawerSobre:
@@ -334,7 +341,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 if(!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CONTACTS)) {
-                    showMessageOKCancel("Você precisa conceder permissão para armazenamento. Deseja fazer isso?",
+                    showMessageOKCancel("Para salvar relatórios pela primeira vez, você precisa conceder permissão para armazenamento. Relatórios serão armazenados na pasta MIP, localizada na memória interna do celular. Deseja fazer isso?",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -437,7 +444,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             RelatorioPlanosRealizados.this.startActivity(intent);
         } else {
-            Toast.makeText(RelatorioPlanosRealizados.this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RelatorioPlanosRealizados.this, "Você não possui um aplicativo para abrir o PDF, baixe um para abrir o relatório.", Toast.LENGTH_SHORT).show();
         }
 
     }

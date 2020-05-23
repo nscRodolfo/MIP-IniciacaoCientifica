@@ -1,6 +1,7 @@
 package com.example.manejointeligentedepragas;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -152,7 +153,13 @@ public class Cadastro extends AppCompatActivity implements NavigationView.OnNavi
                 break;
 
             case R.id.drawerTutorial:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
 
+                Intent intro = new Intent(this, IntroActivity.class);
+                startActivity(intro);
                 break;
 
             case R.id.drawerSobre:

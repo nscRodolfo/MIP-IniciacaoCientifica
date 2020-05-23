@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -197,7 +198,13 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
                 break;
 
             case R.id.drawerTutorial:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
 
+                Intent intro = new Intent(this, IntroActivity.class);
+                startActivity(intro);
                 break;
 
             case R.id.drawerSobre:
@@ -337,7 +344,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 if(!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CONTACTS)) {
-                    showMessageOKCancel("Você precisa conceder permissão para armazenamento. Deseja fazer isso?",
+                    showMessageOKCancel("Para salvar relatórios pela primeira vez, você precisa conceder permissão para armazenamento. Relatórios serão armazenados na pasta MIP, localizada na memória interna do celular. Deseja fazer isso?",
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

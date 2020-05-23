@@ -5,6 +5,7 @@ package com.example.manejointeligentedepragas;
         import android.app.Dialog;
         import android.content.DialogInterface;
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.graphics.drawable.ColorDrawable;
         import android.support.annotation.NonNull;
         import android.support.design.widget.NavigationView;
@@ -174,7 +175,13 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
                 break;
 
             case R.id.drawerTutorial:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
 
+                Intent intro = new Intent(this, IntroActivity.class);
+                startActivity(intro);
                 break;
 
             case R.id.drawerSobre:

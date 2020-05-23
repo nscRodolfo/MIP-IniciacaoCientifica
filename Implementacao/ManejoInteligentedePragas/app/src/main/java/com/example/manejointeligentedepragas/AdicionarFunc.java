@@ -88,7 +88,7 @@ public class AdicionarFunc extends AppCompatActivity implements NavigationView.O
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
-        setTitle("MIP² | "+nomePropriedade);
+        setTitle("MIP² | Adicionar funcionário");
 
         etEmail = findViewById(R.id.etEmailAddFunc);
         etSenha = findViewById(R.id.etSenhaAddFunc);

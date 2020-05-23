@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -265,8 +266,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 startActivity(i);
                 break;
             case R.id.drawerProp:
-                Intent prop= new Intent(this, Propriedades.class);
-                startActivity(prop);
+                exibirCaixaDialogoOnPropPressed();
                 break;
 
             case R.id.drawerPlantas:
@@ -290,7 +290,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 break;
 
             case R.id.drawerTutorial:
-
+                exibirCaixaDialogoOnMenuPressed();
                 break;
 
             case R.id.drawerSobre:
@@ -535,6 +535,59 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
                 startActivity(i);
+            }
+        });
+
+        dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // não faz nada
+            }
+        });
+
+        dlgBox.show();
+
+    }
+
+    public void exibirCaixaDialogoOnMenuPressed()
+    {
+        AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
+        dlgBox.setTitle("ATENÇÃO!");
+        dlgBox.setMessage("Caso abra o turotial o plano de amostragem será cancelado, deseja fazer isso?");
+        dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
+
+                Intent intro = new Intent(PlanoDeAmostragem.this, IntroActivity.class);
+                startActivity(intro);
+            }
+        });
+
+        dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // não faz nada
+            }
+        });
+
+        dlgBox.show();
+
+    }
+
+    public void exibirCaixaDialogoOnPropPressed()
+    {
+        AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
+        dlgBox.setTitle("ATENÇÃO!");
+        dlgBox.setMessage("Caso vá para a tela de propriedades o plano de amostragem será cancelado, deseja fazer isso?");
+        dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent prop= new Intent(PlanoDeAmostragem.this, Propriedades.class);
+                startActivity(prop);
             }
         });
 

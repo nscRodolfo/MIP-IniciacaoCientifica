@@ -15,8 +15,19 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".RelatorioAplicacoesPlanos2"></activity>
+        android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+
+        >
+        <activity android:name=".IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".RelatorioAplicacoesPlanos2" />
         <activity android:name=".SelecionaPragaRelatorioAplicacoesRealizadas" />
         <activity android:name=".SelecionaPragaPlanosRealizados" />
         <activity android:name=".RelatorioAplicacoesRealizadas" />
@@ -55,12 +66,7 @@
         <activity android:name=".Cadastro" />
         <activity android:name=".Entrar" />
         <activity android:name=".MainActivity">
-            //android:theme="@style/AppTheme.NoActionBar"
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <provider
