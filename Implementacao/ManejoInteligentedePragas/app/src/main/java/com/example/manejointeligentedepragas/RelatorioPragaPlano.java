@@ -239,7 +239,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                 String dataFormatadaAplicacao = formataDataBR.format(dataContagem.get(indexInfos));
                 AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPragaPlano.this);
                 dlgBox.setTitle("Informações:");
-                dlgBox.setMessage("\nData : "+dataFormatadaAplicacao+"\n\nPlantas amostradas: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
+                dlgBox.setMessage("\nData : "+dataFormatadaAplicacao+"\n\nNúmero de amostras: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
                 dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -11,7 +11,8 @@
     Atinge.NivelDeEquilibrio, 
     Atinge.NumeroPlantasAmostradas,
     Atinge.PontosPorTalhao, 
-    Atinge.PlantasPorPonto FROM Atinge, Cultura
+    Atinge.PlantasPorPonto,
+    Atinge.NumAmostras FROM Atinge, Cultura
     WHERE Cultura.Cod_Cultura = '$Cod_Cultura'
     and Cultura.fk_Planta_Cod_Planta = Atinge.fk_Planta_Cod_Planta
     and Atinge.fk_Praga_Cod_Praga = '$Cod_Praga'";
@@ -27,7 +28,8 @@
         "PontosPorTalhao" => $ed->PontosPorTalhao,
         "PlantasPorPonto" => $ed->PlantasPorPonto,
         "NivelDanoEconomico" => $ed->NivelDanoEconomico,
-        "NivelDeEquilibrio" => $ed->NivelDeEquilibrio);
+        "NivelDeEquilibrio" => $ed->NivelDeEquilibrio,
+        "NumAmostras" => $ed->NumAmostras);
         //$ed->Cod_Usuario entr no obj ed e pega atributo Cod_Usuario
     }
     echo json_encode($resultado);

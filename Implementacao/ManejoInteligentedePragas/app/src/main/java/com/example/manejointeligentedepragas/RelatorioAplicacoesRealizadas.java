@@ -394,7 +394,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
         table.addCell("Método de controle");
         table.addCell("Data da aplicação");
         table.addCell("Plantas infestadas");
-        table.addCell("Plantas amostradas");
+        table.addCell("Número de amostras");
         table.setHeaderRows(1);
 
         PdfPCell[] cells = table.getRow(0).getCells();

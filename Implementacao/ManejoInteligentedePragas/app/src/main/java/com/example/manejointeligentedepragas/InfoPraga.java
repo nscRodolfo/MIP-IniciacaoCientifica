@@ -146,7 +146,6 @@ public class InfoPraga extends AppCompatActivity implements NavigationView.OnNav
                 }
 
                 dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot));
-
             }
 
             @Override

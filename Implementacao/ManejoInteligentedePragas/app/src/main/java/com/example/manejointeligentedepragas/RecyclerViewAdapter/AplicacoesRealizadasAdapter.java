@@ -46,7 +46,7 @@ public class AplicacoesRealizadasAdapter extends RecyclerView.Adapter<Aplicacoes
         holder.tvMetodoUtiizado.setText("Método aplicado: "+aplicacoes.get(position).getMetodoAplicado());
         holder.tvDataAplicacao.setText("Data da aplicação: " + aplicacoes.get(position).getData());
         holder.tvNumPlantasAplicacoesRealizadas.setText("Plantas infestadas: " + aplicacoes.get(position).getPopPragas());
-        holder.tvPopPragasAplicacoesRealizadas.setText("Plantas amostradas: " + aplicacoes.get(position).getNumPlantas());
+        holder.tvPopPragasAplicacoesRealizadas.setText("Número de amostras: " + aplicacoes.get(position).getNumPlantas());
     }
 
     @Override

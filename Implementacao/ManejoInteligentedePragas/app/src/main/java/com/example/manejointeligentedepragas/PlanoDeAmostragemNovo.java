@@ -8,23 +8,19 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,10 +34,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
-import com.example.manejointeligentedepragas.ImageAdapter.ViewPagerAdapter;
 import com.example.manejointeligentedepragas.model.PlanoAmostragemModel;
 import com.example.manejointeligentedepragas.model.PragaModel;
-import com.itextpdf.text.pdf.parser.Line;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,11 +48,9 @@ import java.util.Date;
 
 
 
-public class PlanoDeAmostragem extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class PlanoDeAmostragemNovo extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "PlanoDeAmostragem";
-
-    ArrayList<String> urlsPragas = new ArrayList<>();
 
     int codPropriedade;
     int codPraga;
@@ -67,7 +59,6 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     String nomePraga;
     boolean aplicado;
     String nomePropriedade;
-    int numAmostras;
 
     int plantasTalhao;
     int pontosTalhao;
@@ -80,8 +71,6 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     TextView tvplantaPonto;
     TextView tvContagemTalhoes;
     TextView tvContagemPlantas;
-    TextView tvNumAmostras;
-    TextView tvContagemNumAmostras;
 
     Button presencaPraga;
     Button ausenciaPraga;
@@ -99,7 +88,6 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     int countInfestacao=0;
     int countPlantas=1;
     int countTalhao=1;
-    int contAmostra=1;
 
     //data
     SimpleDateFormat formataData = new SimpleDateFormat("yyyy-MM-dd");
@@ -123,7 +111,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plano_de_amostragem);
+        setContentView(R.layout.activity_plano_de_amostragem_novo);
         openDialog();
 
         codPropriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
@@ -134,17 +122,15 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
-        tvplantasTalhao = findViewById(R.id.tvNPlantasPorTalhao);
-        tvplantaPonto = findViewById(R.id.tvNPlantasPorPonto);
-        tvpontosTalhao = findViewById(R.id.tvNPontosPorTalhao);
-        tvNumAmostras = findViewById(R.id.tvNumAostras);
+        tvplantasTalhao = findViewById(R.id.tvNPlantasPorTalhao_novo);
+        tvplantaPonto = findViewById(R.id.tvNPlantasPorPonto_novo);
+        tvpontosTalhao = findViewById(R.id.tvNPontosPorTalhao_novo);
 
-        tvContagemPlantas = findViewById(R.id.tvContagemPlantas);
-        tvContagemTalhoes = findViewById(R.id.tvContagemTalhoes);
-        tvContagemNumAmostras = findViewById(R.id.tvContagemAmostras);
+        tvContagemPlantas = findViewById(R.id.tvContagemPlantas_novo);
+        tvContagemTalhoes = findViewById(R.id.tvContagemTalhoes_novo);
 
-        presencaPraga = findViewById(R.id.btnPresencaPraga);
-        ausenciaPraga = findViewById(R.id.btnAusenciaPraga);
+        presencaPraga = findViewById(R.id.btnPresencaPraga_novo);
+        ausenciaPraga = findViewById(R.id.btnAusenciaPraga_novo);
         imgInfo = findViewById(R.id.ImgInfo);
 
         setTitle("MIP² | "+nomePraga);
@@ -155,21 +141,19 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
 
         tvContagemPlantas.setText(String.valueOf(countPlantas));
         tvContagemTalhoes.setText(String.valueOf(countTalhao));
-        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
 
-
-        btnTalhaoAnterior = findViewById(R.id.btnTalhaoAnterior);
-        btnTalhaoSuperior = findViewById(R.id.btnTalhaoSuperior);
-        btnCorrigir = findViewById(R.id.btnCorrige);
+        btnTalhaoAnterior = findViewById(R.id.btnTalhaoAnterior_novo);
+        btnTalhaoSuperior = findViewById(R.id.btnTalhaoSuperior_novo);
+        btnCorrigir = findViewById(R.id.btnCorrige_novo);
 
         btnTalhaoAnterior.setVisibility(View.INVISIBLE);
         btnCorrigir.setVisibility(View.INVISIBLE);
 
         //menu novo
-        Toolbar toolbar = findViewById(R.id.toolbar_plano_de_amostragem);
+        Toolbar toolbar = findViewById(R.id.toolbar_plano_de_amostragem_novo);
         setSupportActionBar(toolbar);
-        drawerLayout= findViewById(R.id.drawer_layout_plano_de_amostragem);
-        NavigationView navigationView = findViewById(R.id.nav_view_plano_de_amostragem);
+        drawerLayout= findViewById(R.id.drawer_layout_plano_de_amostragem_novo);
+        NavigationView navigationView = findViewById(R.id.nav_view_plano_de_amostragem_novo);
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -191,55 +175,20 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         ausenciaPraga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(numAmostras == 1){
-                    ultimoClick = false; // saber qual click foi para a correção
-                    countPlantas++;
-                    tvContagemPlantas.setText(String.valueOf(countPlantas));
-                    checarTalhao();
-                }else{
-                    if(contAmostra == numAmostras){
-                        ultimoClick = false; // saber qual click foi para a correção
-                        contAmostra = 1;
-                        countPlantas++;
-                        tvContagemPlantas.setText(String.valueOf(countPlantas));
-                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
-                        checarTalhao();
-                    }else{
-                        ultimoClick = false; // saber qual click foi para a correção
-                        contAmostra ++;
-                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
-                        checarTalhao();
-                    }
-
-                }
+                ultimoClick = false; // saber qual click foi para a correção
+                countPlantas++;
+                tvContagemPlantas.setText(String.valueOf(countPlantas));
+                checarTalhao();
             }
         });
         presencaPraga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(numAmostras == 1){
-                    ultimoClick = true; // saber qual click foi para a correção
-                    countInfestacao++;
-                    countPlantas++;
-                    tvContagemPlantas.setText(String.valueOf(countPlantas));
-                    checarTalhao();
-                }else{
-                    if(contAmostra == numAmostras){
-                        ultimoClick = true; // saber qual click foi para a correção
-                        contAmostra = 1;
-                        countPlantas++;
-                        countInfestacao++;
-                        tvContagemPlantas.setText(String.valueOf(countPlantas));
-                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
-                        checarTalhao();
-                    }else{
-                        ultimoClick = true; // saber qual click foi para a correção
-                        contAmostra ++;
-                        countInfestacao++;
-                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
-                        checarTalhao();
-                    }
-                }
+                ultimoClick = true; // saber qual click foi para a correção
+                countInfestacao++;
+                countPlantas++;
+                tvContagemPlantas.setText(String.valueOf(countPlantas));
+                checarTalhao();
             }
         });
 
@@ -260,31 +209,12 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         btnCorrigir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(numAmostras == 1){
-                    countPlantas--;
-                    if(ultimoClick){
-                        countInfestacao--;
-                    }
-                    tvContagemPlantas.setText(String.valueOf(countPlantas));
-                    btnCorrigir.setVisibility(View.INVISIBLE);
-                }else{
-                    if(contAmostra == 1){
-                        countPlantas--;
-                        if(ultimoClick){
-                            countInfestacao--;
-                        }
-                        tvContagemPlantas.setText(String.valueOf(countPlantas));
-                        btnCorrigir.setVisibility(View.INVISIBLE);
-                    }else{
-                        contAmostra --;
-                        if(ultimoClick){
-                            countInfestacao--;
-                        }
-                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
-                        btnCorrigir.setVisibility(View.INVISIBLE);
-                    }
+                countPlantas--;
+                if(ultimoClick){
+                    countInfestacao--;
                 }
-
+                tvContagemPlantas.setText(String.valueOf(countPlantas));
+                btnCorrigir.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -403,35 +333,24 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                             pontosTalhao = obj.getInt("PontosPorTalhao");
                             plantaPonto = obj.getInt("PlantasPorPonto");
                             nivelControle = obj.getDouble("NivelDeControle");
-                            numAmostras = obj.getInt("NumAmostras");
-                        }
-                        if(numAmostras!=1){
-                            tvContagemNumAmostras.setVisibility(View.VISIBLE);
-                            tvNumAmostras.setVisibility(View.VISIBLE);
-                            tvplantasTalhao.setText(String.valueOf(plantasTalhao));
-                            tvplantaPonto.setText(String.valueOf(plantaPonto));
-                            tvpontosTalhao.setText(String.valueOf(pontosTalhao));
-
-                        }else{
-                            tvplantasTalhao.setText(String.valueOf(plantasTalhao));
-                            tvplantaPonto.setText(String.valueOf(plantaPonto));
-                            tvpontosTalhao.setText(String.valueOf(pontosTalhao));
                         }
 
-
+                        tvplantasTalhao.setText(String.valueOf(plantasTalhao));
+                        tvplantaPonto.setText(String.valueOf(plantaPonto));
+                        tvpontosTalhao.setText(String.valueOf(pontosTalhao));
                         ResgatarTalhao(codCultura);
                         mDialog.dismiss();
 
                     } catch (JSONException e) {
                         mDialog.dismiss();
-                        Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(PlanoDeAmostragemNovo.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     mDialog.dismiss();
-                    Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PlanoDeAmostragemNovo.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
 
@@ -465,14 +384,14 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                         }
                     } catch (JSONException e) {
                         mDialog.dismiss();
-                        Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(PlanoDeAmostragemNovo.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     mDialog.dismiss();
-                    Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PlanoDeAmostragemNovo.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
 
@@ -482,19 +401,11 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     public void checarTalhao(){
         btnCorrigir.setVisibility(View.VISIBLE);
         if(countPlantas == plantasTalhao+1){
-            if(numAmostras == 1){
-                PlanoAmostragemModel pa = new PlanoAmostragemModel(dataFormatada,countInfestacao,countPlantas-1,codTalhoes.get(countTalhao-1),codPraga);
-                planos.add(pa);
-                countTalhao++;
-                btnTalhaoAnterior.setVisibility(View.VISIBLE);
-                btnCorrigir.setVisibility(View.INVISIBLE);
-            }else{
-                PlanoAmostragemModel pa = new PlanoAmostragemModel(dataFormatada,countInfestacao,((countPlantas-1)*numAmostras),codTalhoes.get(countTalhao-1),codPraga);
-                planos.add(pa);
-                countTalhao++;
-                btnTalhaoAnterior.setVisibility(View.VISIBLE);
-                btnCorrigir.setVisibility(View.INVISIBLE);
-            }
+            PlanoAmostragemModel pa = new PlanoAmostragemModel(dataFormatada,countInfestacao,countPlantas-1,codTalhoes.get(countTalhao-1),codPraga);
+            planos.add(pa);
+            countTalhao++;
+            btnTalhaoAnterior.setVisibility(View.VISIBLE);
+            btnCorrigir.setVisibility(View.INVISIBLE);
             if(countTalhao == codTalhoes.size()+1){
                 SalvarPlanoAmostragem(planos);
                 //salva plano de amostrgem no banco
@@ -503,23 +414,20 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 btnTalhaoSuperior.setText("Finalizar");
                 countPlantas = 1;
                 countInfestacao = 0;
-                contAmostra = 1;
                 tvContagemPlantas.setText(String.valueOf(countPlantas));
                 tvContagemTalhoes.setText(String.valueOf(countTalhao));
-                tvContagemNumAmostras.setText(String.valueOf(contAmostra));
             }else {
                 countPlantas = 1;
                 countInfestacao = 0;
-                contAmostra = 1;
                 tvContagemPlantas.setText(String.valueOf(countPlantas));
                 tvContagemTalhoes.setText(String.valueOf(countTalhao));
-                tvContagemNumAmostras.setText(String.valueOf(contAmostra));
             }
         }
     }
 
     public void exibirCaixaDialogoProximo()
     {
+
         if(countPlantas == 1){
             AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
             dlgBox.setTitle("Aviso!");
@@ -539,27 +447,18 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
             dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(numAmostras == 1){
-                        PlanoAmostragemModel pa = new PlanoAmostragemModel(dataFormatada, countInfestacao, countPlantas - 1, codTalhoes.get(countTalhao - 1), codPraga);
-                        planos.add(pa);
-                        countTalhao++;
-                        btnTalhaoAnterior.setVisibility(View.VISIBLE);
-                        btnCorrigir.setVisibility(View.INVISIBLE);
-                    }else{
-                        PlanoAmostragemModel pa = new PlanoAmostragemModel(dataFormatada, countInfestacao, ((countPlantas - 1)*numAmostras), codTalhoes.get(countTalhao - 1), codPraga);
-                        planos.add(pa);
-                        countTalhao++;
-                        btnTalhaoAnterior.setVisibility(View.VISIBLE);
-                        btnCorrigir.setVisibility(View.INVISIBLE);
-                    }
+                    PlanoAmostragemModel pa = new PlanoAmostragemModel(dataFormatada, countInfestacao, countPlantas - 1, codTalhoes.get(countTalhao - 1), codPraga);
+                    planos.add(pa);
+                    countTalhao++;
+                    btnTalhaoAnterior.setVisibility(View.VISIBLE);
+                    btnCorrigir.setVisibility(View.INVISIBLE);
+
                     if (countTalhao == codTalhoes.size()) {
                         btnTalhaoSuperior.setText("Finalizar");
                         countPlantas = 1;
                         countInfestacao = 0;
-                        contAmostra = 1;
                         tvContagemPlantas.setText(String.valueOf(countPlantas));
                         tvContagemTalhoes.setText(String.valueOf(countTalhao));
-                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
                     } else if (btnTalhaoSuperior.getText() == "Finalizar") {
                         //salva plano de amostrgem no banco
                         //e passa para a próxima intent
@@ -567,11 +466,10 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                     } else {
                         countPlantas = 1;
                         countInfestacao = 0;
-                        contAmostra = 1;
                         tvContagemPlantas.setText(String.valueOf(countPlantas));
                         tvContagemTalhoes.setText(String.valueOf(countTalhao));
-                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
                     }
+
                     checarTalhao();
                 }
             });
@@ -603,10 +501,8 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                     if(countTalhao == 1){
                         btnTalhaoAnterior.setVisibility(View.INVISIBLE);
                     }
-                    contAmostra = 1;
                     countPlantas = 1;
                     countInfestacao = 0;
-                    tvContagemNumAmostras.setText(String.valueOf(contAmostra));
                     tvContagemPlantas.setText(String.valueOf(countPlantas));
                     tvContagemTalhoes.setText(String.valueOf(countTalhao));
                 }
@@ -632,7 +528,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent i = new Intent(PlanoDeAmostragem.this, AcoesCultura.class);
+                Intent i = new Intent(PlanoDeAmostragemNovo.this, AcoesCultura.class);
                 i.putExtra("Cod_Propriedade", codPropriedade);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
@@ -666,7 +562,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 editor.putBoolean("isIntroOpened",false);
                 editor.commit();
 
-                Intent intro = new Intent(PlanoDeAmostragem.this, IntroActivity.class);
+                Intent intro = new Intent(PlanoDeAmostragemNovo.this, IntroActivity.class);
                 startActivity(intro);
             }
         });
@@ -690,7 +586,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent prop= new Intent(PlanoDeAmostragem.this, Propriedades.class);
+                Intent prop= new Intent(PlanoDeAmostragemNovo.this, Propriedades.class);
                 startActivity(prop);
             }
         });
@@ -715,10 +611,8 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 countPlantas = 1;
-                countInfestacao = 0;
-                contAmostra = 1;
+                countInfestacao =0;
                 tvContagemPlantas.setText(String.valueOf(countPlantas));
-                tvContagemNumAmostras.setText(String.valueOf(contAmostra));
                 btnCorrigir.setVisibility(View.INVISIBLE);
             }
         });
@@ -738,20 +632,20 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         //verifica todos os talhões, se qualquer um tiver o nível de controle atingido, é necessário o controle em toda cultura
         if(countTalhao ==1)
         {
-                // cálculo para conferir o nível de controle
-                int ci = countInfestacao;
-                int cp = countPlantas;
-                double dCI;
-                double dCP;
-                dCI = (double)ci;
-                dCP = (double)cp;
-                double porcentagemInfestadas = (dCI/ dCP);
-                //Toast.makeText(PlanoDeAmostragem.this, ""+porcentagemInfestadas,Toast.LENGTH_LONG).show();
-                if(porcentagemInfestadas >= nivelControle){
-                    controla = true;
-                }
+            // cálculo para conferir o nível de controle
+            int ci = countInfestacao;
+            int cp = countPlantas;
+            double dCI;
+            double dCP;
+            dCI = (double)ci;
+            dCP = (double)cp;
+            double porcentagemInfestadas = (dCI/ dCP);
+            //Toast.makeText(PlanoDeAmostragem.this, ""+porcentagemInfestadas,Toast.LENGTH_LONG).show();
+            if(porcentagemInfestadas >= nivelControle){
+                controla = true;
+            }
         }else
-            {
+        {
             for(int j=0; j<planos.size();j++)
             {
                 // cálculo da regra de 3 para conferir o nível de controle
@@ -799,7 +693,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                             JSONObject obj1 = new JSONObject(response);
                             boolean confirmacao = obj1.getBoolean("confirmacao");
                             if(confirmacao){
-                                Intent i = new Intent(PlanoDeAmostragem.this, ConfirmacaoPlanoAmostragem.class);
+                                Intent i = new Intent(PlanoDeAmostragemNovo.this, ConfirmacaoPlanoAmostragem.class);
                                 i.putExtra("Cod_Propriedade", codPropriedade);
                                 i.putExtra("Cod_Cultura", codCultura);
                                 i.putExtra("NomeCultura", nome);
@@ -811,18 +705,18 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                                 startActivity(i);
                             }else{
                                 mDialog.dismiss();
-                                Toast.makeText(PlanoDeAmostragem.this, "Plano de amostragem não cadastrado! Tente novamente",Toast.LENGTH_LONG).show();
+                                Toast.makeText(PlanoDeAmostragemNovo.this, "Plano de amostragem não cadastrado! Tente novamente",Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             mDialog.dismiss();
-                            Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(PlanoDeAmostragemNovo.this, e.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         mDialog.dismiss();
-                        Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(PlanoDeAmostragemNovo.this,error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }));
 
@@ -854,82 +748,17 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                         }
                     } catch (JSONException e) {
                         mDialog.dismiss();
-                        Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(PlanoDeAmostragemNovo.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     mDialog.dismiss();
-                    Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PlanoDeAmostragemNovo.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
         }
-    }
-
-    public void ResgatarFotoAmostra(final ViewPager viewPager, int codP){
-        Utils u = new Utils();
-        if (!u.isConected(getBaseContext())) {
-            mDialog.dismiss();
-            Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
-        } else { // se tem acesso à internet
-
-            String url = "http://mip2.000webhostapp.com/resgatarFotoAmostra.php?Cod_Praga="+codP;
-
-            RequestQueue queue = Volley.newRequestQueue(PlanoDeAmostragem.this);
-            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-                    //Parsing json
-                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
-                    try {
-                        JSONArray array = new JSONArray(response);
-                        for (int i = 0; i < array.length(); i++) {
-                            JSONObject obj = array.getJSONObject(i);
-                            urlsPragas.add("http://mip2.000webhostapp.com/imagens/amostras/"+obj.getString("FotoAmostra"));
-                        }
-                        ViewPagerAdapter adapterAmostras = new ViewPagerAdapter(PlanoDeAmostragem.this,urlsPragas);
-                        viewPager.setAdapter(adapterAmostras);
-                    } catch (JSONException e) {
-                        mDialog.dismiss();
-                        Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    mDialog.dismiss();
-                    Toast.makeText(PlanoDeAmostragem.this, error.toString(), Toast.LENGTH_LONG).show();
-                }
-            }));
-        }
-    }
-
-    public void ExibeAmostra(){
-        AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
-        dlgBox.setTitle("Amostra: ");
-
-        LayoutInflater inflater= LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.imagem_amostra, null);
-        TextView textview = (TextView)view.findViewById(R.id.textmsg);
-        textview.setText(amostra+"\n");
-        ViewPager viewPager = (ViewPager)view.findViewById(R.id.ViewPagerAmostra);
-
-        ResgatarFotoAmostra(viewPager, codPraga);
-        //ImageView showImg = new ImageView(this);
-        //ImageView showImg = (ImageView)view.findViewById(R.id.imgView);
-        //showImg.setImageResource(R.drawable.mineiro);
-        dlgBox.setView(view);
-        //dlgBox.setMessage(amostra+"\n");
-        dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        dlgBox.show();
     }
 
     public void ResgatarDataUltimoPlano(int codPraga, final int codCultura){
@@ -955,43 +784,55 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                             ultimoPlano = obj.getString("Data");
                         }
                         if(ultimoPlano!=null) {
-                                //compare to volta 0 se forem iguais ou numero negativo/positivo se o dia for menor/maior
-                                if (dataFormatada.equals(ultimoPlano)) {
-                                    AlertDialog.Builder dlgBox = new AlertDialog.Builder(PlanoDeAmostragem.this);
-                                    dlgBox.setCancelable(false);
-                                    dlgBox.setTitle("Aviso!");
-                                    dlgBox.setMessage("Você já realizou uma contagem dessa praga hoje, por favor espere até amanhã para realizar uma nova contagem.");
-                                    dlgBox.setPositiveButton("Voltar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent i = new Intent(PlanoDeAmostragem.this, AcoesCultura.class);
-                                            i.putExtra("Cod_Propriedade", codPropriedade);
-                                            i.putExtra("Cod_Cultura", codCultura);
-                                            i.putExtra("NomeCultura", nome);
-                                            i.putExtra("Aplicado", aplicado);
-                                            i.putExtra("nomePropriedade", nomePropriedade);
-                                            startActivity(i);
-                                        }
-                                    });
-                                    dlgBox.show();
-                                }
+                            //compare to volta 0 se forem iguais ou numero negativo/positivo se o dia for menor/maior
+                            if (dataFormatada.equals(ultimoPlano)) {
+                                AlertDialog.Builder dlgBox = new AlertDialog.Builder(PlanoDeAmostragemNovo.this);
+                                dlgBox.setCancelable(false);
+                                dlgBox.setTitle("Aviso!");
+                                dlgBox.setMessage("Você já realizou uma contagem dessa praga hoje, por favor espere até amanhã para realizar uma nova contagem.");
+                                dlgBox.setPositiveButton("Voltar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent i = new Intent(PlanoDeAmostragemNovo.this, AcoesCultura.class);
+                                        i.putExtra("Cod_Propriedade", codPropriedade);
+                                        i.putExtra("Cod_Cultura", codCultura);
+                                        i.putExtra("NomeCultura", nome);
+                                        i.putExtra("Aplicado", aplicado);
+                                        i.putExtra("nomePropriedade", nomePropriedade);
+                                        startActivity(i);
+                                    }
+                                });
+                                dlgBox.show();
+                            }
                         }
                     } catch (JSONException e) {
                         mDialog.dismiss();
-                        Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(PlanoDeAmostragemNovo.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     mDialog.dismiss();
-                    Toast.makeText(PlanoDeAmostragem.this,error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PlanoDeAmostragemNovo.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
         }
     }
 
+    public void ExibeAmostra(){
+        AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
+        dlgBox.setTitle("Amostra:");
+        dlgBox.setMessage(amostra);
+        dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
+
+        dlgBox.show();
+    }
 
     public void openDialog(){
         mDialog = new Dialog(this);

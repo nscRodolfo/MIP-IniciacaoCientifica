@@ -6,13 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".AplicaMetodoDeControle"
     android:id="@+id/drawer_layout_aplicaMetodo"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <TextView
+            android:id="@+id/tvConfMetodo2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="72dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/aplicar_m_todo_que_n_o_est_na_base_de_dados"
+            android:textColor="#659251"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnInfoMetodo" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_aplicaMetodo"
@@ -86,6 +100,34 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="#659251"
+            android:padding="9dp"
+            android:text="@string/aplicar_este_m_todo"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etNovoMetodo" />
+
+        <EditText
+            android:id="@+id/etNovoMetodo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:hint="@string/novo_m_todo"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfMetodo2"
+            android:autofillHints="" />
 
     </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.NavigationView

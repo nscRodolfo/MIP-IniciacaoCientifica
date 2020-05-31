@@ -62,7 +62,7 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
 
         holder.tvAutor.setText("Autor: "+planos.get(position).getAutor());
         holder.tvData.setText("Data do plano: "+planos.get(position).getDate());
-        holder.tvPlantas.setText("Plantas amostradas: " + planos.get(position).getPlantasAmostradas());
+        holder.tvPlantas.setText("Número de amostras: " + planos.get(position).getPlantasAmostradas());
         holder.tvPopPragas.setText("Plantas infestadas: " + planos.get(position).getPlantasInfestadas());
     }
 

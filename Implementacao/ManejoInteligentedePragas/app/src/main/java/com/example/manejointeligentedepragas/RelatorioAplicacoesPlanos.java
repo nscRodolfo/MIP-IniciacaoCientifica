@@ -130,7 +130,7 @@ public class RelatorioAplicacoesPlanos extends AppCompatActivity {
 
                 AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioAplicacoesPlanos.this);
                 dlgBox.setTitle("Informações:");
-                dlgBox.setMessage("\nMétodo aplicado: "+metodos.get(indexInfos)+"\n\nData da aplicação: "+dataFormatadaAplicacao+"\n\nPlantas amostradas: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos) + "\n\nData da última contagem: "+dataFormatadaPlano);
+                dlgBox.setMessage("\nMétodo aplicado: "+metodos.get(indexInfos)+"\n\nData da aplicação: "+dataFormatadaAplicacao+"\n\nNúmero de amostras: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos) + "\n\nData da última contagem: "+dataFormatadaPlano);
                 dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

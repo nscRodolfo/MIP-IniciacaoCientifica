@@ -390,7 +390,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
         table.addCell("Autor");
         table.addCell("Data do plano de amostragem");
         table.addCell("Plantas infestadas");
-        table.addCell("Plantas amostradas");
+        table.addCell("Número de amostras");
         table.setHeaderRows(1);
 
         PdfPCell[] cells = table.getRow(0).getCells();

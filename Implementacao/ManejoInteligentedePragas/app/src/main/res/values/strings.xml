@@ -145,5 +145,8 @@
     <string name="aplica_es_realizadas">Aplicações realizadas</string>
     <string name="seuemail_exemplo_com">seuEmail@exemplo.com</string>
     <string name="sobre_o_mipii">Sobre o MIP</string>
+    <string name="aplicar_m_todo_que_n_o_est_na_base_de_dados">Aplicar método que não está na base de dados:</string>
+    <string name="aplicar_este_m_todo">Aplicar este método</string>
+    <string name="novo_m_todo">Novo método</string>
     >
 </resources>
