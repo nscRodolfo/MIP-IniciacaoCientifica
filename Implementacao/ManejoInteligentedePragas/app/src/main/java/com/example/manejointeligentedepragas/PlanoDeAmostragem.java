@@ -657,7 +657,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     {
         AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
         dlgBox.setTitle("ATENÇÃO!");
-        dlgBox.setMessage("Caso abra o turotial o plano de amostragem será cancelado, deseja fazer isso?");
+        dlgBox.setMessage("Caso abra o tutotial o plano de amostragem será cancelado, deseja fazer isso?");
         dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -889,8 +889,13 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                             JSONObject obj = array.getJSONObject(i);
                             urlsPragas.add("http://mip2.000webhostapp.com/imagens/amostras/"+obj.getString("FotoAmostra"));
                         }
-                        ViewPagerAdapter adapterAmostras = new ViewPagerAdapter(PlanoDeAmostragem.this,urlsPragas);
-                        viewPager.setAdapter(adapterAmostras);
+                        if(urlsPragas.size()>0){
+                            ViewPagerAdapter adapterAmostras = new ViewPagerAdapter(PlanoDeAmostragem.this,urlsPragas);
+                            viewPager.setAdapter(adapterAmostras);
+                        }else{
+                            viewPager.setVisibility(View.GONE);
+                        }
+
                     } catch (JSONException e) {
                         mDialog.dismiss();
                         Toast.makeText(PlanoDeAmostragem.this, e.toString(), Toast.LENGTH_LONG).show();
