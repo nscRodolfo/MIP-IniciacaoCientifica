@@ -23,10 +23,32 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvDataPlanosRealizados"
+        android:id="@+id/tvNomeCultura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvAutorPlano"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/cultura"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTalhaoPlano"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNomeCultura"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/talh_o"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDataPlanosRealizados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTalhaoPlano"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/data"

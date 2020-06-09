@@ -27,6 +27,8 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
     String nome;
     boolean aplicado;
     String nomePropriedade;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     RelativeLayout rlPragasContagem;
     RelativeLayout rlPlanosAmostragem;
@@ -45,6 +47,8 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_relatorio);
@@ -68,7 +72,7 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
         emailMenu.setText(emailUsu);
 
 
-        setTitle("MIP² | Relatórios "+nome);
+        setTitle("MIP² | Relatórios "+nome+": "+NomeTalhao);
         rlPragasContagem = findViewById(R.id.rlRelatoriosPragasContagens);
         rlPlanosAmostragem = findViewById(R.id.rlRelatoriosPlanosDeAmostragem);
         rlCaldasAplicadas = findViewById(R.id.rlCaldasAplicadas);
@@ -78,6 +82,8 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Relatorios.this, SelecionaPragaRelatorioPragaPlano.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -91,6 +97,8 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Relatorios.this, SelecionaPragaPlanosRealizados.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -105,6 +113,8 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
             public void onClick(View v) {
                 //intent aplicações realizadas na cultura
                 Intent i = new Intent(Relatorios.this, SelecionaPragaRelatorioAplicacoesRealizadas.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -119,6 +129,8 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
             public void onClick(View v) {
                 // intent grafico aplicações
                 Intent i = new Intent(Relatorios.this, SelecionaPragaRelatorioAplicacoesPlanos.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);

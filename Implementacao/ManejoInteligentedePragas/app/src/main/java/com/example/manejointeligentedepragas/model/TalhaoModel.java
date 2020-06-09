@@ -2,15 +2,28 @@ package com.example.manejointeligentedepragas.model;
 
 public class TalhaoModel {
     private int Cod_Talhao;
+    private String Nome;
+    private boolean aplicado;
     private String NumeroDePlantas;
     private int  fk_Cod_Cultura;
     private int fk_Cod_Planta;
 
-    public TalhaoModel(int cod_Talhao, String numeroDePlantas, int fk_Cod_Cultura, int fk_Cod_Planta) {
+    public TalhaoModel(int cod_Talhao,String Nome, String numeroDePlantas, int fk_Cod_Cultura, int fk_Cod_Planta, boolean aplicado) {
         this.Cod_Talhao = cod_Talhao;
+        this.Nome = Nome;
+        this.aplicado = aplicado;
         this.NumeroDePlantas = numeroDePlantas;
         this.fk_Cod_Cultura = fk_Cod_Cultura;
         this.fk_Cod_Planta = fk_Cod_Planta;
+    }
+
+    public TalhaoModel(){
+        this.Cod_Talhao = 0;
+        this.Nome = null;
+        this.aplicado = false;
+        this.NumeroDePlantas = null;
+        this.fk_Cod_Cultura = 0;
+        this.fk_Cod_Planta = 0;
     }
 
     public int getCod_Talhao() {
@@ -43,5 +56,21 @@ public class TalhaoModel {
 
     public void setFk_Cod_Planta(int fk_Cod_Planta) {
         this.fk_Cod_Planta = fk_Cod_Planta;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+
+    public void setNome(String nome) {
+        Nome = nome;
+    }
+
+    public boolean isAplicado() {
+        return aplicado;
+    }
+
+    public void setAplicado(boolean aplicado) {
+        this.aplicado = aplicado;
     }
 }

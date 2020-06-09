@@ -63,6 +63,8 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
     String nomePropriedade;
     boolean aplicado;
     String nome;
+    int Cod_Talhao;
+    String NomeTalhao;
     ArrayList<String> pragasAdd = new ArrayList<String>();
     private Dialog mDialog;
 
@@ -94,6 +96,8 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
 
         openDialog();
 
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
@@ -121,7 +125,7 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
-        setTitle("MIP² | "+nome);
+        setTitle("MIP² | "+nome+": "+NomeTalhao);
 
         resgatarDados();
 
@@ -130,6 +134,8 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Pragas.this, AdicionarPraga.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -145,6 +151,8 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Pragas.this, AdicionarPraga.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -164,6 +172,8 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
             Intent i = new Intent(Pragas.this, AcoesCultura.class);
+            i.putExtra("Cod_Talhao", Cod_Talhao);
+            i.putExtra("NomeTalhao", NomeTalhao);
             i.putExtra("Cod_Cultura", codCultura);
             i.putExtra("NomeCultura", nome);
             i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -227,7 +237,7 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
 
     private void iniciarRecyclerView() {
         RecyclerView rv = findViewById(R.id.RVPraga);
-        PragaCardAdapter adapter = new PragaCardAdapter(this, cards, codCultura, nome, Cod_Propriedade, aplicado, nomePropriedade);
+        PragaCardAdapter adapter = new PragaCardAdapter(this, cards, Cod_Talhao, NomeTalhao, codCultura, nome, Cod_Propriedade, aplicado, nomePropriedade);
 
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -243,7 +253,7 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
             mDialog.dismiss();
         } else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Cultura=" + codCultura;
+            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Talhao=" + Cod_Talhao;
 
             RequestQueue queue = Volley.newRequestQueue(Pragas.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

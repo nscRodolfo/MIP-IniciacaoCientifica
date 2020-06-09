@@ -13,19 +13,21 @@ import com.example.manejointeligentedepragas.R;
 import com.example.manejointeligentedepragas.model.AplicacaoModel;
 import com.example.manejointeligentedepragas.model.PlanoAmostragemModel;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 public class AplicacoesRealizadasAdapter extends RecyclerView.Adapter<AplicacoesRealizadasAdapter.ViewHolder>{
 
     private ArrayList<AplicacaoModel> aplicacoes = new ArrayList<>();
     private Context aplicacoesContext;
-    private int codCultura;
-    private int codPraga;
+    private String nomeCultura;
+    private String nomeTalhao;
 
-    public AplicacoesRealizadasAdapter(Context aplicacoesContext,ArrayList<AplicacaoModel> aplicacoes, int codCultura, int codPraga){
+    public AplicacoesRealizadasAdapter(Context aplicacoesContext,ArrayList<AplicacaoModel> aplicacoes, String nomeCultura, String nomeTalhao){
         this.aplicacoes = aplicacoes;
         this.aplicacoesContext = aplicacoesContext;
-        this.codCultura = codCultura;
-        this.codPraga = codPraga;
+        this.nomeCultura = nomeCultura;
+        this.nomeTalhao = nomeTalhao;
     }
 
     @NonNull
@@ -47,6 +49,9 @@ public class AplicacoesRealizadasAdapter extends RecyclerView.Adapter<Aplicacoes
         holder.tvDataAplicacao.setText("Data da aplicação: " + aplicacoes.get(position).getData());
         holder.tvNumPlantasAplicacoesRealizadas.setText("Plantas infestadas: " + aplicacoes.get(position).getPopPragas());
         holder.tvPopPragasAplicacoesRealizadas.setText("Número de amostras: " + aplicacoes.get(position).getNumPlantas());
+        holder.tvTalhao.setText("Talhão: "+nomeTalhao);
+        holder.tvCultura.setText("Cultura: "+nomeCultura);
+
     }
 
     @Override
@@ -61,6 +66,8 @@ public class AplicacoesRealizadasAdapter extends RecyclerView.Adapter<Aplicacoes
         TextView tvDataAplicacao;
         TextView tvNumPlantasAplicacoesRealizadas;
         TextView tvPopPragasAplicacoesRealizadas;
+        TextView tvTalhao;
+        TextView tvCultura;
 
         RelativeLayout parent_layout_aplicacoes_realizadas;
 
@@ -73,6 +80,9 @@ public class AplicacoesRealizadasAdapter extends RecyclerView.Adapter<Aplicacoes
             tvNumPlantasAplicacoesRealizadas = itemView.findViewById(R.id.tvNumPlantasAplicacoesRealizadas);
             tvPopPragasAplicacoesRealizadas = itemView.findViewById(R.id.tvPopPragasAplicacoesRealizadas);
             parent_layout_aplicacoes_realizadas = itemView.findViewById(R.id.parent_layout_aplicacoes_realizadas);
+            tvTalhao = itemView.findViewById(R.id.tvTalhaoAplicacao);
+            tvCultura = itemView.findViewById(R.id.tvCulturaAplicacao);
+
 
         }
     }

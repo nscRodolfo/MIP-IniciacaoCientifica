@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,27 +20,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.manejointeligentedepragas.AcoesCultura;
-import com.example.manejointeligentedepragas.AdicionarCultura;
-import com.example.manejointeligentedepragas.AdicionarPropriedade;
-import com.example.manejointeligentedepragas.AplicaMetodoDeControle;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.Cultura;
-import com.example.manejointeligentedepragas.Pragas;
-import com.example.manejointeligentedepragas.Propriedades;
 import com.example.manejointeligentedepragas.R;
+import com.example.manejointeligentedepragas.Talhoes;
 import com.example.manejointeligentedepragas.model.CulturaModel;
-import com.example.manejointeligentedepragas.model.PropriedadeModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.ViewHolder>{
 
@@ -52,7 +42,6 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
     private int Cod_Propriedade;
     private String nomePropriedade;
 
-    String diasPraContagem;
 
     public CulturaCardAdapter(Context culturaContext, ArrayList<CulturaModel> cards, int Cod_Propriedade, String nomePropriedade) {
         this.cards = cards;
@@ -78,8 +67,8 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
 
         holder.plantaCultura.setText(cards.get(position).getnomePlanta());
         holder.numTalhao.setText("Número de talhões: " + cards.get(position).getNumeroTalhoes());
+        holder.tamanhoCultura.setText("Tamanho da cultura: "+cards.get(position).getTamanhoCultura());
 
-        CalculaDiasPraContagem(cards.get(position).getCod_Cultura(), holder, position);
 
         Controller_Usuario cu = new Controller_Usuario(culturaContext);
 
@@ -99,14 +88,13 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick:  clicked on: ");
-                Intent i = new Intent(culturaContext, AcoesCultura.class);
+                Intent i = new Intent(culturaContext, Talhoes.class);
 
                 // chama a intent nesse adapter
                 // pega o contexr do construtor
                 i.putExtra("Cod_Cultura", cards.get(position).getCod_Cultura());
                 i.putExtra("NomeCultura", cards.get(position).getnomePlanta());
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
-                i.putExtra("Aplicado", cards.get(position).isAplicado());
                 i.putExtra("nomePropriedade", nomePropriedade);
 
                 culturaContext.startActivity(i);
@@ -124,7 +112,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
 
         TextView plantaCultura;
         TextView numTalhao;
-        TextView contagem;
+        TextView tamanhoCultura;
 
         RelativeLayout parent_layout_cultura;
 
@@ -135,7 +123,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
 
             plantaCultura = itemView.findViewById(R.id.tvCultura);
             numTalhao = itemView.findViewById(R.id.tvNumTalhoes);
-            contagem = itemView.findViewById(R.id.tvContagem);
+            tamanhoCultura = itemView.findViewById(R.id.tvTamanhoCultura);
 
             parent_layout_cultura = itemView.findViewById(R.id.parent_layout_cultura);
 
@@ -203,42 +191,4 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
         }));
     }
 
-
-    public void CalculaDiasPraContagem(int Cod_Cultura, final ViewHolder holder, final int position){
-        Utils u = new Utils();
-        if(!u.isConected(culturaContext))
-        {
-            Toast.makeText(culturaContext,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
-        }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/diasParaContagem.php?Cod_Cultura=" + Cod_Cultura;
-            RequestQueue queue = Volley.newRequestQueue(culturaContext);
-            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
-                        JSONArray array = new JSONArray(response);
-                        for (int i = 0; i< array.length(); i++){
-                            JSONObject obj = array.getJSONObject(i);
-                            diasPraContagem = obj.getString("DiasPraContagem");
-                        }
-
-                        holder.contagem.setText("Dias para a contagem: " + diasPraContagem );
-                        if(diasPraContagem.equals("0")){
-                            cards.get(position).setAplicado(false);
-                        }
-
-                    } catch (JSONException e) {
-                        Toast.makeText(culturaContext, e.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(culturaContext,error.toString(), Toast.LENGTH_LONG).show();
-                }
-            }));
-        }
-    }
 }

@@ -33,6 +33,10 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
 
     int Cod_Propriedade;
     String nomePropriedade;
+    int Cod_Talhao;
+    String NomeTalhao;
+    int codCultura;
+    String nome;
 
     boolean aplicado;
 
@@ -41,8 +45,6 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acoes_cultura);
 
-        Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
-        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
 
         /*
         View actionBar = getLayoutInflater().inflate(R.layout.actionbar, null);
@@ -57,8 +59,12 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setCustomView(R.layout.actionbar);
         */
 
-        final int codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
-        final String nome = getIntent().getStringExtra("NomeCultura");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
+        nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
 
         rlGR= findViewById(R.id.rlGR);
@@ -85,13 +91,15 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
-        setTitle("MIP² | "+nome);
+        setTitle("MIP² | "+nome+": "+NomeTalhao);
 
         rlVPA = findViewById(R.id.rlVPA);
         rlVPA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AcoesCultura.this, Pragas.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -106,6 +114,8 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AcoesCultura.this, RealizarPlano.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -114,13 +124,12 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
                 startActivity(i);
             }
         });
-
-
-
         rlGR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AcoesCultura.this, Relatorios.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -136,9 +145,12 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
-            Intent i = new Intent(AcoesCultura.this,Cultura.class);
+            Intent i = new Intent(AcoesCultura.this,Talhoes.class);
             i.putExtra("Cod_Propriedade", Cod_Propriedade);
             i.putExtra("nomePropriedade", nomePropriedade);
+            i.putExtra("Cod_Cultura", codCultura);
+            i.putExtra("NomeCultura", nome);
+            i.putExtra("Aplicado", aplicado);
             startActivity(i);
         }
     }

@@ -46,6 +46,8 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
     String nome;
     boolean aplicado;
     String nomePropriedade;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     TextView tvMetodo;
     Spinner dropdown;
@@ -82,6 +84,8 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
         tvMetodo = findViewById(R.id.tvConfMetodo);
         dropdown = findViewById(R.id.dropdownConfMetodo);
@@ -117,6 +121,8 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AplicaMetodoDeControle.this, AcoesCultura.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Propriedade", codPropriedade);
                 i.putExtra("Cod_Cultura", codCultura);
                 i.putExtra("NomeCultura", nome);
@@ -269,7 +275,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
         }
     }
 
-    public void FuncaoAplicacao(int codCultura, int codPraga, int codMetodo, String data){
+    public void FuncaoAplicacao(int cod_Talhao, int codPraga, int codMetodo, String data){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
@@ -278,7 +284,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
             Controller_Usuario cu = new Controller_Usuario(getBaseContext());
             String Autor = cu.getUser().getNome();
 
-            String url = "http://mip2.000webhostapp.com/aplicacao.php?Cod_Praga=" + codPraga + "&&Cod_Cultura="+ codCultura + "&&Data=" + data + "&&Cod_Metodo="+codMetodo+"&&Autor="+Autor;
+            String url = "http://mip2.000webhostapp.com/aplicacao.php?Cod_Praga=" + codPraga + "&&Cod_Talhao="+ cod_Talhao + "&&Data=" + data + "&&Cod_Metodo="+codMetodo+"&&Autor="+Autor;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -324,9 +330,11 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
                             dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    FuncaoAplicacao(codCultura,codPraga,codSelecionado,dataFormatada);
+                                    FuncaoAplicacao(Cod_Talhao,codPraga,codSelecionado,dataFormatada);
                                     aplicado = true;
                                     Intent i = new Intent(AplicaMetodoDeControle.this, Pragas.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Propriedade", codPropriedade);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
@@ -337,9 +345,11 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
                             });
                             dlgBox.show();
                         }else{
-                            FuncaoAplicacao(codCultura,codPraga,codSelecionado,dataFormatada);
+                            FuncaoAplicacao(Cod_Talhao,codPraga,codSelecionado,dataFormatada);
                             aplicado = true;
                             Intent i = new Intent(AplicaMetodoDeControle.this, Pragas.class);
+                            i.putExtra("Cod_Talhao", Cod_Talhao);
+                            i.putExtra("NomeTalhao", NomeTalhao);
                             i.putExtra("Cod_Propriedade", codPropriedade);
                             i.putExtra("Cod_Cultura", codCultura);
                             i.putExtra("NomeCultura", nome);

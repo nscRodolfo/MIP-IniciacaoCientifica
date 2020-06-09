@@ -2,12 +2,12 @@
     include "conexao.php";
 
     // pega a variavel da url passada no aplicativo android
-    $Cod_Cultura = $_GET['Cod_Cultura'];
+    $Cod_Talhao = $_GET['Cod_Talhao'];
 
     // seleciona a propriedade
     $sql = "SELECT Praga.Nome, Praga.Cod_Praga, PresencaPraga.Status
                 from Praga, PresencaPraga
-                WHERE PresencaPraga.fk_Cultura_Cod_Cultura = '$Cod_Cultura' 
+                WHERE PresencaPraga.fk_Talhao_Cod_Talhao = '$Cod_Talhao' 
                 and PresencaPraga.fk_Praga_Cod_Praga = Praga.Cod_Praga
                 ORDER BY PresencaPraga.Status DESC";
     

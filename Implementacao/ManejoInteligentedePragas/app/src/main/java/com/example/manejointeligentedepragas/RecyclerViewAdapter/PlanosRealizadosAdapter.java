@@ -36,14 +36,14 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
 
     private ArrayList<PlanoAmostragemModel> planos = new ArrayList<>();
     private Context planosContext;
-    private int codCultura;
-    private int codPraga;
+    private String NomeCultura;
+    private String NomeTalhao;
 
-    public PlanosRealizadosAdapter(Context planosContext,ArrayList<PlanoAmostragemModel> planos, int codCultura, int codPraga){
+    public PlanosRealizadosAdapter(Context planosContext,ArrayList<PlanoAmostragemModel> planos, String NomeCultura, String NomeTalhao){
         this.planos = planos;
         this.planosContext = planosContext;
-        this.codCultura = codCultura;
-        this.codPraga = codPraga;
+        this.NomeCultura = NomeCultura;
+        this.NomeTalhao = NomeTalhao;
     }
 
     @NonNull
@@ -64,6 +64,8 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
         holder.tvData.setText("Data do plano: "+planos.get(position).getDate());
         holder.tvPlantas.setText("Número de amostras: " + planos.get(position).getPlantasAmostradas());
         holder.tvPopPragas.setText("Plantas infestadas: " + planos.get(position).getPlantasInfestadas());
+        holder.tvCultura.setText("Cultura: " + NomeCultura);
+        holder.tvTalhao.setText("Talhão: "+NomeTalhao);
     }
 
     @Override
@@ -77,6 +79,8 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
         TextView tvPlantas;
         TextView tvPopPragas;
         TextView tvAutor;
+        TextView tvCultura;
+        TextView tvTalhao;
 
         RelativeLayout parent_layout_planos_realizados;
 
@@ -88,6 +92,8 @@ public class PlanosRealizadosAdapter extends RecyclerView.Adapter<PlanosRealizad
             tvPlantas = itemView.findViewById(R.id.tvNumPlantasPlanosRealizados);
             tvAutor = itemView.findViewById(R.id.tvAutorPlano);
             parent_layout_planos_realizados = itemView.findViewById(R.id.parent_layout_planos_realizados);
+            tvCultura = itemView.findViewById(R.id.tvNomeCultura);
+            tvTalhao = itemView.findViewById(R.id.tvTalhaoPlano);
 
         }
     }

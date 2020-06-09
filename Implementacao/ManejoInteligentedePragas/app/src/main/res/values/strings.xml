@@ -148,5 +148,13 @@
     <string name="aplicar_m_todo_que_n_o_est_na_base_de_dados">Aplicar método que não está na base de dados:</string>
     <string name="aplicar_este_m_todo">Aplicar este método</string>
     <string name="novo_m_todo">Novo método</string>
+    <string name="talhao_x">Talhao X</string>
+    <string name="dias_para_contagem_0">Dias para contagem: 0</string>
+    <string name="adicionar_talh_o">Adicionar Talhão</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="encontrado">Encontrado</string>
+    <string name="n_o_encontrado">Não encontrado</string>
+    <string name="amostra">Amostra:</string>
+    <string name="tamanho_da_cultura">Tamanho da Cultura:</string>
     >
 </resources>

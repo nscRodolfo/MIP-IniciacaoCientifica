@@ -49,12 +49,15 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
     boolean controla;
     boolean aplicado;
     String nomePropriedade;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     int codPragaComparacaoAux;
 
     TextView tvMostraCultura;
     TextView tvMostraPraga;
     TextView tvMostraControla;
+    TextView tvMostraTalhao;
 
     Button btnSalvar;
     private Dialog mDialog;
@@ -76,16 +79,20 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
         controla = getIntent().getBooleanExtra("Controla",false);
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
         tvMostraCultura = findViewById(R.id.tvConfMostraCultura);
         tvMostraPraga = findViewById(R.id.tvConfMostraPraga);
         tvMostraControla = findViewById(R.id.tvConfMostraControle);
+        tvMostraTalhao = findViewById(R.id.tvConfMostraTalhao);
         btnSalvar = findViewById(R.id.btnConfSalvaMetodo);
 
         tvMostraCultura.setText(nome);
         tvMostraPraga.setText(nomePraga);
+        tvMostraTalhao.setText(NomeTalhao);
 
-        buscaCodPraga(codCultura);
+        buscaCodPraga(Cod_Talhao);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_confPlano);
@@ -116,6 +123,8 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
                 if(controla){
                     if(aplicado){
                         Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, Pragas.class);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
                         i.putExtra("Cod_Propriedade", codPropriedade);
                         i.putExtra("Cod_Cultura", codCultura);
                         i.putExtra("NomeCultura", nome);
@@ -124,6 +133,8 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
                         startActivity(i);
                     }else{
                         Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, AplicaMetodoDeControle.class);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
                         i.putExtra("Cod_Propriedade", codPropriedade);
                         i.putExtra("Cod_Cultura", codCultura);
                         i.putExtra("NomeCultura", nome);
@@ -134,6 +145,8 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
                     }
                 }else{
                     Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, Pragas.class);
+                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                    i.putExtra("NomeTalhao", NomeTalhao);
                     i.putExtra("Cod_Propriedade", codPropriedade);
                     i.putExtra("Cod_Cultura", codCultura);
                     i.putExtra("NomeCultura", nome);
@@ -153,6 +166,8 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
             Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, AcoesCultura.class);
+            i.putExtra("Cod_Talhao", Cod_Talhao);
+            i.putExtra("NomeTalhao", NomeTalhao);
             i.putExtra("Cod_Propriedade", codPropriedade);
             i.putExtra("Cod_Cultura", codCultura);
             i.putExtra("NomeCultura", nome);
@@ -214,7 +229,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
     }
 
 
-    public void buscaCodPraga(final int codCultura){
+    public void buscaCodPraga(final int cod_Talhao){
         // selecionar o código da praga da ultima aplicação, para saber em qual praga foi aplicada e não mudar pra vermelho
         // quando já tiver alguma aplicação já realizada nela
         // mudando também o texto que aparece na tela
@@ -224,7 +239,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
             mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/buscaCodPraga.php?Cod_Cultura="+ codCultura ;
+            String url = "http://mip2.000webhostapp.com/buscaCodPraga.php?Cod_Talhao="+ cod_Talhao ;
             final RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
@@ -245,22 +260,22 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
                             if(codPragaComparacaoAux == codPraga){
                                 tvMostraControla.setText("É necessário o controle, porém percebemos que uma aplicação foi realizada recentemente para esta praga. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
                                 btnSalvar.setText("OK");
-                                alteraStatus(codCultura, codPraga,1); //1 = amarelo
+                                alteraStatus(cod_Talhao, codPraga,1); //1 = amarelo
                             }else{
                                 tvMostraControla.setText("É necessário o controle, porém percebemos que um método de controle foi aplicado recentemente. Aguarde o intervalo recomendado entre as aplicações para evitar fitotoxidez na cultura.");
                                 btnSalvar.setText("OK");
-                                alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
+                                alteraStatus(cod_Talhao, codPraga, 2); //2 = vermelho precisa de controle
                             }
                         }else{
                             tvMostraControla.setText("É necessário o controle.");
                             btnSalvar.setText("Selecionar método");
-                            alteraStatus(codCultura, codPraga, 2); //2 = vermelho precisa de controle
+                            alteraStatus(cod_Talhao, codPraga, 2); //2 = vermelho precisa de controle
                         }
                     }else{
                         tvMostraControla.setText("Não é necessário realizar nenhum tipo de controle, a praga está controlada.");
                         btnSalvar.setText("OK");
                         //altera status praga
-                        alteraStatus(codCultura, codPraga, 0); //0 = não precisa de controle
+                        alteraStatus(cod_Talhao, codPraga, 0); //0 = não precisa de controle
                     }
                 }
             }, new Response.ErrorListener() {
@@ -273,14 +288,14 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
         }
     }
 
-    public void alteraStatus(int codCultura, int codPraga, int status){
+    public void alteraStatus(int cod_Talhao, int codPraga, int status){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
             mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/alteraStatus.php?Cod_Praga=" + codPraga + "&&Cod_Cultura="+ codCultura + "&&Status=" + status;
+            String url = "http://mip2.000webhostapp.com/alteraStatus.php?Cod_Praga=" + codPraga + "&&Cod_Talhao="+ cod_Talhao + "&&Status=" + status;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 

@@ -52,6 +52,8 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
     String nome;
     boolean aplicado;
     String nomePropriedade;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     Integer codigoSelecionado;
     String nomeSelecionado;
@@ -73,6 +75,8 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
 
         //menu novo
@@ -96,9 +100,9 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
-        setTitle("MIP² | "+nome);
+        setTitle("MIP² | "+nome+": "+NomeTalhao);
 
-        ResgatarPragas(dropdown, codCultura);
+        ResgatarPragas(dropdown, Cod_Talhao);
 
         selecionar = findViewById(R.id.btnSelecionaSelecionarPragaPA);
 
@@ -114,6 +118,8 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 startActivity(i);
             }
         });
@@ -196,14 +202,14 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
 
 
 
-    public void ResgatarPragas(final Spinner dropdown, final int codCultura){
+    public void ResgatarPragas(final Spinner dropdown, final int cod_Talhao){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
             mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Cultura=" + codCultura;
+            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Talhao=" + cod_Talhao;
 
 
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -232,6 +238,8 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
                                 public void onClick(DialogInterface dialog, int which) {
                                     ArrayList<String> pragasAdd = new ArrayList<String>();
                                     Intent i = new Intent(SelecionaPragaRelatorioPragaPlano.this, AdicionarPraga.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -246,6 +254,8 @@ public class SelecionaPragaRelatorioPragaPlano extends AppCompatActivity impleme
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(SelecionaPragaRelatorioPragaPlano.this, AcoesCultura.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);

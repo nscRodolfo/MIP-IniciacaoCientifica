@@ -5,7 +5,7 @@
     $codPropriedade = $_GET['Cod_Propriedade'];
 
     // seleciona a propriedade
-    $sql = "SELECT Cultura.Cod_Cultura, Cultura.Aplicado,
+    $sql = "SELECT Cultura.Cod_Cultura, Cultura.TamanhoDaCultura,
                  Cultura.fk_Propriedade_Cod_Propriedade, 
                   Planta.Nome, count(*) as count_talhao
                    from Cultura, Planta, Talhao
@@ -19,7 +19,7 @@
 
     while ($ed = $dados->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed
     {
-        $resultado [] = array("Cod_Cultura" => $ed->Cod_Cultura, "fk_Propriedade_Cod_Propriedade" => $ed->fk_Propriedade_Cod_Propriedade, "NomePlanta" => $ed->Nome, "count_talhao" => $ed->count_talhao ,"Aplicado" => $ed ->Aplicado);
+        $resultado [] = array("Cod_Cultura" => $ed->Cod_Cultura, "fk_Propriedade_Cod_Propriedade" => $ed->fk_Propriedade_Cod_Propriedade, "NomePlanta" => $ed->Nome, "count_talhao" => $ed->count_talhao, "TamanhoDaCultura" => $ed->TamanhoDaCultura);
         //$ed->Cod_Usuario entr no obj ed e pega atributo Cod_Usuario
     }
     echo json_encode($resultado);

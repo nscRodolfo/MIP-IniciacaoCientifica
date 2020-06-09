@@ -46,11 +46,14 @@ public class SelecionaPragaPlanosRealizados extends AppCompatActivity implements
     ArrayList<String> nomePraga = new ArrayList<String>();
     ArrayList<Integer> codPraga = new ArrayList<Integer>();
 
+
     int Cod_Propriedade;
     int codCultura;
     String nome;
     boolean aplicado;
     String nomePropriedade;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     Integer codigoSelecionado;
     String nomeSelecionado;
@@ -75,6 +78,8 @@ public class SelecionaPragaPlanosRealizados extends AppCompatActivity implements
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_SPPR);
@@ -99,9 +104,9 @@ public class SelecionaPragaPlanosRealizados extends AppCompatActivity implements
 
 
 
-        setTitle("MIP² | "+nome);
+        setTitle("MIP² | "+nome+": "+NomeTalhao);
 
-        ResgatarPragas(dropdown, codCultura);
+        ResgatarPragas(dropdown, Cod_Talhao);
 
         selecionar = findViewById(R.id.btnSelecionaSelecionarPragaPR);
 
@@ -117,6 +122,8 @@ public class SelecionaPragaPlanosRealizados extends AppCompatActivity implements
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 startActivity(i);
             }
         });
@@ -196,14 +203,14 @@ public class SelecionaPragaPlanosRealizados extends AppCompatActivity implements
         return true;
     }
 
-    public void ResgatarPragas(final Spinner dropdown, final int codCultura){
+    public void ResgatarPragas(final Spinner dropdown, final int cod_Talhao){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
             mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Cultura=" + codCultura;
+            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Talhao=" + cod_Talhao;
 
 
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -232,6 +239,8 @@ public class SelecionaPragaPlanosRealizados extends AppCompatActivity implements
                                 public void onClick(DialogInterface dialog, int which) {
                                     ArrayList<String> pragasAdd = new ArrayList<String>();
                                     Intent i = new Intent(SelecionaPragaPlanosRealizados.this, AdicionarPraga.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -246,6 +255,8 @@ public class SelecionaPragaPlanosRealizados extends AppCompatActivity implements
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(SelecionaPragaPlanosRealizados.this, AcoesCultura.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);

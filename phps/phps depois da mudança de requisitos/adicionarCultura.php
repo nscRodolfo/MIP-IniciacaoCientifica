@@ -8,7 +8,7 @@
     $qtdTalhao = $_GET['qtdTalhao'];
 
     
-        $sql2 = "CALL addCulturaTalhao(:TAMANHO, :PROPRIEDADE, :PLANTA, :QTD);";
+        $sql2 = "CALL addCulturaTalhaoPosRequisito(:TAMANHO, :PROPRIEDADE, :PLANTA, :QTD);";
 
         // prepara o statment
         $stmt = $PDO->prepare($sql2);

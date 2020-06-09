@@ -2,12 +2,12 @@
     include "conexao.php";
 
     // pega a variavel da url passada no aplicativo android
-    $Cod_Cultura = $_GET['Cod_Cultura'];
+    $Cod_Talhao = $_GET['Cod_Talhao'];
 
     $sql = "SELECT Aplicacao.fk_Praga_Cod_Praga
     FROM Aplicacao
     WHERE Aplicacao.Data = (SELECT MAX(Aplicacao.Data) FROM Aplicacao)
-    AND Aplicacao.fk_Cultura_Cod_Cultura = '$Cod_Cultura'";
+    AND Aplicacao.fk_Talhao_Cod_Talhao = '$Cod_Talhao'";
     
 
     $dados = $PDO->query($sql);

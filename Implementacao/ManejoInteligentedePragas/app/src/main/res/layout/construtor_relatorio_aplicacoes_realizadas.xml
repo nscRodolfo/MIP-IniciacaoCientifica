@@ -21,10 +21,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvMetodoUtiizado"
+        android:id="@+id/tvCulturaAplicacao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvAutorAplicacao"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"
+        android:text="@string/cultura" />
+
+    <TextView
+        android:id="@+id/tvTalhaoAplicacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvCulturaAplicacao"
+        android:text="@string/talh_o"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tvMetodoUtiizado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTalhaoAplicacao"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/m_todo_aplicado"

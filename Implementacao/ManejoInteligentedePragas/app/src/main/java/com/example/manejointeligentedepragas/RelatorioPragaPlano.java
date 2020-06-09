@@ -74,6 +74,8 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
     boolean aplicado;
     String nomePropriedade;
     String nomePraga;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     ArrayList<Integer> popPragas = new ArrayList<Integer>();
     ArrayList<Integer> numPlantas = new ArrayList<Integer>();
@@ -105,6 +107,8 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         nomePraga = getIntent().getStringExtra("nomePraga");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_RPP);
@@ -131,7 +135,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
         setTitle("MIP² | "+nome+" x "+nomePraga);
 
         LineChart chart = findViewById(R.id.graph);
-        resgataDados(codCultura,codPraga,chart);
+        resgataDados(Cod_Talhao,codPraga,chart);
     }
 
 
@@ -239,7 +243,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                 String dataFormatadaAplicacao = formataDataBR.format(dataContagem.get(indexInfos));
                 AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioPragaPlano.this);
                 dlgBox.setTitle("Informações:");
-                dlgBox.setMessage("\nData : "+dataFormatadaAplicacao+"\n\nNúmero de amostras: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
+                dlgBox.setMessage("\nCultura: "+nome+"\n\nTalhão: "+NomeTalhao+"\n\nData : "+dataFormatadaAplicacao+"\n\nNúmero de amostras: "+numPlantas.get(indexInfos)+"\n\nPlantas infestadas: "+popPragas.get(indexInfos));
                 dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -270,14 +274,14 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
     }
 
 
-    public void resgataDados(final int codCultura, final int codPraga, final LineChart graph){
+    public void resgataDados(final int Cod_Talhao, final int codPraga, final LineChart graph){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
+            String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Talhao="+Cod_Talhao+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -315,6 +319,8 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                                     i.putExtra("Cod_Praga", codPraga);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     startActivity(i);
                                 }
                             });
@@ -327,6 +333,8 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     startActivity(i);
                                 }
                             });

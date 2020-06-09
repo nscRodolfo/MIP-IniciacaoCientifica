@@ -14,12 +14,13 @@
         android:label="MIP²"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:screenOrientation="portrait"
-        >
-        <activity android:name=".PlanoDeAmostragemNovo"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".AdicionarTalhao"></activity>
+        <activity android:name=".Talhoes" />
+        <activity android:name=".PlanoDeAmostragemNovo" />
         <activity
             android:name=".IntroActivity"
             android:hardwareAccelerated="false">
@@ -50,7 +51,9 @@
         <activity android:name=".ConfirmacaoPlanoAmostragem" />
         <activity android:name=".InfoPraga" />
         <activity android:name=".VisualizaPragas" />
-        <activity android:name=".PlanoDeAmostragem" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".PlanoDeAmostragem"
+            android:screenOrientation="portrait" />
         <activity android:name=".RealizarPlano" />
         <activity android:name=".SobreMIP" />
         <activity android:name=".VisualizaFuncionario" />
@@ -65,7 +68,7 @@
         <activity android:name=".Propriedades" />
         <activity android:name=".Cadastro" />
         <activity android:name=".Entrar" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

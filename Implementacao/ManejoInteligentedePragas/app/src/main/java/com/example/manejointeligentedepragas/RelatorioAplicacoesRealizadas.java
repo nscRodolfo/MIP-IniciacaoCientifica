@@ -79,6 +79,8 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
     boolean aplicado;
     String nomePropriedade;
     String nomePraga;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     private ArrayList<AplicacaoModel> aplicacoes = new ArrayList<>();
 
@@ -128,6 +130,8 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         nomePraga = getIntent().getStringExtra("nomePraga");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_RAR);
@@ -153,7 +157,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
 
         setTitle("MIP² | "+ nomePraga);
 
-        resgataDados(codCultura, codPraga);
+        resgataDados(Cod_Talhao, codPraga);
     }
 
     @Override
@@ -216,14 +220,14 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
         return true;
     }
 
-    public void resgataDados(final int codCultura, final int codPraga){
+    public void resgataDados(final int Cod_Talhao, final int codPraga){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDadosGraphAplicacao.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
+            String url = "http://mip2.000webhostapp.com/resgataDadosGraphAplicacao.php?Cod_Talhao="+Cod_Talhao+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -261,6 +265,8 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
                                     i.putExtra("Cod_Praga", codPraga);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     startActivity(i);
                                 }
                             });
@@ -273,6 +279,8 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     startActivity(i);
                                 }
                             });
@@ -300,7 +308,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
 
     private void iniciarRecyclerView(){
         RecyclerView rv = findViewById(R.id.rvAplicacoesRealizadas);
-        AplicacoesRealizadasAdapter adapter = new AplicacoesRealizadasAdapter(this, aplicacoes, codCultura,codPraga);
+        AplicacoesRealizadasAdapter adapter = new AplicacoesRealizadasAdapter(this, aplicacoes, nome,NomeTalhao);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -331,8 +339,10 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
             createPdfWrapper();
         }catch(FileNotFoundException e){
             e.printStackTrace();
+            Toast.makeText(RelatorioAplicacoesRealizadas.this, e.toString(), Toast.LENGTH_LONG).show();
         }catch (DocumentException e){
             e.printStackTrace();
+            Toast.makeText(RelatorioAplicacoesRealizadas.this, e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -375,12 +385,12 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
     }
 
     private void createPdf() throws FileNotFoundException, DocumentException {
-        File docsFolder = new File(Environment.getExternalStorageDirectory() + "/mip/Relatórios de aplicação");
+        File docsFolder = new File(Environment.getExternalStorageDirectory() + "/mip/Relatórios de aplicação/"+nome);
         if (!docsFolder.exists()) {
             docsFolder.mkdir();
         }
 
-        String pdfname = nomePropriedade+", "+nome+", "+nomePraga+", data: "+formataDataBR.format(data)+".pdf";
+        String pdfname = nomePropriedade+", "+nome+", "+NomeTalhao+", "+nomePraga+", data: "+formataDataBR.format(data)+".pdf";
         pdfFile = new File(docsFolder.getAbsolutePath(), pdfname);
         OutputStream output = new FileOutputStream(pdfFile);
         Document document = new Document(PageSize.A4);
@@ -427,6 +437,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
         document.add(inicial);
         document.add(new Paragraph("Propriedade: "+ nomePropriedade +"\n", g));
         document.add(new Paragraph("Cultura: "+ nome +"\n", g));
+        document.add(new Paragraph("Talhão: "+NomeTalhao+"\n", g));
         document.add(new Paragraph("Praga: "+ nomePraga +"\n\n", g));
         //document.add(new Paragraph("Pdf File Through Itext", g));
         document.add(table);

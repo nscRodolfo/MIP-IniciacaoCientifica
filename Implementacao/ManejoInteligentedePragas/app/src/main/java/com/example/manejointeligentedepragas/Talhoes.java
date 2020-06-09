@@ -1,27 +1,26 @@
 package com.example.manejointeligentedepragas;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +32,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
+import com.example.manejointeligentedepragas.RecyclerViewAdapter.CulturaCardAdapter;
+import com.example.manejointeligentedepragas.RecyclerViewAdapter.TalhaoCardAdapter;
+import com.example.manejointeligentedepragas.model.CulturaModel;
+import com.example.manejointeligentedepragas.model.TalhaoModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,49 +43,57 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SelecionaPragaRelatorioAplicacoesPlanos extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class Talhoes extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    ArrayList<String> nomePraga = new ArrayList<String>();
-    ArrayList<Integer> codPraga = new ArrayList<Integer>();
+    public FloatingActionButton fabAddTalhao;
+    public TextView tvAddTalhao;
+    public String tipoUsu;
 
-    int Cod_Propriedade;
-    int codCultura;
-    String nome;
-    boolean aplicado;
+    private static final String TAG = "Talhao";
+    private ArrayList<TalhaoModel> cards = new ArrayList<>();
+    Integer Cod_Propriedade;
     String nomePropriedade;
-    int Cod_Talhao;
-    String NomeTalhao;
-
-    Integer codigoSelecionado;
-    String nomeSelecionado;
-
-    Button selecionar;
 
     private Dialog mDialog;
 
     private DrawerLayout drawerLayout;
 
+    boolean aplicado;
+    int codCultura;
+    String nome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seleciona_praga_relatorio_aplicacoes_planos);
+        setContentView(R.layout.activity_talhoes);
+
+        Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
+        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
+        nome = getIntent().getStringExtra("NomeCultura");
+
 
         openDialog();
 
-        Spinner dropdown = findViewById(R.id.dropdownSelecionaSelecionaPragaAplicacao);
-        Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
-        codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
-        nome = getIntent().getStringExtra("NomeCultura");
-        aplicado = getIntent().getBooleanExtra("Aplicado", false);
-        nomePropriedade = getIntent().getStringExtra("nomePropriedade");
-        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
-        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        tvAddTalhao = findViewById(R.id.tvAddTalhao);
+        fabAddTalhao = findViewById(R.id.fabAddTalhao);
+
+        Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+        tipoUsu = cu.getUser().getTipo();
+
+        if(tipoUsu.equals("Funcionario")){
+            tvAddTalhao.setVisibility(View.GONE);
+            fabAddTalhao.hide();
+            resgatarDados();
+        }else if(tipoUsu.equals("Produtor")){
+            resgatarDados();
+        }
 
         //menu novo
-        Toolbar toolbar = findViewById(R.id.toolbar_SPAP);
+        Toolbar toolbar = findViewById(R.id.toolbar_talhoes);
         setSupportActionBar(toolbar);
-        drawerLayout= findViewById(R.id.drawer_layout_SPAP);
-        NavigationView navigationView = findViewById(R.id.nav_view_SPAP);
+        drawerLayout= findViewById(R.id.drawer_layout_talhoes);
+        NavigationView navigationView = findViewById(R.id.nav_view_talhoes);
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -99,41 +110,45 @@ public class SelecionaPragaRelatorioAplicacoesPlanos extends AppCompatActivity i
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
-        setTitle("MIP² | "+nome+": "+NomeTalhao);
+        setTitle("MIP² | "+nomePropriedade);
 
-        ResgatarPragas(dropdown, Cod_Talhao);
-
-        selecionar = findViewById(R.id.btnSelecionaSelecionarPragaAP);
-
-        selecionar.setOnClickListener(new View.OnClickListener() {
+        fabAddTalhao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(SelecionaPragaRelatorioAplicacoesPlanos.this, RelatorioAplicacoesPlanos2.class);
-                i.putExtra("Cod_Praga", codigoSelecionado);
-                i.putExtra("nomePraga", nomeSelecionado);
-                i.putExtra("Cod_Cultura", codCultura);
-                i.putExtra("NomeCultura", nome);
-                i.putExtra("Cod_Propriedade", Cod_Propriedade);
-                i.putExtra("Aplicado", aplicado);
-                i.putExtra("nomePropriedade", nomePropriedade);
-                i.putExtra("Cod_Talhao", Cod_Talhao);
-                i.putExtra("NomeTalhao", NomeTalhao);
-                startActivity(i);
+                Utils u = new Utils();
+                if(!u.isConected(getBaseContext()))
+                {
+                    Toast.makeText(Talhoes.this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
+                }else {
+                    Intent k = new Intent(Talhoes.this, AdicionarTalhao.class);
+                    k.putExtra("Cod_Propriedade", Cod_Propriedade);
+                    k.putExtra("nomePropriedade", nomePropriedade);
+                    k.putExtra("Cod_Cultura", codCultura);
+                    k.putExtra("NomeCultura", nome);
+                    k.putExtra("Aplicado", aplicado);
+                    startActivity(k);
+                }
             }
         });
 
-
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        tvAddTalhao.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                codigoSelecionado = codPraga.get(position);
-                nomeSelecionado = nomePraga.get(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                Utils u = new Utils();
+                if(!u.isConected(getBaseContext()))
+                {
+                    Toast.makeText(Talhoes.this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
+                }else {
+                    Intent k = new Intent(Talhoes.this, AdicionarTalhao.class);
+                    k.putExtra("Cod_Propriedade", Cod_Propriedade);
+                    k.putExtra("nomePropriedade", nomePropriedade);
+                    k.putExtra("Cod_Cultura", codCultura);
+                    k.putExtra("NomeCultura", nome);
+                    k.putExtra("Aplicado", aplicado);
+                    startActivity(k);
+                }
             }
         });
     }
@@ -143,7 +158,10 @@ public class SelecionaPragaRelatorioAplicacoesPlanos extends AppCompatActivity i
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
-            super.onBackPressed();
+            Intent i = new Intent(Talhoes.this,Cultura.class);
+            i.putExtra("Cod_Propriedade", Cod_Propriedade);
+            i.putExtra("nomePropriedade", nomePropriedade);
+            startActivity(i);
         }
     }
 
@@ -198,19 +216,19 @@ public class SelecionaPragaRelatorioAplicacoesPlanos extends AppCompatActivity i
         return true;
     }
 
+    private void resgatarDados(){
+        //Log.d(TAG, "resgatarDados: resgatou");
 
-
-    public void ResgatarPragas(final Spinner dropdown, final int cod_Talhao){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
+            Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Talhao=" + cod_Talhao;
 
+            String url = "http://mip2.000webhostapp.com/resgatarTalhoesTela.php?Cod_Cultura=" + codCultura;
 
-            RequestQueue queue = Volley.newRequestQueue(this);
+            RequestQueue queue = Volley.newRequestQueue(Talhoes.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
                 @Override
@@ -218,72 +236,50 @@ public class SelecionaPragaRelatorioAplicacoesPlanos extends AppCompatActivity i
                     //Parsing json
                     //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
                     try {
-                        //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
                         JSONArray array = new JSONArray(response);
                         for (int i = 0; i< array.length(); i++){
                             JSONObject obj = array.getJSONObject(i);
-                            nomePraga.add(obj.getString("Nome"));
-                            codPraga.add(obj.getInt("Cod_Praga"));
+                            TalhaoModel u = new TalhaoModel();
+                            u.setCod_Talhao(obj.getInt("Cod_Talhao"));
+                            u.setFk_Cod_Cultura(obj.getInt("fk_Cultura_Cod_Cultura"));
+                            u.setFk_Cod_Planta(obj.getInt("fk_Planta_Cod_Planta"));
+                            u.setNome(obj.getString("Nome"));
+                            boolean auxAplicado;
+                            if(obj.getInt("Aplicado") != 0){
+                                auxAplicado = true;
+                            }else{
+                                auxAplicado = false;
+                            }
+                            u.setAplicado(auxAplicado);
+                            cards.add(u);
                         }
+                        iniciarRecyclerView();
                         mDialog.dismiss();
-                        if(nomePraga.size()  == 0 && codPraga.size() == 0){
-                            selecionar.setVisibility(View.INVISIBLE);
-                            AlertDialog.Builder dlgBox = new AlertDialog.Builder(SelecionaPragaRelatorioAplicacoesPlanos.this);
-                            dlgBox.setTitle("Aviso!");
-                            dlgBox.setMessage("Você não possui nenhuma praga cadastrada nessa cultura, deseja adicionar agora?");
-                            dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ArrayList<String> pragasAdd = new ArrayList<String>();
-                                    Intent i = new Intent(SelecionaPragaRelatorioAplicacoesPlanos.this, AdicionarPraga.class);
-                                    i.putExtra("Cod_Talhao", Cod_Talhao);
-                                    i.putExtra("NomeTalhao", NomeTalhao);
-                                    i.putExtra("Cod_Cultura", codCultura);
-                                    i.putExtra("NomeCultura", nome);
-                                    i.putExtra("Cod_Propriedade", Cod_Propriedade);
-                                    i.putExtra("pragasAdd", pragasAdd);
-                                    i.putExtra("Aplicado", aplicado);
-                                    i.putExtra("nomePropriedade", nomePropriedade);
-                                    startActivity(i);
-                                }
-                            });
-
-                            dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(SelecionaPragaRelatorioAplicacoesPlanos.this, AcoesCultura.class);
-                                    i.putExtra("Cod_Talhao", Cod_Talhao);
-                                    i.putExtra("NomeTalhao", NomeTalhao);
-                                    i.putExtra("Cod_Cultura", codCultura);
-                                    i.putExtra("NomeCultura", nome);
-                                    i.putExtra("Cod_Propriedade", Cod_Propriedade);
-                                    i.putExtra("Aplicado", aplicado);
-                                    i.putExtra("nomePropriedade", nomePropriedade);
-                                    startActivity(i);
-                                }
-                            });
-
-                            dlgBox.show();
-                        }
-
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, nomePraga);
-                        dropdown.setAdapter(adapter);
-
-
                     } catch (JSONException e) {
+                        Toast.makeText(Talhoes.this, e.toString(), Toast.LENGTH_LONG).show();
                         mDialog.dismiss();
-                        Toast.makeText(SelecionaPragaRelatorioAplicacoesPlanos.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(Talhoes.this,error.toString(), Toast.LENGTH_LONG).show();
                     mDialog.dismiss();
-                    Toast.makeText(SelecionaPragaRelatorioAplicacoesPlanos.this,error.toString(), Toast.LENGTH_LONG).show();
                 }
             }));
 
         }
+    }
+
+    private void iniciarRecyclerView(){
+
+        Log.d(TAG, "iniciarRecyclerView:  init iniciar");
+        RecyclerView rv = findViewById(R.id.RVTalhoes);
+        TalhaoCardAdapter adapter = new TalhaoCardAdapter(this, cards, codCultura,Cod_Propriedade, nomePropriedade, nome);
+
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     public void openDialog(){

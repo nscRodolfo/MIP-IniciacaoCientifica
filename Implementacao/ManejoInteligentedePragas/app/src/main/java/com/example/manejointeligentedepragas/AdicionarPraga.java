@@ -67,6 +67,10 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
 
     String nome;
 
+    int Cod_Talhao;
+
+    String NomeTalhao;
+
     Button InfoPraga;
 
     private Dialog mDialog;
@@ -80,6 +84,8 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
 
         openDialog();
 
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
@@ -115,7 +121,7 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
-        setTitle("MIP² | "+nome);
+        setTitle("MIP² | "+nome+": "+NomeTalhao);
 
         ResgatarPragas(dropdown, codCultura);
 
@@ -159,6 +165,8 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
             Intent i = new Intent(AdicionarPraga.this,Pragas.class);
+            i.putExtra("Cod_Talhao", Cod_Talhao);
+            i.putExtra("NomeTalhao", NomeTalhao);
             i.putExtra("Cod_Cultura", codCultura);
             i.putExtra("NomeCultura", nome);
             i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -271,14 +279,16 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
         if(!u.isConected(getBaseContext()))
         {
             mDialog.dismiss();
+            click = false;
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else if(pragasAdd.contains(nomeSelecionado)){
             mDialog.dismiss();
+            click = false;
             Toast.makeText(this,"Esta praga já existe em sua cultura.", Toast.LENGTH_LONG).show();
         }else{ // se tem acesso à internet
             click = false;
             String url = "http://mip2.000webhostapp.com/adicionarPraga.php?Cod_Praga="+codigoSelecionado+
-                    "&&Cod_Cultura="+codCultura;
+                    "&&Cod_Talhao="+Cod_Talhao;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -295,6 +305,8 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
                         if(confirmacao){
                             mDialog.dismiss();
                             Intent k = new Intent(AdicionarPraga.this, Pragas.class);
+                            k.putExtra("Cod_Talhao", Cod_Talhao);
+                            k.putExtra("NomeTalhao", NomeTalhao);
                             k.putExtra("Cod_Cultura", codCultura);
                             k.putExtra("NomeCultura", nome);
                             k.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -302,12 +314,14 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
                             k.putExtra("nomePropriedade", nomePropriedade);
                             startActivity(k);
                         }else{
-                            Toast.makeText(AdicionarPraga.this, "Cultura não cadastrada! Tente novamente",Toast.LENGTH_LONG).show();
+                            Toast.makeText(AdicionarPraga.this, "Praga não cadastrada! Tente novamente",Toast.LENGTH_LONG).show();
                             mDialog.dismiss();
+                            click = false;
                         }
                     } catch (JSONException e) {
                         Toast.makeText(AdicionarPraga.this, e.toString(), Toast.LENGTH_LONG).show();
                         mDialog.dismiss();
+                        click = false;
                     }
                 }
             }, new Response.ErrorListener() {
@@ -315,6 +329,7 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(AdicionarPraga.this,error.toString(), Toast.LENGTH_LONG).show();
                     mDialog.dismiss();
+                    click = false;
                 }
             }));
 

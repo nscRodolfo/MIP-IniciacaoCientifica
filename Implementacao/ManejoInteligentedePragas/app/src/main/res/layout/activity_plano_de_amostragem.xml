@@ -97,78 +97,54 @@
         app:layout_constraintTop_toBottomOf="@+id/tvNPontosPorTalhao" />
 
         <TextView
-            android:id="@+id/tvtalhaooo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/talh_o"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvNumAostras"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvContagemTalhoes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/_04"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvNumAostras"
-            app:layout_constraintStart_toEndOf="@+id/tvtalhaooo" />
-
-        <TextView
             android:id="@+id/tvplantaaa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginBottom="24dp"
             android:text="@string/planta"
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvNumAostras"
-            app:layout_constraintEnd_toStartOf="@+id/tvContagemPlantas" />
+            app:layout_constraintBottom_toTopOf="@+id/btnPresencaPraga"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvContagemPlantas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="64dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="24dp"
             android:text="@string/_05"
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvNumAostras"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/btnPresencaPraga"
+            app:layout_constraintStart_toEndOf="@+id/tvplantaaa" />
 
-    <TextView
-        android:id="@+id/tvPalavraAmostragem"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/amostragem"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvtalhaooo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvPalavraAmostragem"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/amostragem"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvplantaaa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/ImgInfo"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="13dp"
-        android:clickable="true"
-        android:contentDescription="@string/imageminfo"
-        android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/tvtalhaooo"
-        app:layout_constraintStart_toEndOf="@+id/tvPalavraAmostragem"
-        app:srcCompat="@drawable/ic_info_tentativa" />
+        <ImageView
+            android:id="@+id/ImgInfo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:contentDescription="@string/imageminfo"
+            android:focusable="true"
+            app:layout_constraintBottom_toTopOf="@+id/tvplantaaa"
+            app:layout_constraintStart_toEndOf="@+id/tvPalavraAmostragem"
+            app:srcCompat="@drawable/ic_info_tentativa" />
 
         <Button
             android:id="@+id/btnPresencaPraga"
@@ -177,7 +153,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginBottom="8dp"
             android:background="#925158"
-            android:text="Encontrado"
+            android:text="@string/encontrado"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/btnCorrige"
             app:layout_constraintStart_toStartOf="parent" />
@@ -189,33 +165,20 @@
             android:layout_marginEnd="34dp"
             android:layout_marginBottom="8dp"
             android:background="#939393"
-            android:text="Não encontrado"
+            android:text="@string/n_o_encontrado"
             android:textColor="#FFFFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/btnCorrige"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/btnTalhaoAnterior"
-            android:layout_width="0dp"
-            android:layout_height="57dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginBottom="16dp"
-            android:background="#659251"
-            android:padding="10dp"
-            android:text="@string/talh_o_anterior"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btnTalhaoSuperior"
+            android:id="@+id/btnFinalizarPlano"
             android:layout_width="0dp"
             android:layout_height="57dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="16dp"
             android:background="#659251"
             android:padding="10dp"
-            android:text="@string/pr_ximo_talh_o"
+            android:text="@string/finalizar"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -230,7 +193,7 @@
             android:background="#659251"
             android:text="@string/corrigir"
             android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/btnTalhaoSuperior"
+            app:layout_constraintBottom_toTopOf="@+id/btnFinalizarPlano"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -240,7 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
-            android:text="Amostra:"
+            android:text="@string/amostra"
             android:textColor="#000000"
             android:textSize="20sp"
             android:visibility="gone"

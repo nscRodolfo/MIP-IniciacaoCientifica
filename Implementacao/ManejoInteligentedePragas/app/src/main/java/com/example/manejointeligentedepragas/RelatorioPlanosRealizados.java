@@ -81,6 +81,8 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
     boolean aplicado;
     String nomePropriedade;
     String nomePraga;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     private ArrayList<PlanoAmostragemModel> planos = new ArrayList<>();
 
@@ -129,6 +131,8 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
         codPraga = getIntent().getIntExtra("Cod_Praga", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         nomePraga = getIntent().getStringExtra("nomePraga");
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_RPR);
@@ -153,7 +157,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
 
         setTitle("MIP² | " + nomePraga);
 
-        resgataDados(codCultura, codPraga);
+        resgataDados(Cod_Talhao, codPraga);
     }
 
     @Override
@@ -216,14 +220,14 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
         return true;
     }
 
-    public void resgataDados(final int codCultura, final int codPraga){
+    public void resgataDados(final int Cod_Talhao, final int codPraga){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
+            String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Talhao="+Cod_Talhao+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -298,7 +302,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
 
     private void iniciarRecyclerView(){
         RecyclerView rv = findViewById(R.id.rvPlanosRealizados);
-        PlanosRealizadosAdapter adapter = new PlanosRealizadosAdapter(this, planos, 1,codCultura);
+        PlanosRealizadosAdapter adapter = new PlanosRealizadosAdapter(this, planos, nome,NomeTalhao);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -372,12 +376,13 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
     }
 
     private void createPdf() throws FileNotFoundException, DocumentException {
-        File docsFolder = new File(Environment.getExternalStorageDirectory() + "/mip/Relatórios de planos de amostragem");
+        File docsFolder = new File(Environment.getExternalStorageDirectory() + "/mip/Relatórios de planos de amostragem/"+nome);
+
         if (!docsFolder.exists()) {
             docsFolder.mkdir();
         }
 
-        String pdfname = nomePropriedade+", "+nome+", "+nomePraga+", data: "+formataDataBR.format(data)+".pdf";
+        String pdfname = nomePropriedade+", "+nome+", "+NomeTalhao+", "+nomePraga+", data: "+formataDataBR.format(data)+".pdf";
         pdfFile = new File(docsFolder.getAbsolutePath(), pdfname);
         OutputStream output = new FileOutputStream(pdfFile);
         Document document = new Document(PageSize.A4);
@@ -423,6 +428,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
         document.add(inicial);
         document.add(new Paragraph("Propriedade: "+ nomePropriedade +"\n", g));
         document.add(new Paragraph("Cultura: "+ nome +"\n", g));
+        document.add(new Paragraph("Talhão: "+NomeTalhao+"\n", g));
         document.add(new Paragraph("Praga: "+ nomePraga +"\n\n", g));
         document.add(table);
 
@@ -431,6 +437,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
     }
 
     private void previewPdf(){
+
         PackageManager packageManager = RelatorioPlanosRealizados.this.getPackageManager();
         Intent testIntent = new Intent(Intent.ACTION_VIEW);
         testIntent.setType("application/pdf");

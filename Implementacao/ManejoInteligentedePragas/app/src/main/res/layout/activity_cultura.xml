@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout_cultura"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    >
 
 
 <LinearLayout

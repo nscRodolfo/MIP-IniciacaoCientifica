@@ -260,13 +260,7 @@ public class Cultura extends AppCompatActivity implements NavigationView.OnNavig
                             u.setFk_Cod_Propriedade(obj.getInt("fk_Propriedade_Cod_Propriedade"));
                             u.setnomePlanta(obj.getString("NomePlanta"));
                             u.setNumeroTalhoes(obj.getInt("count_talhao"));
-                            boolean auxAplicado;
-                            if(obj.getInt("Aplicado") != 0){
-                                auxAplicado = true;
-                            }else{
-                                auxAplicado = false;
-                            }
-                            u.setAplicado(auxAplicado);
+                            u.setTamanhoCultura(obj.getDouble("TamanhoDaCultura"));
                             cards.add(u);
                             plantasadd.add(obj.getString("NomePlanta"));
                         }

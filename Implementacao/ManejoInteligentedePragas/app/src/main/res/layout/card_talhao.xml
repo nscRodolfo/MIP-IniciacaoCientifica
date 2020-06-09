@@ -4,59 +4,53 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp"
-    android:id="@+id/parent_layout_cultura"
+    android:id="@+id/parent_layout_talhao"
     >
 
     <android.support.v7.widget.CardView
-        android:id="@+id/CardCultura"
+        android:id="@+id/CardTalhoes"
         android:layout_width="410dp"
         android:layout_height="146dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:padding="15dp"
         app:cardBackgroundColor="#659251"
         app:cardCornerRadius="18dp"
         app:cardElevation="6dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginBottom="8dp"
+
         >
 
         <TextView
-            android:id="@+id/tvCultura"
+            android:id="@+id/tvTalhao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
-            android:text="@string/tomate"
+            android:text="@string/talhao_x"
             android:textColor="#FFFFFF"
             android:textSize="22sp" />
 
         <RelativeLayout
-            android:id="@+id/rlInfoCultura"
+            android:id="@+id/rlInfoTalhao"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_alignStart="@+id/CardCultura"
+            android:layout_alignStart="@+id/CardPropriedades"
             android:layout_gravity="bottom"
             android:background="#FDFDFD"
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/tvNumTalhoes"
+                android:id="@+id/tvDiasParaContagemTalhao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginTop="5dp"
-                android:text="@string/x_talh_es" />
+                android:text="@string/dias_para_a_contagem_x" />
 
-            <TextView
-                android:id="@+id/tvTamanhoCultura"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:text="@string/tamanho_da_cultura" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
-
 
 </RelativeLayout>

@@ -48,14 +48,18 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
     private ArrayList<PragaModel> cards = new ArrayList<>();
     private Context pragaContext;
     private int codCultura;
+    private int Cod_Talhao;
+    private String NomeTalhao;
     private String nome;
     private int Cod_Propriedade;
     private boolean aplicado;
     private String nomePropriedade;
 
-    public PragaCardAdapter(Context pragaContext, ArrayList<PragaModel> cards, int codCultura, String nome, int Cod_Propriedade, boolean aplicado,String nomePropriedade) {
+    public PragaCardAdapter(Context pragaContext, ArrayList<PragaModel> cards,int Cod_Talhao, String NomeTalhao, int codCultura, String nome, int Cod_Propriedade, boolean aplicado,String nomePropriedade) {
         this.cards = cards;
         this.pragaContext = pragaContext;
+        this.Cod_Talhao = Cod_Talhao;
+        this.NomeTalhao = NomeTalhao;
         this.codCultura = codCultura;
         this.nome = nome;
         this.Cod_Propriedade = Cod_Propriedade;
@@ -114,6 +118,8 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                         exibirCaixaDialogoAmarela(cards.get(position));
                     }else{
                         Intent i = new Intent(pragaContext, PlanoDeAmostragem.class);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
                         i.putExtra("Cod_Praga", cards.get(position).getCod_Praga());
                         i.putExtra("nomePraga", cards.get(position).getNome());
                         i.putExtra("Cod_Cultura", codCultura);
@@ -128,6 +134,8 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                         exibirCaixaDialogoVermelha(cards.get(position));
                     }else{
                         Intent i = new Intent(pragaContext, AplicaMetodoDeControle.class);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
                         i.putExtra("Cod_Praga", cards.get(position).getCod_Praga());
                         i.putExtra("Cod_Cultura", codCultura);
                         i.putExtra("NomeCultura", nome);
@@ -181,7 +189,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                ExcluirPraga(p.getCod_Praga(), codCultura);
+                ExcluirPraga(p.getCod_Praga(), Cod_Talhao);
             }
         });
 
@@ -212,6 +220,8 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 pragaContext.startActivity(i);
             }
         });
@@ -236,6 +246,8 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(pragaContext, PlanoDeAmostragem.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Praga", p.getCod_Praga());
                 i.putExtra("nomePraga", p.getNome());
                 i.putExtra("Cod_Cultura", codCultura);
@@ -275,9 +287,9 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
 
     }
 
-    public void ExcluirPraga(Integer CodP, Integer CodC){
+    public void ExcluirPraga(Integer CodP, Integer CodT){
 
-        String url = "http://mip2.000webhostapp.com/excluirPraga.php?Cod_Praga="+ CodP +"&&Cod_Cultura="+CodC ;
+        String url = "http://mip2.000webhostapp.com/excluirPraga.php?Cod_Praga="+ CodP +"&&Cod_Talhao="+CodT ;
 
         RequestQueue queue = Volley.newRequestQueue(pragaContext);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -292,6 +304,10 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
                     if(confirmacao){
                         Intent i = new Intent(pragaContext, Pragas.class);
                         Toast.makeText(pragaContext, "Praga excluída com sucesso!",Toast.LENGTH_LONG).show();
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
                         i.putExtra("Cod_Cultura", codCultura);
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Cod_Propriedade", Cod_Propriedade);

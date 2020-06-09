@@ -56,6 +56,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
     String nome;
     boolean aplicado;
     String nomePropriedade;
+    int Cod_Talhao;
+    String NomeTalhao;
 
     Integer codigoSelecionado;
     String nomeSelecionado;
@@ -74,6 +76,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
 
         openDialog();
 
+        Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
+        NomeTalhao = getIntent().getStringExtra("NomeTalhao");
         Spinner dropdown = findViewById(R.id.dropdownSelecionaPragaPlano);
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
@@ -103,7 +107,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
         emailMenu.setText(emailUsu);
 
 
-        setTitle("MIP² | "+nome);
+        setTitle("MIP² | "+nome+": "+NomeTalhao);
 
         ResgatarPragas(dropdown, codCultura);
 
@@ -120,6 +124,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                         exibirCaixaDialogoAmarela();
                     }else{
                         Intent i = new Intent(RealizarPlano.this, PlanoDeAmostragem.class);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
                         i.putExtra("Cod_Praga", codigoSelecionado);
                         i.putExtra("nomePraga", nomeSelecionado);
                         i.putExtra("Cod_Cultura", codCultura);
@@ -231,7 +237,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
             mDialog.dismiss();
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Cultura=" + codCultura;
+            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Talhao=" + Cod_Talhao;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -253,12 +259,14 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                             selecionar.setVisibility(View.INVISIBLE);
                             AlertDialog.Builder dlgBox = new AlertDialog.Builder(RealizarPlano.this);
                             dlgBox.setTitle("Aviso!");
-                            dlgBox.setMessage("Você não possui nenhuma praga cadastrada nessa cultura, deseja adicionar agora?");
+                            dlgBox.setMessage("Você não possui nenhuma praga cadastrada nesse talhão, deseja adicionar agora?");
                             dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     ArrayList<String> pragasAdd = new ArrayList<String>();
                                     Intent i = new Intent(RealizarPlano.this, AdicionarPraga.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -273,6 +281,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(RealizarPlano.this, AcoesCultura.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
@@ -313,6 +323,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(RealizarPlano.this, PlanoDeAmostragem.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Praga", codigoSelecionado);
                 i.putExtra("nomePraga", nomeSelecionado);
                 i.putExtra("Cod_Cultura", codCultura);
@@ -342,6 +354,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(RealizarPlano.this, PlanoDeAmostragem.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Praga", codigoSelecionado);
                 i.putExtra("nomePraga", nomeSelecionado);
                 i.putExtra("Cod_Cultura", codCultura);
@@ -371,6 +385,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(RealizarPlano.this, PlanoDeAmostragem.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Praga", codigoSelecionado);
                 i.putExtra("nomePraga", nomeSelecionado);
                 i.putExtra("Cod_Cultura", codCultura);
@@ -400,6 +416,8 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent i = new Intent(RealizarPlano.this, PlanoDeAmostragem.class);
+                i.putExtra("Cod_Talhao", Cod_Talhao);
+                i.putExtra("NomeTalhao", NomeTalhao);
                 i.putExtra("Cod_Praga", codigoSelecionado);
                 i.putExtra("nomePraga", nomeSelecionado);
                 i.putExtra("Cod_Cultura", codCultura);

@@ -2,14 +2,14 @@
     include "conexao.php";
 
     // pega a variavel da url passada no aplicativo android
-    $Cod_Cultura = $_GET['Cod_Cultura'];
+    $Cod_Talhao = $_GET['Cod_Talhao'];
     $dataAplicacao = null;
 
 
     $sql = "SELECT Aplicacao.Data, MetodoDeControle.IntervaloAplicacao
     FROM Aplicacao, MetodoDeControle
-    WHERE Aplicacao.Data = (SELECT MAX(Aplicacao.Data) FROM Aplicacao WHERE Aplicacao.fk_Cultura_Cod_Cultura = '$Cod_Cultura')
-    AND Aplicacao.fk_Cultura_Cod_Cultura = '$Cod_Cultura'
+    WHERE Aplicacao.Data = (SELECT MAX(Aplicacao.Data) FROM Aplicacao WHERE Aplicacao.fk_Talhao_Cod_Talhao = '$Cod_Talhao')
+    AND Aplicacao.fk_Talhao_Cod_Talhao = '$Cod_Talhao'
     AND Aplicacao.fk_MetodoDeControle_Cod_MetodoControle = MetodoDeControle.Cod_MetodoControle";
     
     $dados = $PDO->query($sql);
@@ -38,8 +38,8 @@
 
             $resultado [] = array("DiasPraContagem" => $DiasPraContagem->days);
         }else{
-            $sql2 = "UPDATE Cultura SET Aplicado = 0
-                WHERE Cultura.Cod_Cultura = '$Cod_Cultura'";
+            $sql2 = "UPDATE Talhao SET Aplicado = 0
+                WHERE Talhao.Cod_Talhao = '$Cod_Talhao'";
                 
             $tiraAplica = $PDO->query($sql2);
 
