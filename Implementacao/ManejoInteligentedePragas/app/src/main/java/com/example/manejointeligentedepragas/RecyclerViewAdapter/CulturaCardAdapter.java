@@ -67,7 +67,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
 
         holder.plantaCultura.setText(cards.get(position).getnomePlanta());
         holder.numTalhao.setText("Número de talhões: " + cards.get(position).getNumeroTalhoes());
-        holder.tamanhoCultura.setText("Tamanho da cultura: "+cards.get(position).getTamanhoCultura());
+        holder.tamanhoCultura.setText("Tamanho da cultura (ha): "+cards.get(position).getTamanhoCultura());
 
 
         Controller_Usuario cu = new Controller_Usuario(culturaContext);

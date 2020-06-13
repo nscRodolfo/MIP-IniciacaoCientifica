@@ -171,6 +171,16 @@ public class infoInimigoNatural extends AppCompatActivity implements NavigationV
                 Intent pp = new Intent(this, SobreMIP.class);
                 startActivity(pp);
                 break;
+
+            case R.id.drawerReferencias:
+                Intent pi = new Intent(this, Referencias.class);
+                startActivity(pi);
+                break;
+
+            case R.id.drawerRecomendações:
+                Intent pa = new Intent(this, RecomendacoesMAPA.class);
+                startActivity(pa);
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

@@ -156,5 +156,7 @@
     <string name="n_o_encontrado">Não encontrado</string>
     <string name="amostra">Amostra:</string>
     <string name="tamanho_da_cultura">Tamanho da Cultura:</string>
+    <string name="nome_do_usu_rio">Nome do usuário</string>
+    <string name="todo">TODO</string>
     >
 </resources>

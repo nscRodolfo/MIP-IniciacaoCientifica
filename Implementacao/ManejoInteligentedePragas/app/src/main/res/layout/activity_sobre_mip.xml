@@ -7,7 +7,6 @@
     tools:context=".SobreMIP"
     android:id="@+id/drawer_layout_sobre_mip"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
     >
 
 

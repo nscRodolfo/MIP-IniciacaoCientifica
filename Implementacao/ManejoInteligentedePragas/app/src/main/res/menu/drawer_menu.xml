@@ -35,8 +35,17 @@
         <menu>
             <item
                 android:id="@+id/drawerTutorial"
-                android:icon="@drawable/ic_educacao"
+                android:icon="@drawable/ic_tuto"
                 android:title="Tutorial" />
+
+            <item
+                android:id="@+id/drawerRecomendações"
+                android:icon="@drawable/ic_recomendacao"
+                android:title="Recomendações" />
+            <item
+                android:id="@+id/drawerReferencias"
+                android:icon="@drawable/ic_referencias"
+                android:title="Referências" />
             <item
                 android:id="@+id/drawerSobre"
                 android:icon="@drawable/ic_help_outline_black_24dp"

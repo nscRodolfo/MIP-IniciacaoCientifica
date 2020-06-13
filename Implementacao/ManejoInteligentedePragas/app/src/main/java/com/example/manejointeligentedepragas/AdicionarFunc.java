@@ -2,6 +2,7 @@ package com.example.manejointeligentedepragas;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -146,12 +147,27 @@ public class AdicionarFunc extends AppCompatActivity implements NavigationView.O
                 break;
 
             case R.id.drawerTutorial:
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("isIntroOpened",false);
+                editor.commit();
 
+                Intent intro = new Intent(this, IntroActivity.class);
+                startActivity(intro);
                 break;
 
             case R.id.drawerSobre:
                 Intent pp = new Intent(this, SobreMIP.class);
                 startActivity(pp);
+                break;
+            case R.id.drawerReferencias:
+                Intent pi = new Intent(this, Referencias.class);
+                startActivity(pi);
+                break;
+
+            case R.id.drawerRecomendações:
+                Intent pa = new Intent(this, RecomendacoesMAPA.class);
+                startActivity(pa);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

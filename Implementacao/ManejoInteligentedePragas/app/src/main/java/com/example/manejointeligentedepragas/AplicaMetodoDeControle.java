@@ -222,6 +222,15 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
             case R.id.drawerSobre:
                 Intent pp = new Intent(this, SobreMIP.class);
                 startActivity(pp);
+
+            case R.id.drawerReferencias:
+                Intent pi = new Intent(this, Referencias.class);
+                startActivity(pi);
+                break;
+
+            case R.id.drawerRecomendações:
+                Intent pa = new Intent(this, RecomendacoesMAPA.class);
+                startActivity(pa);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
