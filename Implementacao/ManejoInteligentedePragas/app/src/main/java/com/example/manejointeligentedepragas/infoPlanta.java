@@ -259,7 +259,7 @@ public class infoPlanta extends AppCompatActivity implements NavigationView.OnNa
                         tvCultivo.setText("Cultivo: "+cultivo);
                         tvTratosCulturais.setText("Tratos Culturais: "+tratosCulturais);
                         tvCiclo.setText("Ciclo: "+ciclo);
-                        tvTamanhoTalhao.setText("Tamanho de talhão necessário: "+tamanhoTalhao+" hectares");
+                        tvTamanhoTalhao.setText("Tamanho máximo do talhão (ha): "+tamanhoTalhao+" hectares");
 
 
                         setTitle("MIP² | "+nome);

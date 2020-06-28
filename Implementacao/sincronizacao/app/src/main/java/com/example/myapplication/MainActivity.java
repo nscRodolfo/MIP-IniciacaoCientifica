@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.readFromLocalDatabase(database);
 
         while (cursor.moveToNext()){
-            String nome =  cursor.getString(cursor.getColumnIndex(dbContato.nome));
+            String nome = cursor.getString(cursor.getColumnIndex(dbContato.nome));
             int syncStatus = cursor.getInt(cursor.getColumnIndex(dbContato.syncStatus));
             arrayList.add(new contato(nome, syncStatus));
         }
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void saveToAppServer(final String nome){
+    private void saveToAppServer(final String nomee){
         if(checkNetworkConnection()){
             StringRequest  stringRequest = new StringRequest(Request.Method.POST, dbContato.SERVER_URL,
                     new Response.Listener<String>() {
@@ -93,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(response);
                                 String Response = jsonObject.getString("response");
                                 if(Response.equals("OK")){
-                                    saveToLocalStorage(nome,dbContato.SYNC_STATUS_OK);
+                                    saveToLocalStorage(nomee,dbContato.SYNC_STATUS_OK);
                                 }
                                 else
                                 {
-                                    saveToLocalStorage(nome,dbContato.SYNC_STATUS_FAILED);
+                                    saveToLocalStorage(nomee,dbContato.SYNC_STATUS_FAILED);
                                 }
 
                             }catch (JSONException e){
@@ -108,20 +108,20 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    saveToLocalStorage(nome, dbContato.SYNC_STATUS_FAILED);
+                    saveToLocalStorage(nomee, dbContato.SYNC_STATUS_FAILED);
                 }
             })
             {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("nome",nome);
+                    params.put("nome",nomee);
                     return params;
                 }
             };
             MySingleton.getInstance(MainActivity.this).addToRequestQueue(stringRequest);
         }else{
-            saveToLocalStorage(nome, dbContato.SYNC_STATUS_FAILED);
+            saveToLocalStorage(nomee, dbContato.SYNC_STATUS_FAILED);
         }
 
   /*
@@ -169,21 +169,25 @@ public class MainActivity extends AppCompatActivity {
         }*/
     }
 
+    private void saveToLocalStorage(String nome, int syncStatus) {
+
+        dbHelper dbHelper = new dbHelper(this);
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        dbHelper.saveToLocalDataBase(nome, syncStatus, database);
+        readFromLocalStorage();
+        dbHelper.close();
+
+    }
+
+
+
     public boolean checkNetworkConnection(){
         ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo!= null && networkInfo.isConnected());
     }
 
-    private void saveToLocalStorage(String nome, int syncStatus){
-        dbHelper dbHelper = new dbHelper(MainActivity.this);
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        dbHelper.saveToLocalDataBase(nome, syncStatus, database);
 
-        readFromLocalStorage();
-        dbHelper.close();
-
-    }
 
 
 }

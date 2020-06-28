@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Referencias"></activity>
+        <activity android:name=".MudaSenha"></activity>
+        <activity android:name=".AtualizarInfoPerfil" />
+        <activity android:name=".Referencias" />
         <activity android:name=".RecomendacoesMAPA" />
         <activity android:name=".AdicionarTalhao" />
         <activity android:name=".Talhoes" />

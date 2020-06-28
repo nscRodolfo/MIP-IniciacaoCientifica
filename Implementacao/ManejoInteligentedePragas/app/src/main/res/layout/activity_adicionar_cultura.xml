@@ -7,7 +7,6 @@
     tools:context=".AdicionarCultura"
     android:id="@+id/drawer_layout_add_cultura"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
     >
 
     <android.support.constraint.ConstraintLayout

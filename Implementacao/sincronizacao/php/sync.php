@@ -7,7 +7,6 @@ $db = "contatoteste";
 $con = mysqli_connect($serv,$usu,$pass,$db);
 
 if($con){
-
     $Name = $_GET['name'];
     $query = "insert into Usuario(Nome) values ('".$Name."');";
     $result = mysqli_query($con,$query);

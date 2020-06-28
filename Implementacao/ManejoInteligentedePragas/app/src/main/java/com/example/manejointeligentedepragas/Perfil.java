@@ -25,6 +25,8 @@ public class Perfil extends AppCompatActivity implements NavigationView.OnNaviga
     public TextView tvTelefonePerfil;
     public TextView tvEmailPerfil;
     private DrawerLayout drawerLayout;
+    public Button btnAtt;
+    public Button btnMudaSenha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class Perfil extends AppCompatActivity implements NavigationView.OnNaviga
         tvNomePerfil = findViewById(R.id.tvNomePerfil);
         tvTelefonePerfil = findViewById(R.id.tvTelefonePerfil);
         tvEmailPerfil = findViewById(R.id.tvEmailPerfil);
+        btnAtt = findViewById(R.id.btnAtualizaInfo);
+        btnMudaSenha = findViewById(R.id.btnTrocarSenha);
 
         Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
 
@@ -72,6 +76,24 @@ public class Perfil extends AppCompatActivity implements NavigationView.OnNaviga
                 startActivity(i);
             }
         });
+
+        btnAtt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Perfil.this, AtualizarInfoPerfil.class);
+                startActivity(i);
+            }
+        });
+
+        btnMudaSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Perfil.this, MudaSenha.class);
+                startActivity(i);
+            }
+        });
+
+
     }
 
     @Override

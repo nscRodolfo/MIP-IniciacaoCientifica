@@ -44,11 +44,11 @@ public class dbHelper extends SQLiteOpenHelper {
         return (database.query(dbContato.Tabela, projection, null, null, null, null, null));
     }
 
-    public void updateLocalDatabase(String name, int syncStatus, SQLiteDatabase database){
+    public void updateLocalDatabase(String nome, int syncStatus, SQLiteDatabase database){
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbContato.syncStatus, syncStatus);
         String selection = dbContato.nome+" LIKE ?";
-        String[] selection_args = { name };
+        String[] selection_args = { nome };
         database.update(dbContato.Tabela, contentValues, selection, selection_args);
     }
 }

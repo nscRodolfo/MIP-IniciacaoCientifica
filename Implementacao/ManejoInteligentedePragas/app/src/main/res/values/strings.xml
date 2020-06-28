@@ -158,5 +158,9 @@
     <string name="tamanho_da_cultura">Tamanho da Cultura:</string>
     <string name="nome_do_usu_rio">Nome do usuário</string>
     <string name="todo">TODO</string>
+    <string name="senha_atual">Senha atual:</string>
+    <string name="nova_senha">Nova senha:</string>
+    <string name="confirma_o">Confirmação:</string>
+    <string name="repetir_nova_senha">Repetir nova senha:</string>
     >
 </resources>

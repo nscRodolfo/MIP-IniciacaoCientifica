@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout_perfil"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
-
-
+    android:fitsSystemWindows="true">
 
 
     <LinearLayout
@@ -48,31 +45,32 @@
         <android.support.v7.widget.CardView
             android:id="@+id/CardPerfil"
             android:layout_width="410dp"
-            android:layout_height="260dp"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
-            android:layout_margin="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             android:padding="15dp"
+
             app:cardBackgroundColor="#FFFFFF"
             app:cardCornerRadius="18dp"
-            app:cardElevation="6dp"
+            app:cardElevation="6dp">
 
-            >
-
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rlInfoProp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/CardPerfil"
-                android:layout_gravity="bottom"
+                android:layout_gravity="top"
                 android:background="#FDFDFD"
-                android:padding="10dp">
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <TextView
                     android:id="@+id/tvNomePerfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/tvTelefonePerfil"
                     android:layout_marginBottom="15dp"
                     android:text="@string/jos_das_couve"
                     android:textColor="#659251" />
@@ -81,7 +79,6 @@
                     android:id="@+id/tvTelefonePerfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/tvEmailPerfil"
                     android:layout_marginBottom="15dp"
                     android:text="@string/telefone_99999999999"
                     android:textColor="#659251" />
@@ -90,8 +87,7 @@
                     android:id="@+id/tvEmailPerfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/btnAtualizaInfo"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="32dp"
                     android:text="@string/email_example_gmail_com"
                     android:textColor="#659251" />
 
@@ -99,12 +95,11 @@
                     android:id="@+id/btnAtualizaInfo"
                     android:layout_width="200dp"
                     android:layout_height="40dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
                     android:background="#659251"
                     android:text="@string/atualizar_informa_es"
                     android:textColor="#FFFFFF" />
-            </RelativeLayout>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <Button

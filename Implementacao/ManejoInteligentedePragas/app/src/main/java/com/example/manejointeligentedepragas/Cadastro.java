@@ -243,7 +243,7 @@ public class Cadastro extends AppCompatActivity implements NavigationView.OnNavi
 
                         if(confirmacao){
                             pbc.setVisibility(View.GONE);
-                            Toast.makeText(Cadastro.this, "Cadastro Realizado com Sucesso!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(Cadastro.this, "Cadastro realizado com Sscesso!",Toast.LENGTH_LONG).show();
                             startActivity(k);
                         }else{
                             pbc.setVisibility(View.GONE);
