@@ -50,16 +50,18 @@ public class TalhaoCardAdapter extends RecyclerView.Adapter<TalhaoCardAdapter.Vi
     private int cod_Propriedade;
     private String nomePropriedade;
     private String nomeCultura;
+    private  int Cod_Planta;
 
     String diasPraContagem;
 
-    public TalhaoCardAdapter(Context talhaoContext, ArrayList<TalhaoModel> cards, int cod_Cultura, int cod_Propriedade, String nomePropriedade, String nomeCultura) {
+    public TalhaoCardAdapter(Context talhaoContext, ArrayList<TalhaoModel> cards, int cod_Cultura, int cod_Propriedade, String nomePropriedade, String nomeCultura, int cod_Planta) {
         this.cards = cards;
         this.talhaoContext = talhaoContext;
         this.cod_Cultura = cod_Cultura;
         this.cod_Propriedade = cod_Propriedade;
         this.nomePropriedade= nomePropriedade;
         this.nomeCultura = nomeCultura;
+        this.Cod_Planta=cod_Planta;
     }
 
     @NonNull
@@ -111,6 +113,7 @@ public class TalhaoCardAdapter extends RecyclerView.Adapter<TalhaoCardAdapter.Vi
                 i.putExtra("Cod_Cultura", cod_Cultura);
                 i.putExtra("NomeCultura", nomeCultura);
                 i.putExtra("Aplicado", aplicado);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 talhaoContext.startActivity(i);
             }
         });
@@ -259,9 +262,11 @@ public class TalhaoCardAdapter extends RecyclerView.Adapter<TalhaoCardAdapter.Vi
 
     public void CalculaDiasPraContagem(int cod_Talhao, final ViewHolder holder, final int position){
         Utils u = new Utils();
+
         if(!u.isConected(talhaoContext))
         {
-            Toast.makeText(talhaoContext,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(talhaoContext,""+cards.get(1).isAplicado(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(talhaoContext,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/diasParaContagem.php?Cod_Talhao=" + cod_Talhao;
             RequestQueue queue = Volley.newRequestQueue(talhaoContext);

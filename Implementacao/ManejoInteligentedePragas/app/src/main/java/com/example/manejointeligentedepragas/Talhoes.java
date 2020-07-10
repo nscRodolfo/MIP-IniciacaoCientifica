@@ -1,6 +1,8 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -31,10 +33,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Atinge;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Praga;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Talhao;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.CulturaCardAdapter;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.TalhaoCardAdapter;
+import com.example.manejointeligentedepragas.model.AtingeModel;
 import com.example.manejointeligentedepragas.model.CulturaModel;
+import com.example.manejointeligentedepragas.model.PragaModel;
 import com.example.manejointeligentedepragas.model.TalhaoModel;
 
 import org.json.JSONArray;
@@ -48,11 +55,19 @@ public class Talhoes extends AppCompatActivity implements NavigationView.OnNavig
     public FloatingActionButton fabAddTalhao;
     public TextView tvAddTalhao;
     public String tipoUsu;
+    double nivelControle;
 
     private static final String TAG = "Talhao";
     private ArrayList<TalhaoModel> cards = new ArrayList<>();
+    private ArrayList<TalhaoModel> web = new ArrayList<>();
+    private ArrayList<TalhaoModel> local = new ArrayList<>();
+
+    private ArrayList<PragaModel> webPraga = new ArrayList<>();
+    private ArrayList<PragaModel> localPraga = new ArrayList<>();
+
     Integer Cod_Propriedade;
     String nomePropriedade;
+    Integer Cod_Planta;
 
     private Dialog mDialog;
 
@@ -71,23 +86,48 @@ public class Talhoes extends AppCompatActivity implements NavigationView.OnNavig
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
-
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         openDialog();
 
         tvAddTalhao = findViewById(R.id.tvAddTalhao);
         fabAddTalhao = findViewById(R.id.fabAddTalhao);
 
+        regataPragasDaCultura();
+
         Controller_Usuario cu = new Controller_Usuario(getBaseContext());
         tipoUsu = cu.getUser().getTipo();
 
-        if(tipoUsu.equals("Funcionario")){
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext())) {
+            Controller_Talhao ct = new Controller_Talhao(Talhoes.this);
+            cards = ct.getTalhao(codCultura);
+            if(cards.size() == 0){
+                AlertDialog.Builder dlgBox = new AlertDialog.Builder(Talhoes.this);
+                dlgBox.setTitle("Aviso");
+                dlgBox.setMessage("Para possuir os dados desses talhões enquanto está sem internet, você precisa acessar essa página online pelo menos uma vez.");
+                dlgBox.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dlgBox.show();
+            }
             tvAddTalhao.setVisibility(View.GONE);
             fabAddTalhao.hide();
-            resgatarDados();
-        }else if(tipoUsu.equals("Produtor")){
-            resgatarDados();
+            mDialog.dismiss();
+            iniciarRecyclerView();
+        }else{
+            if(tipoUsu.equals("Funcionario")){
+                tvAddTalhao.setVisibility(View.GONE);
+                fabAddTalhao.hide();
+                resgatarDados();
+            }else if(tipoUsu.equals("Produtor")){
+                resgatarDados();
+            }
         }
+
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_talhoes);
@@ -261,9 +301,121 @@ public class Talhoes extends AppCompatActivity implements NavigationView.OnNavig
                                 auxAplicado = false;
                             }
                             u.setAplicado(auxAplicado);
-                            cards.add(u);
+                            web.add(u);
+                        }
+
+                        Controller_Talhao ct= new Controller_Talhao(Talhoes.this);
+                        local = ct.getTalhao(codCultura);
+
+                        //Toast.makeText(Talhoes.this, "AQui", Toast.LENGTH_LONG).show();
+                        if(web.size() == local.size()) {
+                            if(!web.equals(local)) {
+                                local = web;
+                                for (int i = 0; i < local.size(); i++) {
+                                    ct.removerTalhaoEspecifica(local.get(i));
+                                    ct.addTalhao(local.get(i));
+                                }
+                                cards = local;
+                            }else{
+                                cards = local;
+                            }
+                        }else{
+                            local = web;
+                            for (int i = 0; i < local.size(); i++) {
+                                ct.removerTalhaoEspecifica(local.get(i));
+                                ct.addTalhao(local.get(i));
+                            }
+                            cards = local;
                         }
                         iniciarRecyclerView();
+                        mDialog.dismiss();
+                    } catch (JSONException e) {
+                        Toast.makeText(Talhoes.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(Talhoes.this,error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
+                }
+            }));
+
+        }
+    }
+
+    private void regataPragasDaCultura(){
+        final Controller_Praga cp = new Controller_Praga(Talhoes.this);
+        final Controller_Atinge ca = new Controller_Atinge(Talhoes.this);
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext()))
+        {
+            localPraga = cp.getPragaAtinge(Cod_Planta);
+            mDialog.dismiss();
+        }else { // se tem acesso à internet
+
+            String url = "http://mip2.000webhostapp.com/ResgataPrafasDaCultura.php?Cod_Cultura=" + codCultura;
+
+            RequestQueue queue = Volley.newRequestQueue(Talhoes.this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    //Parsing json
+                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i< array.length(); i++){
+                            JSONObject obj = array.getJSONObject(i);
+                            PragaModel u = new PragaModel();
+                            AtingeModel a = new AtingeModel();
+                            u.setCod_Praga(obj.getInt("Cod_Praga"));
+                            u.setNome(obj.getString("Nome"));
+                            u.setFamilia(obj.getString("Familia"));
+                            u.setOrdem(obj.getString("Ordem"));
+                            u.setDescricao(obj.getString("Descricao"));
+                            u.setNomeCientifico(obj.getString("NomeCientifico"));
+                            u.setLocalizacao(obj.getString("Localizacao"));
+                            u.setAmbientePropicio(obj.getString("AmbientePropicio"));
+                            u.setCicloVida(obj.getString("CicloVida"));
+                            u.setInjurias(obj.getString("Injurias"));
+                            u.setObservacoes(obj.getString("Observacoes"));
+                            u.setHorarioDeAtuacao(obj.getString("HorarioDeAtuacao"));
+                            u.setEstagioDeAtuacao(obj.getString("EstagioDeAtuacao"));
+                            u.setControleCultural(obj.getString("ControleCultural"));
+                            a.setCod_Atinge(obj.getInt("Cod_Atinge"));
+                            a.setNivelDeControle(obj.getDouble("NivelDeControle"));
+                            a.setNumeroPlantasAmostradas(obj.getInt("NumeroPlantasAmostradas"));
+                            a.setPontosPorTalhao(obj.getInt("PontosPorTalhao"));
+                            a.setPlantasPorPonto(obj.getInt("PlantasPorPonto"));
+                            a.setNumAmostras(obj.getInt("NumAmostras"));
+                            a.setFk_Cod_Planta(obj.getInt("fk_Planta_Cod_Planta"));
+                            a.setFk_Cod_Praga(obj.getInt("fk_Praga_Cod_Praga"));
+
+                            webPraga.add(u);
+                            cp.addPraga(u);
+                            ca.addAtinge(a);
+                        }
+                        localPraga = cp.getPragaAtinge(Cod_Planta);
+
+                        if(webPraga.size() == localPraga.size()) {
+                            if(!webPraga.equals(localPraga)) {
+                                localPraga = webPraga;
+                                for (int i = 0; i < localPraga.size(); i++) {
+                                    cp.removerPragaEspecifica(localPraga.get(i));
+                                    cp.addPraga(localPraga.get(i));
+                                }
+                            }else{
+
+                            }
+                        }else{
+                            localPraga = webPraga;
+                            for (int i = 0; i < localPraga.size(); i++) {
+                                cp.removerPragaEspecifica(localPraga.get(i));
+                                cp.addPraga(localPraga.get(i));
+                            }
+                        }
                         mDialog.dismiss();
                     } catch (JSONException e) {
                         Toast.makeText(Talhoes.this, e.toString(), Toast.LENGTH_LONG).show();
@@ -285,7 +437,7 @@ public class Talhoes extends AppCompatActivity implements NavigationView.OnNavig
 
         Log.d(TAG, "iniciarRecyclerView:  init iniciar");
         RecyclerView rv = findViewById(R.id.RVTalhoes);
-        TalhaoCardAdapter adapter = new TalhaoCardAdapter(this, cards, codCultura,Cod_Propriedade, nomePropriedade, nome);
+        TalhaoCardAdapter adapter = new TalhaoCardAdapter(this, cards, codCultura,Cod_Propriedade, nomePropriedade, nome,Cod_Planta);
 
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));

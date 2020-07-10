@@ -22,6 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.AdicionarPropriedade;
+import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Propriedade;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.Cultura;
 import com.example.manejointeligentedepragas.Propriedades;
@@ -73,16 +75,22 @@ public class PropriedadeCardAdapter extends RecyclerView.Adapter<PropriedadeCard
 
 
         // true para, false continua pra proxima tela. função para click demorado
+        Utils u = new Utils();
+        if(!u.isConected(propriedadeContext)){
 
-        if(holder.tipoUsu.equals("Produtor")) {
-            holder.parent_layout_propriedade.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    exibirCaixaDialogo(cards.get(position));
-                    return true;
-                }
-            });
+        }else {
+            if(holder.tipoUsu.equals("Produtor")) {
+                holder.parent_layout_propriedade.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        exibirCaixaDialogo(cards.get(position));
+                        return true;
+                    }
+                });
+            }
+
         }
+
         holder.parent_layout_propriedade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

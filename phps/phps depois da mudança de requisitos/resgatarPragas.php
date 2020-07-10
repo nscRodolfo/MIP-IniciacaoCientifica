@@ -5,7 +5,7 @@
     $Cod_Talhao = $_GET['Cod_Talhao'];
 
     // seleciona a propriedade
-    $sql = "SELECT Praga.Nome, Praga.Cod_Praga, PresencaPraga.Status
+    $sql = "SELECT Praga.Nome, Praga.Cod_Praga, PresencaPraga.Status, PresencaPraga.Cod_PresencaPraga
                 from Praga, PresencaPraga
                 WHERE PresencaPraga.fk_Talhao_Cod_Talhao = '$Cod_Talhao' 
                 and PresencaPraga.fk_Praga_Cod_Praga = Praga.Cod_Praga
@@ -16,7 +16,7 @@
 
     while ($ed = $dados->fetch(PDO::FETCH_OBJ)) //passa os dados como objetos pro $ed
     {
-        $resultado [] = array("Nome" => $ed->Nome, "Cod_Praga" => $ed->Cod_Praga, "Status" => $ed->Status);
+        $resultado [] = array("Nome" => $ed->Nome, "Cod_Praga" => $ed->Cod_Praga, "Status" => $ed->Status, "Cod_PresencaPraga"=> $ed->Cod_PresencaPraga);
         //$ed->Cod_Usuario entr no obj ed e pega atributo Cod_Usuario
     }
     echo json_encode($resultado);

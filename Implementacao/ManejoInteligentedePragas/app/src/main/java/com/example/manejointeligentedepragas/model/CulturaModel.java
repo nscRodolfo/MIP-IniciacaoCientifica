@@ -3,22 +3,25 @@ package com.example.manejointeligentedepragas.model;
 public class CulturaModel {
     private int Cod_Cultura;
     private int fk_Cod_Propriedade;
+    private int fk_Cod_Planta;
     private String nomePlanta;
     private int numeroTalhoes;
     private double tamanhoCultura;
     private boolean aplicado;
 
-    public CulturaModel(int cod_Cultura, int fk_Cod_Propriedade, String nomePlanta, int numeroTalhoes, boolean aplicado) {
+    public CulturaModel(int cod_Cultura, int fk_Cod_Propriedade,int fk_Cod_Planta, String nomePlanta, int numeroTalhoes, boolean aplicado) {
         this.Cod_Cultura = cod_Cultura;
         this.fk_Cod_Propriedade = fk_Cod_Propriedade;
+        this.fk_Cod_Planta = fk_Cod_Planta;
         this.nomePlanta = nomePlanta;
         this.numeroTalhoes = numeroTalhoes;
         this.aplicado = aplicado;
     }
 
-    public CulturaModel(int cod_Cultura, int fk_Cod_Propriedade, String nomePlanta, int numeroTalhoes, double tamanhoCultura, boolean aplicado) {
+    public CulturaModel(int cod_Cultura, int fk_Cod_Propriedade, int fk_Cod_Planta, String nomePlanta, int numeroTalhoes, double tamanhoCultura, boolean aplicado) {
         this.Cod_Cultura = cod_Cultura;
         this.fk_Cod_Propriedade = fk_Cod_Propriedade;
+        this.fk_Cod_Planta = fk_Cod_Planta;
         this.nomePlanta = nomePlanta;
         this.numeroTalhoes = numeroTalhoes;
         this.tamanhoCultura = tamanhoCultura;
@@ -28,6 +31,7 @@ public class CulturaModel {
     public CulturaModel() {
         this.Cod_Cultura = 0;
         this.fk_Cod_Propriedade = 0;
+        this.fk_Cod_Planta = 0;
         this.nomePlanta = null;
         this.numeroTalhoes = 0;
         this.tamanhoCultura = 0;
@@ -77,4 +81,13 @@ public class CulturaModel {
     public void setAplicado(boolean aplicado) {
         this.aplicado = aplicado;
     }
+
+    public int getFk_Cod_Planta() {
+        return fk_Cod_Planta;
+    }
+
+    public void setFk_Cod_Planta(int fk_Cod_Planta) {
+        this.fk_Cod_Planta = fk_Cod_Planta;
+    }
+
 }

@@ -51,6 +51,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
     String nomePropriedade;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     int codPragaComparacaoAux;
 
@@ -81,6 +82,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         tvMostraCultura = findViewById(R.id.tvConfMostraCultura);
         tvMostraPraga = findViewById(R.id.tvConfMostraPraga);
@@ -130,6 +132,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
                         i.putExtra("NomeCultura", nome);
                         i.putExtra("Aplicado", aplicado);
                         i.putExtra("nomePropriedade", nomePropriedade);
+                        i.putExtra("Cod_Planta", Cod_Planta);
                         startActivity(i);
                     }else{
                         Intent i = new Intent(ConfirmacaoPlanoAmostragem.this, AplicaMetodoDeControle.class);
@@ -141,6 +144,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
                         i.putExtra("Cod_Praga",codPraga);
                         i.putExtra("Aplicado", aplicado);
                         i.putExtra("nomePropriedade", nomePropriedade);
+                        i.putExtra("Cod_Planta", Cod_Planta);
                         startActivity(i);
                     }
                 }else{
@@ -152,6 +156,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
                     i.putExtra("NomeCultura", nome);
                     i.putExtra("Aplicado", aplicado);
                     i.putExtra("nomePropriedade", nomePropriedade);
+                    i.putExtra("Cod_Planta", Cod_Planta);
                     startActivity(i);
                 }
             }
@@ -173,6 +178,7 @@ public class ConfirmacaoPlanoAmostragem extends AppCompatActivity implements Nav
             i.putExtra("NomeCultura", nome);
             i.putExtra("Aplicado", aplicado);
             i.putExtra("nomePropriedade", nomePropriedade);
+            i.putExtra("Cod_Planta", Cod_Planta);
             startActivity(i);
         }
     }

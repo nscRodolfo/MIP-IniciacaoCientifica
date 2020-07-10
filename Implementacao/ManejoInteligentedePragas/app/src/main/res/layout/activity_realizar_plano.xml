@@ -7,7 +7,6 @@
     tools:context=".RealizarPlano"
     android:id="@+id/drawer_layout_realizarPlano"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
     >
 
     <android.support.constraint.ConstraintLayout

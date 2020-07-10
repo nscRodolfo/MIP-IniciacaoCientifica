@@ -1,7 +1,9 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,11 +17,32 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Praga;
+import com.example.manejointeligentedepragas.Crontroller.Controller_PresencaPraga;
+import com.example.manejointeligentedepragas.Crontroller.Controller_UltimosPlanos;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
+import com.example.manejointeligentedepragas.model.PragaModel;
+import com.example.manejointeligentedepragas.model.PresencaPragaModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class AcoesCultura extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,14 +60,20 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
     String NomeTalhao;
     int codCultura;
     String nome;
+    int Cod_Planta;
 
+    ArrayList<PresencaPragaModel> localPresenca = new ArrayList<>();
+    ArrayList<PresencaPragaModel> webPresenca = new ArrayList<>();
     boolean aplicado;
+
+    private Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acoes_cultura);
 
+        openDialog();
 
         /*
         View actionBar = getLayoutInflater().inflate(R.layout.actionbar, null);
@@ -66,6 +95,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         rlGR= findViewById(R.id.rlGR);
 
@@ -91,6 +121,10 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         TextView emailMenu = headerView.findViewById(R.id.emailMenu);
         emailMenu.setText(emailUsu);
 
+        resgatarPresencaPraga();
+        resgatarDatasUltimossPlanos();
+
+
         setTitle("MIP² | "+nome+": "+NomeTalhao);
 
         rlVPA = findViewById(R.id.rlVPA);
@@ -105,6 +139,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -121,6 +156,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -135,6 +171,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -151,6 +188,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
             i.putExtra("Cod_Cultura", codCultura);
             i.putExtra("NomeCultura", nome);
             i.putExtra("Aplicado", aplicado);
+            i.putExtra("Cod_Planta", Cod_Planta);
             startActivity(i);
         }
     }
@@ -215,6 +253,134 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    //ter o presença praga para realizar o plano sem precisar entrar em pragas
+    private void resgatarPresencaPraga() {
+        //Log.d(TAG, "resgatarDados: resgatou");
+        final Controller_PresencaPraga cpp = new Controller_PresencaPraga(AcoesCultura.this);
+        Controller_Praga cp = new Controller_Praga(AcoesCultura.this);
 
+        Utils u = new Utils();
+        if (!u.isConected(getBaseContext())) {
+            localPresenca = cpp.getPresencaPraga(Cod_Talhao);
+            for(int i=0; i<localPresenca.size();i++){
+                PragaModel pm = new PragaModel();
+                pm.setCod_Praga(localPresenca.get(i).getFk_Cod_Praga());
+                pm.setNome(cp.getNome(localPresenca.get(i).getFk_Cod_Praga()));
+                pm.setStatus(localPresenca.get(i).getStatus());
+            }
+            mDialog.dismiss();
+        } else { // se tem acesso à internet
+
+            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Talhao=" + Cod_Talhao;
+
+            RequestQueue queue = Volley.newRequestQueue(AcoesCultura.this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    //Parsing json
+                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
+                            PragaModel u = new PragaModel();
+                            u.setCod_Praga(obj.getInt("Cod_Praga"));
+                            u.setNome(obj.getString("Nome"));
+                            u.setStatus(obj.getInt("Status"));
+                            int codPresenca = obj.getInt("Cod_PresencaPraga");
+                            cpp.addPresenca(u.getStatus(), Cod_Talhao, u.getCod_Praga(), 0, codPresenca);
+                            webPresenca.add(new PresencaPragaModel(u.getCod_Praga(),Cod_Talhao,codPresenca,u.getStatus(),0));
+                        }
+
+                        localPresenca = cpp.getPresencaPraga(Cod_Talhao);
+
+
+                        //Toast.makeText(Talhoes.this, "AQui", Toast.LENGTH_LONG).show();
+                        if(webPresenca.contains(localPresenca)) {
+
+                        }else {
+                            //fazer verificação do sync_Status
+                        }
+                        mDialog.dismiss();
+                    } catch (JSONException e) {
+                        Toast.makeText(AcoesCultura.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(AcoesCultura.this, error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
+                }
+            }));
+
+        }
+    }
+
+    private void resgatarDatasUltimossPlanos() {
+        //Log.d(TAG, "resgatarDados: resgatou");
+        final Controller_UltimosPlanos cup = new Controller_UltimosPlanos(AcoesCultura.this);
+        Utils u = new Utils();
+        if (!u.isConected(getBaseContext())) {
+
+            mDialog.dismiss();
+        } else { // se tem acesso à internet
+
+            cup.removerUltimosPlanos();
+            String url = "http://mip2.000webhostapp.com/getUltimosPlanos.php?Cod_Talhao=" + Cod_Talhao;
+
+            RequestQueue queue = Volley.newRequestQueue(AcoesCultura.this);
+            queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    //Parsing json
+                    //Toast.makeText(Entrar.this,"AQUI", Toast.LENGTH_LONG).show();
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject obj = array.getJSONObject(i);
+                            String data = obj.getString("Data");
+                            int fk_codPraga = obj.getInt("fk_Praga_Cod_Praga");
+                            cup.addUltimosPlanos(data,Cod_Talhao,fk_codPraga);
+                        }
+                        mDialog.dismiss();
+                    } catch (JSONException e) {
+                        Toast.makeText(AcoesCultura.this, e.toString(), Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(AcoesCultura.this, error.toString(), Toast.LENGTH_LONG).show();
+                    mDialog.dismiss();
+                }
+            }));
+
+        }
+    }
+
+
+    public void openDialog(){
+        mDialog = new Dialog(this);
+        //vamos remover o titulo da Dialog
+        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //vamos carregar o xml personalizado
+        mDialog.setContentView(R.layout.dialog);
+        //DEixamos transparente
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        // não permitimos fechar esta dialog
+        mDialog.setCancelable(false);
+        //temos a instancia do ProgressBar!
+        final ProgressBar progressBar = ProgressBar.class.cast(mDialog.findViewById(R.id.progressBar));
+
+        mDialog.show();
+
+        // mDialog.dismiss(); -> para fechar a dialog
+
+    }
 
 }

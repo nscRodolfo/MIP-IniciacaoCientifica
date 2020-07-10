@@ -40,6 +40,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Propriedade;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.PropriedadeCardAdapter;
 import com.example.manejointeligentedepragas.model.PropriedadeModel;
@@ -64,6 +65,9 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
     //vars relative layout
     private ArrayList<PropriedadeModel> cards = new ArrayList<>();
 
+    private ArrayList<PropriedadeModel> web = new ArrayList<>();
+    private ArrayList<PropriedadeModel> local = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -77,17 +81,40 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
         fab = findViewById(R.id.fabAddProp);
         textView = findViewById(R.id.tvAddPropriedade);
 
-        if(tipoUsu.equals("Funcionario")){
-            setTitle("MIP² | Propriedades vinculadas");
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext()))
+        {
+            if(tipoUsu.equals("Funcionario")){
+                setTitle("MIP² | Propriedades vinculadas");
+                fab.hide();
+                textView.setVisibility(View.GONE);
+            }else if(tipoUsu.equals("Produtor")){
+                setTitle("MIP² | Propriedades");
+            }else if(tipoUsu.equals("Adm")){
+
+            }
+            mDialog.dismiss();
+            Controller_Propriedade cp = new Controller_Propriedade(Propriedades.this);
+            cards = cp.getPropriedade();
             fab.hide();
             textView.setVisibility(View.GONE);
-            resgatarDadosFunc(cu.getUser().getCod_Usuario());
-        }else if(tipoUsu.equals("Produtor")){
-            setTitle("MIP² | Propriedades");
-            resgatarDados(cu.getUser().getCod_Usuario());
-        }else if(tipoUsu.equals("Adm")){
+            iniciarRecyclerView();
+        }else {
+            if(tipoUsu.equals("Funcionario")){
+                setTitle("MIP² | Propriedades vinculadas");
+                fab.hide();
+                textView.setVisibility(View.GONE);
+                resgatarDadosFunc(cu.getUser().getCod_Usuario());
+            }else if(tipoUsu.equals("Produtor")){
+                setTitle("MIP² | Propriedades");
+                resgatarDados(cu.getUser().getCod_Usuario());
+            }else if(tipoUsu.equals("Adm")){
+
+            }
 
         }
+
+
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_propriedades);
@@ -248,7 +275,6 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
         }else { // se tem acesso à internet
 
             String url = "http://mip2.000webhostapp.com/resgatarPropriedades.php?Cod_Usuario=" + codUsuario;
-
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -266,10 +292,32 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
                                 u.setNome(obj.getString("Nome"));
                                 u.setCidade(obj.getString("Cidade"));
                                 u.setEstado(obj.getString("Estado"));
-                                cards.add(u);
+                                u.setFk_Cod_Produtor(obj.getInt("fk_Produtor_Cod_Produtor"));
+                                web.add(u);
                             }
-                            iniciarRecyclerView();
-                            mDialog.dismiss();
+                            Controller_Propriedade cp= new Controller_Propriedade(Propriedades.this);
+                            local = cp.getPropriedade();
+                             if(web.size() == local.size()) {
+                                 if(!web.equals(local)) {
+                                     cp.removerPropriedade();
+                                     local = web;
+                                     for (int i = 0; i < local.size(); i++) {
+                                         cp.addPropriedade(local.get(i));
+                                     }
+                                     cards = local;
+                                 }else{
+                                     cards = local;
+                                 }
+                             }else{
+                                 cp.removerPropriedade();
+                                 local = web;
+                                 for (int i = 0; i < local.size(); i++) {
+                                     cp.addPropriedade(local.get(i));
+                                 }
+                                 cards = local;
+                             }
+                             iniciarRecyclerView();
+                             mDialog.dismiss();
                         } catch (JSONException e) {
                             Toast.makeText(Propriedades.this, e.toString(), Toast.LENGTH_LONG).show();
                             mDialog.dismiss();
@@ -288,6 +336,10 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
         PropriedadeModel p1 = new PropriedadeModel(0,"Espera Feliz","Rio Pomba","MG",0);
         */
     }
+
+
+
+
 
     private void iniciarRecyclerView(){
         RecyclerView rv = findViewById(R.id.RVPropriedade);
@@ -324,7 +376,29 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
                             u.setNome(obj.getString("Nome"));
                             u.setCidade(obj.getString("Cidade"));
                             u.setEstado(obj.getString("Estado"));
-                            cards.add(u);
+                            u.setFk_Cod_Produtor(obj.getInt("fk_Produtor_Cod_Produtor"));
+                            web.add(u);
+                        }
+                        Controller_Propriedade cp= new Controller_Propriedade(Propriedades.this);
+                        local = cp.getPropriedade();
+                        if(web.size() == local.size()) {
+                            if(!web.equals(local)) {
+                                cp.removerPropriedade();
+                                local = web;
+                                for (int i = 0; i < local.size(); i++) {
+                                    cp.addPropriedade(local.get(i));
+                                }
+                                cards = local;
+                            }else{
+                                cards = local;
+                            }
+                        }else{
+                            cp.removerPropriedade();
+                            local = web;
+                            for (int i = 0; i < local.size(); i++) {
+                                cp.addPropriedade(local.get(i));
+                            }
+                            cards = local;
                         }
                         if(cards.isEmpty()){
                             AlertDialog.Builder dlgBox = new AlertDialog.Builder(Propriedades.this);

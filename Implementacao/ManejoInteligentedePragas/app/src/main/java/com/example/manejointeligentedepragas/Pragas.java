@@ -40,11 +40,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Praga;
+import com.example.manejointeligentedepragas.Crontroller.Controller_PresencaPraga;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.CulturaCardAdapter;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.PragaCardAdapter;
 import com.example.manejointeligentedepragas.model.CulturaModel;
 import com.example.manejointeligentedepragas.model.PragaModel;
+import com.example.manejointeligentedepragas.model.PresencaPragaModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,8 +68,12 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
     String nome;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
     ArrayList<String> pragasAdd = new ArrayList<String>();
     private Dialog mDialog;
+    ArrayList<PresencaPragaModel> localPresenca = new ArrayList<>();
+    ArrayList<PresencaPragaModel> webPresenca = new ArrayList<>();
+
 
     private DrawerLayout drawerLayout;
 
@@ -103,6 +110,7 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
         nome = getIntent().getStringExtra("NomeCultura");
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_praga);
@@ -141,7 +149,7 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("pragasAdd", pragasAdd);
                 i.putExtra("Aplicado", aplicado);
-                i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -159,6 +167,7 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
                 i.putExtra("pragasAdd", pragasAdd);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -179,6 +188,7 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
             i.putExtra("Cod_Propriedade", Cod_Propriedade);
             i.putExtra("Aplicado", aplicado);
             i.putExtra("nomePropriedade", nomePropriedade);
+            i.putExtra("Cod_Planta", Cod_Planta);
             startActivity(i);
         }
     }
@@ -256,10 +266,21 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
 
     private void resgatarDados() {
         //Log.d(TAG, "resgatarDados: resgatou");
+        final Controller_PresencaPraga cpp = new Controller_PresencaPraga(Pragas.this);
+        Controller_Praga cp = new Controller_Praga(Pragas.this);
 
         Utils u = new Utils();
         if (!u.isConected(getBaseContext())) {
-            Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+            localPresenca = cpp.getPresencaPraga(Cod_Talhao);
+            for(int i=0; i<localPresenca.size();i++){
+               PragaModel pm = new PragaModel();
+               pm.setCod_Praga(localPresenca.get(i).getFk_Cod_Praga());
+               pm.setNome(cp.getNome(localPresenca.get(i).getFk_Cod_Praga()));
+               pm.setStatus(localPresenca.get(i).getStatus());
+               cards.add(pm);
+               pragasAdd.add(pm.getNome());
+            }
+            iniciarRecyclerView();
             mDialog.dismiss();
         } else { // se tem acesso à internet
 
@@ -280,8 +301,21 @@ public class Pragas extends AppCompatActivity implements NavigationView.OnNaviga
                             u.setCod_Praga(obj.getInt("Cod_Praga"));
                             u.setNome(obj.getString("Nome"));
                             u.setStatus(obj.getInt("Status"));
+                            int codPresenca = obj.getInt("Cod_PresencaPraga");
                             cards.add(u);
                             pragasAdd.add(obj.getString("Nome"));
+                            cpp.addPresenca(u.getStatus(), Cod_Talhao, u.getCod_Praga(), 0, codPresenca);
+                            webPresenca.add(new PresencaPragaModel(u.getCod_Praga(),Cod_Talhao,codPresenca,u.getStatus(),0));
+                        }
+
+                        localPresenca = cpp.getPresencaPraga(Cod_Talhao);
+
+
+                        //Toast.makeText(Talhoes.this, "AQui", Toast.LENGTH_LONG).show();
+                        if(webPresenca.contains(localPresenca)) {
+
+                        }else {
+                            //fazer verificação do sync_Status
                         }
                         iniciarRecyclerView();
                         mDialog.dismiss();

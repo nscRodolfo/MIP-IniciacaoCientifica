@@ -48,6 +48,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
     String nomePropriedade;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     TextView tvMetodo;
     Spinner dropdown;
@@ -86,6 +87,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         tvMetodo = findViewById(R.id.tvConfMetodo);
         dropdown = findViewById(R.id.dropdownConfMetodo);
@@ -128,6 +130,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -349,6 +352,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
                                     i.putExtra("NomeCultura", nome);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -364,6 +368,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
                             i.putExtra("NomeCultura", nome);
                             i.putExtra("Aplicado", aplicado);
                             i.putExtra("nomePropriedade", nomePropriedade);
+                            i.putExtra("Cod_Planta", Cod_Planta);
                             startActivity(i);
                         }
                     } catch (JSONException e) {

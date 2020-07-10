@@ -252,7 +252,12 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
                         for (int i = 0; i< array.length(); i++){
                             JSONObject obj = array.getJSONObject(i);
                             AplicacaoModel am = new AplicacaoModel();
-                            am.setData(obj.getString("DataAplicacao"));
+                            String Data = obj.getString("DataAplicacao");
+                            String ano = Data.substring(0,4);
+                            String mes = Data.substring(5,7);
+                            String dia = Data.substring(8,10);
+                            String DataFinal = dia+"-"+mes+"-"+ano;
+                            am.setData(DataFinal);
                             am.setDataPlano(obj.getString("DataPlano"));
                             am.setPopPragas(obj.getInt("popPragas"));
                             am.setNumPlantas(obj.getInt("numPlantas"));

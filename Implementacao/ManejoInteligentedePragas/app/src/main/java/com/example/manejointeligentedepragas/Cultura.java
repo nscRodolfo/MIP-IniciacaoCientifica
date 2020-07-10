@@ -1,6 +1,8 @@
 package com.example.manejointeligentedepragas;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -33,6 +35,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Cultura;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Propriedade;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.CulturaCardAdapter;
 import com.example.manejointeligentedepragas.RecyclerViewAdapter.PropriedadeCardAdapter;
@@ -56,6 +60,8 @@ public class Cultura extends AppCompatActivity implements NavigationView.OnNavig
 
     private static final String TAG = "Cultura";
     private ArrayList<CulturaModel> cards = new ArrayList<>();
+    private ArrayList<CulturaModel> web = new ArrayList<>();
+    private ArrayList<CulturaModel> local = new ArrayList<>();
     Integer Cod_Propriedade;
     ArrayList<String> plantasadd = new ArrayList<String>();
     Integer numFunc = 0;
@@ -84,14 +90,38 @@ public class Cultura extends AppCompatActivity implements NavigationView.OnNavig
         Controller_Usuario cu = new Controller_Usuario(getBaseContext());
         tipoUsu = cu.getUser().getTipo();
 
-        if(tipoUsu.equals("Funcionario")){
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext())) {
+            Controller_Cultura cc = new Controller_Cultura(Cultura.this);
+            cards = cc.getCultura(Cod_Propriedade);
+            if(cards.size() == 0){
+                AlertDialog.Builder dlgBox = new AlertDialog.Builder(Cultura.this);
+                dlgBox.setTitle("Aviso");
+                dlgBox.setMessage("Para possuir os dados dessa cultura enquanto está sem internet, você precisa acessá-la online pelo menos uma vez.");
+                dlgBox.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dlgBox.show();
+            }
             tvAddCultura.setVisibility(View.GONE);
             fabAddCultura.hide();
             cardFuncionario.setVisibility(View.GONE);
-            resgatarDados();
-        }else if(tipoUsu.equals("Produtor")){
-            resgatarFunc();
-            resgatarDados();
+            mDialog.dismiss();
+            iniciarRecyclerView();
+        }else{
+            if(tipoUsu.equals("Funcionario")){
+                tvAddCultura.setVisibility(View.GONE);
+                fabAddCultura.hide();
+                cardFuncionario.setVisibility(View.GONE);
+                resgatarDados();
+            }else if(tipoUsu.equals("Produtor")){
+                resgatarFunc();
+                resgatarDados();
+            }
+
         }
 
         //menu novo
@@ -267,11 +297,33 @@ public class Cultura extends AppCompatActivity implements NavigationView.OnNavig
                             CulturaModel u = new CulturaModel();
                             u.setCod_Cultura(obj.getInt("Cod_Cultura"));
                             u.setFk_Cod_Propriedade(obj.getInt("fk_Propriedade_Cod_Propriedade"));
+                            u.setFk_Cod_Planta(obj.getInt("fk_Planta_Cod_Planta")); // adicionado
                             u.setnomePlanta(obj.getString("NomePlanta"));
                             u.setNumeroTalhoes(obj.getInt("count_talhao"));
                             u.setTamanhoCultura(obj.getDouble("TamanhoDaCultura"));
-                            cards.add(u);
+                            web.add(u);
                             plantasadd.add(obj.getString("NomePlanta"));
+                        }
+                        Controller_Cultura cc= new Controller_Cultura(Cultura.this);
+                        local = cc.getCultura(Cod_Propriedade);
+                        if(web.size() == local.size()) {
+                            if(!web.equals(local)) {
+                                local = web;
+                                for (int i = 0; i < local.size(); i++) {
+                                    cc.removerCulturaEspecifica(local.get(i));
+                                    cc.addCultura(local.get(i));
+                                }
+                                cards = local;
+                            }else{
+                                cards = local;
+                            }
+                        }else{
+                            local = web;
+                            for (int i = 0; i < local.size(); i++) {
+                                cc.removerCulturaEspecifica(local.get(i));
+                                cc.addCultura(local.get(i));
+                            }
+                            cards = local;
                         }
                         iniciarRecyclerView();
                         mDialog.dismiss();
@@ -292,14 +344,10 @@ public class Cultura extends AppCompatActivity implements NavigationView.OnNavig
     }
 
     private void iniciarRecyclerView(){
-
-        Log.d(TAG, "iniciarRecyclerView:  init iniciar");
         RecyclerView rv = findViewById(R.id.RVCultura);
         CulturaCardAdapter adapter = new CulturaCardAdapter(this, cards, Cod_Propriedade,nomePropriedade);
-
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     public void resgatarFunc(){

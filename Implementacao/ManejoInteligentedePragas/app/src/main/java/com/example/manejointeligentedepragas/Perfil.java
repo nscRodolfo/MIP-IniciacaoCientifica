@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.manejointeligentedepragas.Crontroller.Controller_Cultura;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Propriedade;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.model.UsuarioModel;
 
@@ -72,6 +74,10 @@ public class Perfil extends AppCompatActivity implements NavigationView.OnNaviga
             public void onClick(View v) {
                 Controller_Usuario cu = new Controller_Usuario(getBaseContext());
                 cu.removerUsuario();
+                Controller_Propriedade cp = new Controller_Propriedade(getBaseContext());
+                cp.removerPropriedade();
+                Controller_Cultura cc= new Controller_Cultura(getBaseContext());
+                cc.removerCultura();
                 Intent i = new Intent(Perfil.this, MainActivity.class);
                 startActivity(i);
             }

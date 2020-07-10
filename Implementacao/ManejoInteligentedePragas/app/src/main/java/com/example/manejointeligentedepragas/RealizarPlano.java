@@ -32,6 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Praga;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.model.PragaModel;
 
@@ -57,11 +58,13 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
     boolean aplicado;
     String nomePropriedade;
     int Cod_Talhao;
+    int Cod_Planta;
     String NomeTalhao;
 
     Integer codigoSelecionado;
     String nomeSelecionado;
     Integer statusSelecionado;
+
 
     Button selecionar;
 
@@ -84,6 +87,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
         nome = getIntent().getStringExtra("NomeCultura");
         aplicado = getIntent().getBooleanExtra("Aplicado", false);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_realizarPlano);
@@ -109,7 +113,9 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
 
         setTitle("MIP² | "+nome+": "+NomeTalhao);
 
-        ResgatarPragas(dropdown, codCultura);
+        //ResgatarPragas(dropdown, codCultura);
+
+        ResgatarPragasOffline(dropdown, codCultura);
 
         selecionar = findViewById(R.id.btnSelecionarPragaPA);
 
@@ -133,6 +139,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                         i.putExtra("Cod_Propriedade", Cod_Propriedade);
                         i.putExtra("Aplicado", aplicado);
                         i.putExtra("nomePropriedade", nomePropriedade);
+                        i.putExtra("Cod_Planta", Cod_Planta);
                         startActivity(i);
                     }
                 }else if(statusSelecionado == 2){
@@ -239,7 +246,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
     }
 
 
-
+/*
     public void ResgatarPragas(final Spinner dropdown, final int codCultura){
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
@@ -283,6 +290,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                                     i.putExtra("pragasAdd", pragasAdd);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -298,6 +306,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -324,6 +333,58 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
 
         }
     }
+*/
+    public void ResgatarPragasOffline(final Spinner dropdown, final int codCultura){
+        Controller_Praga cp = new Controller_Praga(RealizarPlano.this);
+        nomePraga=cp.getNomePresenca(Cod_Talhao);
+        codPraga=cp.getCodPresenca(Cod_Talhao);
+        statusPraga=cp.getStatusPresenca(Cod_Talhao);
+            mDialog.dismiss();
+            if(nomePraga.size()  == 0 && codPraga.size() == 0){
+                //selecionar.setVisibility(View.INVISIBLE);
+                AlertDialog.Builder dlgBox = new AlertDialog.Builder(RealizarPlano.this);
+                dlgBox.setTitle("Aviso!");
+                dlgBox.setMessage("Você não possui nenhuma praga cadastrada nesse talhão, deseja adicionar agora?");
+                dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<String> pragasAdd = new ArrayList<String>();
+                        Intent i = new Intent(RealizarPlano.this, AdicionarPraga.class);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
+                        i.putExtra("Cod_Cultura", codCultura);
+                        i.putExtra("NomeCultura", nome);
+                        i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                        i.putExtra("pragasAdd", pragasAdd);
+                        i.putExtra("Aplicado", aplicado);
+                        i.putExtra("nomePropriedade", nomePropriedade);
+                        i.putExtra("Cod_Planta", Cod_Planta);
+                        startActivity(i);
+                    }
+                });
+
+                dlgBox.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(RealizarPlano.this, AcoesCultura.class);
+                        i.putExtra("Cod_Talhao", Cod_Talhao);
+                        i.putExtra("NomeTalhao", NomeTalhao);
+                        i.putExtra("Cod_Cultura", codCultura);
+                        i.putExtra("NomeCultura", nome);
+                        i.putExtra("Cod_Propriedade", Cod_Propriedade);
+                        i.putExtra("Aplicado", aplicado);
+                        i.putExtra("nomePropriedade", nomePropriedade);
+                        i.putExtra("Cod_Planta", Cod_Planta);
+                        startActivity(i);
+                    }
+                });
+
+                dlgBox.show();
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, nomePraga);
+            dropdown.setAdapter(adapter);
+    }
     public void exibirCaixaDialogoVerde()
     {
         AlertDialog.Builder dlgBox = new AlertDialog.Builder(RealizarPlano.this);
@@ -342,6 +403,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -373,6 +435,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -404,6 +467,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -435,6 +499,7 @@ public class RealizarPlano extends AppCompatActivity implements NavigationView.O
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });

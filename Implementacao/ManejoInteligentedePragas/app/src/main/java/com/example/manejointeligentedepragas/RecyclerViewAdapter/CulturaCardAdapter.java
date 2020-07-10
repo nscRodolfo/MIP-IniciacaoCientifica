@@ -74,15 +74,19 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
 
         holder.tipoUsu = cu.getUser().getTipo();
 
+        Utils u = new Utils();
+        if(!u.isConected(culturaContext)){
 
-        if(holder.tipoUsu.equals("Produtor")) {
-            holder.parent_layout_cultura.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    exibirCaixaConfirmacao(cards.get(position), position);
-                    return true;
-                }
-            });
+        }else {
+            if (holder.tipoUsu.equals("Produtor")) {
+                holder.parent_layout_cultura.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        exibirCaixaConfirmacao(cards.get(position), position);
+                        return true;
+                    }
+                });
+            }
         }
         holder.parent_layout_cultura.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +98,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
                 // pega o contexr do construtor
                 i.putExtra("Cod_Cultura", cards.get(position).getCod_Cultura());
                 i.putExtra("NomeCultura", cards.get(position).getnomePlanta());
+                i.putExtra("Cod_Planta", cards.get(position).getFk_Cod_Planta());
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("nomePropriedade", nomePropriedade);
 

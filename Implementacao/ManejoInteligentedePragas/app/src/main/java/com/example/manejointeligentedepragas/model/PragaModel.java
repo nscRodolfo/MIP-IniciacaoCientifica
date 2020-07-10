@@ -14,9 +14,10 @@ public class PragaModel {
     private String Observacoes;
     private String HorarioDeAtuacao;
     private String EstagioDeAtuacao;
+    private String ControleCultural;
     private int Status;
 
-    public PragaModel(int cod_Praga, String nome, String familia, String ordem, String descricao, String nomeCientifico, String localizacao, String ambientePropicio, String cicloVida, String injurias, String observacoes, String horarioDeAtuacao, String estagioDeAtuacao, int Status) {
+    public PragaModel(int cod_Praga, String nome, String familia, String ordem, String descricao, String nomeCientifico, String localizacao, String ambientePropicio, String cicloVida, String injurias, String observacoes, String horarioDeAtuacao, String estagioDeAtuacao, int Status, String controleCultural) {
         this.Cod_Praga = cod_Praga;
         this.Nome = nome;
         this.Familia = familia;
@@ -31,6 +32,7 @@ public class PragaModel {
         this.HorarioDeAtuacao = horarioDeAtuacao;
         this.EstagioDeAtuacao = estagioDeAtuacao;
         this.Status = Status;
+        this.ControleCultural = controleCultural;
     }
     public PragaModel(String nome) {
         this.Nome = nome;
@@ -51,6 +53,7 @@ public class PragaModel {
         this.HorarioDeAtuacao = null;
         this.EstagioDeAtuacao = null;
         this.Status = 1;
+        this.ControleCultural = null;
     }
 
     public int getCod_Praga() {
@@ -163,5 +166,13 @@ public class PragaModel {
 
     public void setStatus(int status) {
         Status = status;
+    }
+
+    public String getControleCultural() {
+        return ControleCultural;
+    }
+
+    public void setControleCultural(String controleCultural) {
+        ControleCultural = controleCultural;
     }
 }

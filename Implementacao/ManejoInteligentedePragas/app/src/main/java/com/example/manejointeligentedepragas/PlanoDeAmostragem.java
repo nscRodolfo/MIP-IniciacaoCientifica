@@ -32,8 +32,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Atinge;
+import com.example.manejointeligentedepragas.Crontroller.Controller_PlanoAmostragem;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Praga;
+import com.example.manejointeligentedepragas.Crontroller.Controller_UltimosPlanos;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 import com.example.manejointeligentedepragas.ImageAdapter.ViewPagerAdapter;
+import com.example.manejointeligentedepragas.model.AtingeModel;
 import com.example.manejointeligentedepragas.model.PlanoAmostragemModel;
 
 import org.json.JSONArray;
@@ -62,6 +67,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     int numAmostras;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     int plantasTalhao;
     int pontosTalhao;
@@ -126,6 +132,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
 
         tvplantasTalhao = findViewById(R.id.tvNPlantasPorTalhao);
@@ -383,11 +390,29 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
 
 
     public void ResgatarAtinge(int codPraga, final int codCultura){
+        Controller_Atinge ca = new Controller_Atinge(PlanoDeAmostragem.this);
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
-            mDialog.dismiss();
+            AtingeModel atinge = ca.getAtinge(codPraga,Cod_Planta);
+            plantasTalhao = atinge.getNumeroPlantasAmostradas();
+            pontosTalhao = atinge.getPontosPorTalhao();
+            plantaPonto = atinge.getPlantasPorPonto();
+            nivelControle = atinge.getNivelDeControle();
+            numAmostras =  atinge.getNumAmostras();
+
+            if(numAmostras!=1){
+                tvContagemNumAmostras.setVisibility(View.VISIBLE);
+                tvNumAmostras.setVisibility(View.VISIBLE);
+                tvplantasTalhao.setText(String.valueOf(plantasTalhao));
+                tvplantaPonto.setText(String.valueOf(plantaPonto));
+                tvpontosTalhao.setText(String.valueOf(pontosTalhao));
+            }else{
+                tvplantasTalhao.setText(String.valueOf(plantasTalhao));
+                tvplantaPonto.setText(String.valueOf(plantaPonto));
+                tvpontosTalhao.setText(String.valueOf(pontosTalhao));
+            }
+
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgatarAtinge.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
 
@@ -416,7 +441,6 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                             tvplantasTalhao.setText(String.valueOf(plantasTalhao));
                             tvplantaPonto.setText(String.valueOf(plantaPonto));
                             tvpontosTalhao.setText(String.valueOf(pontosTalhao));
-
                         }else{
                             tvplantasTalhao.setText(String.valueOf(plantasTalhao));
                             tvplantaPonto.setText(String.valueOf(plantaPonto));
@@ -601,6 +625,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 i.putExtra("NomeCultura", nome);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -700,6 +725,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     public void SalvarPlanoAmostragem(PlanoAmostragemModel pa){
         //verifica todos os talhões, se qualquer um tiver o nível de controle atingido, é necessário o controle em toda cultura
                 // cálculo para conferir o nível de controle
+        Controller_PlanoAmostragem cpa = new Controller_PlanoAmostragem(PlanoDeAmostragem.this);
         if(numAmostras == 1){
             int ci = countInfestacao;
             int cp = countPlantas;
@@ -730,7 +756,8 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
             if(!u.isConected(getBaseContext()))
             {
                 mDialog.dismiss();
-                Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+                pa.setSync_Status(1);
+                cpa.addPlano(pa);
             }else { // se tem acesso à internet
                 Controller_Usuario cu = new Controller_Usuario(getBaseContext());
                 String Autor = cu.getUser().getNome();
@@ -765,6 +792,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                                 i.putExtra("nomePropriedade", nomePropriedade);
                                 i.putExtra("Cod_Talhao", Cod_Talhao);
                                 i.putExtra("NomeTalhao", NomeTalhao);
+                                i.putExtra("Cod_Planta", Cod_Planta);
                                 startActivity(i);
                             }else{
                                 mDialog.dismiss();
@@ -788,10 +816,11 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
 
     public void ChamaAmostra(int codPraga){
         Utils u = new Utils();
+        Controller_Praga cp = new Controller_Praga(PlanoDeAmostragem.this);
         if(!u.isConected(getBaseContext()))
         {
-            mDialog.dismiss();
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            amostra = cp.getAmostra(codPraga);
+
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/ChamaAmostra.php?Cod_Praga=" + codPraga;
 
@@ -827,7 +856,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         Utils u = new Utils();
         if (!u.isConected(getBaseContext())) {
             mDialog.dismiss();
-            Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
         } else { // se tem acesso à internet
 
             String url = "http://mip2.000webhostapp.com/resgatarFotoAmostra.php?Cod_Praga="+codP;
@@ -877,7 +906,16 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
         textview.setText(amostra+"\n");
         ViewPager viewPager = (ViewPager)view.findViewById(R.id.ViewPagerAmostra);
 
-        ResgatarFotoAmostra(viewPager, codPraga);
+
+        Utils u = new Utils();
+        Controller_Praga cp = new Controller_Praga(PlanoDeAmostragem.this);
+        if(!u.isConected(getBaseContext()))
+        {
+            viewPager.setVisibility(View.GONE);
+        }else {
+            ResgatarFotoAmostra(viewPager, codPraga);
+        }
+
         //ImageView showImg = new ImageView(this);
         //ImageView showImg = (ImageView)view.findViewById(R.id.imgView);
         //showImg.setImageResource(R.drawable.mineiro);
@@ -894,11 +932,38 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     }
 
     public void ResgatarDataUltimoPlano(int codPraga, final int codTalhao){
+        final Controller_UltimosPlanos cup = new Controller_UltimosPlanos(PlanoDeAmostragem.this);
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
+            ultimoPlano = cup.getUltimosPlanos(codTalhao,codPraga);
             mDialog.dismiss();
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            if(ultimoPlano!=null) {
+                //compare to volta 0 se forem iguais ou numero negativo/positivo se o dia for menor/maior
+                if (dataFormatada.equals(ultimoPlano)) {
+                    AlertDialog.Builder dlgBox = new AlertDialog.Builder(PlanoDeAmostragem.this);
+                    dlgBox.setCancelable(false);
+                    dlgBox.setTitle("Aviso!");
+                    dlgBox.setMessage("Você já realizou uma contagem dessa praga hoje, por favor espere até amanhã para realizar uma nova contagem.");
+                    dlgBox.setPositiveButton("Voltar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(PlanoDeAmostragem.this, AcoesCultura.class);
+                            i.putExtra("Cod_Talhao", Cod_Talhao);
+                            i.putExtra("NomeTalhao", NomeTalhao);
+                            i.putExtra("Cod_Propriedade", codPropriedade);
+                            i.putExtra("Cod_Cultura", codCultura);
+                            i.putExtra("NomeCultura", nome);
+                            i.putExtra("Aplicado", aplicado);
+                            i.putExtra("nomePropriedade", nomePropriedade);
+                            i.putExtra("Cod_Planta", Cod_Planta);
+                            startActivity(i);
+                        }
+                    });
+                    dlgBox.show();
+                }
+            }
+            //Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
             String url = "http://mip2.000webhostapp.com/resgataDataUltimoPlano.php?Cod_Praga=" + codPraga+"&&Cod_Talhao="+codTalhao;
 
@@ -933,6 +998,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                                             i.putExtra("NomeCultura", nome);
                                             i.putExtra("Aplicado", aplicado);
                                             i.putExtra("nomePropriedade", nomePropriedade);
+                                            i.putExtra("Cod_Planta", Cod_Planta);
                                             startActivity(i);
                                         }
                                     });

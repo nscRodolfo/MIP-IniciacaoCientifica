@@ -252,7 +252,12 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
                         for (int i = 0; i< array.length(); i++){
                             JSONObject obj = array.getJSONObject(i);
                             PlanoAmostragemModel pa = new PlanoAmostragemModel();
-                            pa.setDate(obj.getString("Data"));
+                            String Data = obj.getString("Data");
+                            String ano = Data.substring(0,4);
+                            String mes = Data.substring(5,7);
+                            String dia = Data.substring(8,10);
+                            String DataFinal = dia+"-"+mes+"-"+ano;
+                            pa.setDate(DataFinal);
                             pa.setPlantasAmostradas(obj.getInt("numPlantas"));
                             pa.setPlantasInfestadas(obj.getInt("popPragas"));
                             pa.setAutor(obj.getString("Autor"));

@@ -34,6 +34,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.manejointeligentedepragas.Auxiliar.Utils;
+import com.example.manejointeligentedepragas.Crontroller.Controller_Praga;
+import com.example.manejointeligentedepragas.Crontroller.Controller_PresencaPraga;
 import com.example.manejointeligentedepragas.Crontroller.Controller_Usuario;
 
 import org.json.JSONArray;
@@ -73,6 +75,8 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
 
     Button InfoPraga;
 
+    int Cod_Planta;
+
     private Dialog mDialog;
 
     private DrawerLayout drawerLayout;
@@ -91,6 +95,7 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
         nome = getIntent().getStringExtra("NomeCultura");
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         salvarPraga = findViewById(R.id.btnSalvrCultura);
         InfoPraga = findViewById(R.id.btnInfoPraga);
@@ -98,6 +103,7 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
         pragasAdd = getIntent().getStringArrayListExtra("pragasAdd");
 
         Spinner dropdown = findViewById(R.id.dropdownPraga);
+        mDialog.dismiss();
 
 
         //menu novo
@@ -123,7 +129,15 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
 
         setTitle("MIP² | "+nome+": "+NomeTalhao);
 
-        ResgatarPragas(dropdown, codCultura);
+        Controller_Praga cp = new Controller_Praga(AdicionarPraga.this);
+        nomePraga=cp.getPragaAtingeNome(Cod_Planta);
+        codPraga=cp.getPragaAtingeCodigo(Cod_Planta);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, nomePraga);
+        dropdown.setAdapter(adapter);
+
+
+        // ResgatarPragas(dropdown, codCultura);
 
         salvarPraga.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +186,7 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
             i.putExtra("Cod_Propriedade", Cod_Propriedade);
             i.putExtra("Aplicado", aplicado);
             i.putExtra("nomePropriedade", nomePropriedade);
+            i.putExtra("Cod_Planta", Cod_Planta);
             startActivity(i);
         }
     }
@@ -284,12 +299,27 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
 
 
     public void SalvarPraga(){
+        final Controller_PresencaPraga cpp = new Controller_PresencaPraga(AdicionarPraga.this);
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
             mDialog.dismiss();
             click = false;
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            if(pragasAdd.contains(nomeSelecionado)){
+                Toast.makeText(this,"Esta praga já existe em sua cultura.", Toast.LENGTH_LONG).show();
+            }else{
+                cpp.addPresencaSemCod(1,Cod_Talhao,codigoSelecionado,1);
+                Intent k = new Intent(AdicionarPraga.this, Pragas.class);
+                k.putExtra("Cod_Talhao", Cod_Talhao);
+                k.putExtra("NomeTalhao", NomeTalhao);
+                k.putExtra("Cod_Cultura", codCultura);
+                k.putExtra("NomeCultura", nome);
+                k.putExtra("Cod_Propriedade", Cod_Propriedade);
+                k.putExtra("Aplicado", aplicado);
+                k.putExtra("nomePropriedade", nomePropriedade);
+                k.putExtra("Cod_Planta", Cod_Planta);
+                startActivity(k);
+            }
         }else if(pragasAdd.contains(nomeSelecionado)){
             mDialog.dismiss();
             click = false;
@@ -321,6 +351,7 @@ public class AdicionarPraga extends AppCompatActivity implements NavigationView.
                             k.putExtra("Cod_Propriedade", Cod_Propriedade);
                             k.putExtra("Aplicado", aplicado);
                             k.putExtra("nomePropriedade", nomePropriedade);
+                            k.putExtra("Cod_Planta", Cod_Planta);
                             startActivity(k);
                         }else{
                             Toast.makeText(AdicionarPraga.this, "Praga não cadastrada! Tente novamente",Toast.LENGTH_LONG).show();

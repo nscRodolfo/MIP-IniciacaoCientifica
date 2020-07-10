@@ -2,17 +2,18 @@ package com.example.manejointeligentedepragas.model;
 
 public class AtingeModel {
     private int Cod_Atinge;
-    private String NivelDanoEconomico;
-    private String NivelDeControle;
-    private String NivelDeEquilibrio;
-    private String NumeroPlantasAmostradas;
-    private String PontosPorTalhao;
-    private String PlantasPorPonto;
+    private double NivelDanoEconomico;
+    private double NivelDeControle;
+    private double NivelDeEquilibrio;
+    private int NumeroPlantasAmostradas;
+    private int PontosPorTalhao;
+    private int PlantasPorPonto;
+    private int NumAmostras;
 
     private int fk_Cod_Planta;
     private int fk_Cod_Praga;
 
-    public AtingeModel(int cod_Atinge, String nivelDanoEconomico, String nivelDeControle, String nivelDeEquilibrio, String numeroPlantasAmostradas, String pontosPorTalhao, String plantasPorPonto, int fk_Cod_Planta, int fk_Cod_Praga) {
+    public AtingeModel(int cod_Atinge, double nivelDanoEconomico, double nivelDeControle, double nivelDeEquilibrio, int numeroPlantasAmostradas, int pontosPorTalhao, int plantasPorPonto, int fk_Cod_Planta, int fk_Cod_Praga, int numAmostras) {
         this.Cod_Atinge = cod_Atinge;
         this.NivelDanoEconomico = nivelDanoEconomico;
         this.NivelDeControle = nivelDeControle;
@@ -22,6 +23,19 @@ public class AtingeModel {
         this.PlantasPorPonto = plantasPorPonto;
         this.fk_Cod_Planta = fk_Cod_Planta;
         this.fk_Cod_Praga = fk_Cod_Praga;
+        this.NumAmostras = numAmostras;
+    }
+    public AtingeModel() {
+        this.Cod_Atinge = 0;
+        this.NivelDanoEconomico = 0;
+        this.NivelDeControle = 0;
+        this.NivelDeEquilibrio = 0;
+        this. NumeroPlantasAmostradas = 0;
+        this.PontosPorTalhao = 0;
+        this.PlantasPorPonto = 0;
+        this.fk_Cod_Planta = 0;
+        this.fk_Cod_Praga = 0;
+        this.NumAmostras = 0;
     }
 
     public int getCod_Atinge() {
@@ -32,51 +46,51 @@ public class AtingeModel {
         this.Cod_Atinge = cod_Atinge;
     }
 
-    public String getNivelDanoEconomico() {
+    public double getNivelDanoEconomico() {
         return NivelDanoEconomico;
     }
 
-    public void setNivelDanoEconomico(String nivelDanoEconomico) {
+    public void setNivelDanoEconomico(double nivelDanoEconomico) {
         this.NivelDanoEconomico = nivelDanoEconomico;
     }
 
-    public String getNivelDeControle() {
+    public double getNivelDeControle() {
         return NivelDeControle;
     }
 
-    public void setNivelDeControle(String nivelDeControle) {
+    public void setNivelDeControle(double nivelDeControle) {
         this.NivelDeControle = nivelDeControle;
     }
 
-    public String getNivelDeEquilibrio() {
+    public double getNivelDeEquilibrio() {
         return NivelDeEquilibrio;
     }
 
-    public void setNivelDeEquilibrio(String nivelDeEquilibrio) {
+    public void setNivelDeEquilibrio(double nivelDeEquilibrio) {
         this.NivelDeEquilibrio = nivelDeEquilibrio;
     }
 
-    public String getNumeroPlantasAmostradas() {
+    public int getNumeroPlantasAmostradas() {
         return NumeroPlantasAmostradas;
     }
 
-    public void setNumeroPlantasAmostradas(String numeroPlantasAmostradas) {
+    public void setNumeroPlantasAmostradas(int numeroPlantasAmostradas) {
         this.NumeroPlantasAmostradas = numeroPlantasAmostradas;
     }
 
-    public String getPontosPorTalhao() {
+    public int getPontosPorTalhao() {
         return PontosPorTalhao;
     }
 
-    public void setPontosPorTalhao(String pontosPorTalhao) {
+    public void setPontosPorTalhao(int pontosPorTalhao) {
         this.PontosPorTalhao = pontosPorTalhao;
     }
 
-    public String getPlantasPorPonto() {
+    public int getPlantasPorPonto() {
         return PlantasPorPonto;
     }
 
-    public void setPlantasPorPonto(String plantasPorPonto) {
+    public void setPlantasPorPonto(int plantasPorPonto) {
         this.PlantasPorPonto = plantasPorPonto;
     }
 
@@ -94,5 +108,13 @@ public class AtingeModel {
 
     public void setFk_Cod_Praga(int fk_Cod_Praga) {
         this.fk_Cod_Praga = fk_Cod_Praga;
+    }
+
+    public int getNumAmostras() {
+        return NumAmostras;
+    }
+
+    public void setNumAmostras(int numAmostras) {
+        NumAmostras = numAmostras;
     }
 }
