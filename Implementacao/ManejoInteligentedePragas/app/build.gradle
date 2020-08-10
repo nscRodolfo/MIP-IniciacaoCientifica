@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
-        applicationId "com.example.manejointeligentedepragas"
+        applicationId "my.aplication.manejointeligentedepragas"
         minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 1
+        targetSdkVersion 29
+        versionCode 4
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -70,4 +70,7 @@ dependencies {
 
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
+
+    //ver estado da net
+    implementation 'com.zplesac:connectionbuddy:2.0.1'
 }

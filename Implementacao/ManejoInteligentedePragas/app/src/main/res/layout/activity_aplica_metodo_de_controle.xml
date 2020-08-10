@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AplicaMetodoDeControle"
+    tools:context="my.aplication.manejointeligentedepragas.AplicaMetodoDeControle"
     android:id="@+id/drawer_layout_aplicaMetodo"
     android:fitsSystemWindows="true">
 
@@ -23,6 +23,7 @@
             android:text="@string/aplicar_m_todo_que_n_o_est_na_base_de_dados"
             android:textColor="#659251"
             android:textSize="18sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,6 +112,7 @@
             android:padding="9dp"
             android:text="@string/aplicar_este_m_todo"
             android:textColor="#fff"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etNovoMetodo" />
 
@@ -121,13 +123,14 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+            android:autofillHints=""
             android:ems="10"
             android:hint="@string/novo_m_todo"
             android:inputType="textPersonName"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvConfMetodo2"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/tvConfMetodo2" />
 
     </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.NavigationView

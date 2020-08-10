@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlanoDeAmostragem"
+    tools:context="my.aplication.manejointeligentedepragas.PlanoDeAmostragem"
     android:id="@+id/drawer_layout_plano_de_amostragem_novo"
     android:fitsSystemWindows="true"
     >

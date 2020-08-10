@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdicionarPraga"
+    tools:context="my.aplication.manejointeligentedepragas.AdicionarPraga"
     android:id="@+id/drawer_layout_add_praga"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">

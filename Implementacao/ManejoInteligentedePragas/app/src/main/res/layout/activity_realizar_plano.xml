@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RealizarPlano"
+    tools:context="my.aplication.manejointeligentedepragas.RealizarPlano"
     android:id="@+id/drawer_layout_realizarPlano"
     android:fitsSystemWindows="true"
     >

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".infoMetodo"
+    tools:context="my.aplication.manejointeligentedepragas.infoMetodo"
     tools:openDrawer="start">
 
 

@@ -162,5 +162,6 @@
     <string name="nova_senha">Nova senha:</string>
     <string name="confirma_o">Confirmação:</string>
     <string name="repetir_nova_senha">Repetir nova senha:</string>
-    >
+    <string name="sobre_n_s">Sobre nós</string>
+
 </resources>

@@ -17,7 +17,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="8dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/ic_novo_dnvnovo"
         android:layout_gravity="center"
         android:contentDescription="@string/todo" />
 

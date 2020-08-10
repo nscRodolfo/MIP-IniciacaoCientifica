@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AcoesCultura"
+    tools:context="my.aplication.manejointeligentedepragas.AcoesCultura"
     android:id="@+id/drawer_layout_acoes_cultura"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">

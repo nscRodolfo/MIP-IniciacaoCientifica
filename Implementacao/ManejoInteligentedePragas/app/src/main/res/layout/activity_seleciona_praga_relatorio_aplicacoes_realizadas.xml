@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelecionaPragaRelatorioAplicacoesRealizadas"
+    tools:context="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioAplicacoesRealizadas"
     android:id="@+id/drawer_layout_SPRAR"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">

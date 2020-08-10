@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VisualizaMetodos"
+    tools:context="my.aplication.manejointeligentedepragas.VisualizaMetodos"
     android:id="@+id/drawer_layout_visuMetodo"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"

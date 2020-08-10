@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelecionaPragaRelatorioAplicacoesPlanos"
+    tools:context="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioAplicacoesPlanos"
     android:id="@+id/drawer_layout_SPAP"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">

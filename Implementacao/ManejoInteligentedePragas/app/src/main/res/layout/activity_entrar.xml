@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Entrar"
+    tools:context="my.aplication.manejointeligentedepragas.Entrar"
     android:id="@+id/drawer_layout_entrar"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
@@ -78,13 +78,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/logo"
-        android:src="@drawable/icapp"
+        android:src="@drawable/semfundoo"
         app:layout_constraintBottom_toTopOf="@+id/tvEmail2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_entrar"
-        tools:srcCompat="@drawable/icapp" />
+        tools:srcCompat="@drawable/semfundoo" />
 
     <TextView
         android:id="@+id/tvSenha"
