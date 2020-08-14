@@ -127,7 +127,7 @@ public class FuncionarioCardAdapter extends RecyclerView.Adapter<FuncionarioCard
 
     public void ExcluirFuncionario(Integer CodU){
 
-        String url = "http://mip2.000webhostapp.com/excluirFuncionario.php?Cod_Usuario="+CodU+"&&Cod_Propriedade="+Cod_Propriedade ;
+        String url = "https://mip.software/phpapp/excluirFuncionario.php?Cod_Usuario="+CodU+"&&Cod_Propriedade="+Cod_Propriedade ;
 
         RequestQueue queue = Volley.newRequestQueue(funcionarioContext);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

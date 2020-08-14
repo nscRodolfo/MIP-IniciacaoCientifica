@@ -298,7 +298,7 @@ public class PragaCardAdapter extends RecyclerView.Adapter<PragaCardAdapter.View
 
     public void ExcluirPraga(final Integer CodP, final Integer CodT){
 
-        String url = "http://mip2.000webhostapp.com/excluirPraga.php?Cod_Praga="+ CodP +"&&Cod_Talhao="+CodT ;
+        String url = "https://mip.software/phpapp/excluirPraga.php?Cod_Praga="+ CodP +"&&Cod_Talhao="+CodT ;
 
         RequestQueue queue = Volley.newRequestQueue(pragaContext);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

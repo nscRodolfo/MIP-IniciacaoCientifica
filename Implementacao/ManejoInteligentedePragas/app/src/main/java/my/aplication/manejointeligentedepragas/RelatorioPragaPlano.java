@@ -179,7 +179,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -279,7 +279,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDadosGraphPlantasPlanos.php?Cod_Talhao="+Cod_Talhao+"&&Cod_Praga="+codPraga;
+            String url = "https://mip.software/phpapp/resgataDadosGraphPlantasPlanos.php?Cod_Talhao="+Cod_Talhao+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 

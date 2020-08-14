@@ -164,7 +164,7 @@ public class Cadastro extends AppCompatActivity implements NavigationView.OnNavi
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
             case R.id.drawerReferencias:
@@ -229,7 +229,7 @@ public class Cadastro extends AppCompatActivity implements NavigationView.OnNavi
         }else{
             pbc.setVisibility(View.VISIBLE);
             senha = convertPassMd5(senha);
-            String url = "http://mip2.000webhostapp.com/cadastrar.php?Nome="+nome+
+            String url = "https://mip.software/phpapp/cadastrar.php?Nome="+nome+
                     "&&Telefone="+telefone+"&&Email="+email+"&&Senha="+senha+"&&tipoUsu="+tipoUsuario;
             RequestQueue queue = Volley.newRequestQueue(this);
 

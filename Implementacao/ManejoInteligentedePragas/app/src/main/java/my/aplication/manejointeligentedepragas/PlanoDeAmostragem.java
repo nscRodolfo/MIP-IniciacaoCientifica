@@ -368,7 +368,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -416,7 +416,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
             }
 
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgatarAtinge.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
+            String url = "https://mip.software/phpapp/resgatarAtinge.php?Cod_Cultura="+codCultura+"&&Cod_Praga="+codPraga;
 
 
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -781,7 +781,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                 Controller_Usuario cu = new Controller_Usuario(getBaseContext());
                 String Autor = cu.getUser().getNome();
 
-                String url = "http://mip2.000webhostapp.com/salvaPlanoAmostragem.php?Cod_Talhao=" + Cod_Talhao
+                String url = "https://mip.software/phpapp/salvaPlanoAmostragem.php?Cod_Talhao=" + Cod_Talhao
                         +"&&Data="+dataFormatada
                         +"&&PlantasInfestadas="+pa.getPlantasInfestadas()
                         +"&&PlantasAmostradas="+pa.getPlantasAmostradas()
@@ -841,7 +841,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
             amostra = cp.getAmostra(codPraga);
 
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/ChamaAmostra.php?Cod_Praga=" + codPraga;
+            String url = "https://mip.software/phpapp/ChamaAmostra.php?Cod_Praga=" + codPraga;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -878,7 +878,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
             //Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
         } else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgatarFotoAmostra.php?Cod_Praga="+codP;
+            String url = "https://mip.software/phpapp/resgatarFotoAmostra.php?Cod_Praga="+codP;
 
             RequestQueue queue = Volley.newRequestQueue(PlanoDeAmostragem.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -984,7 +984,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
             }
             //Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDataUltimoPlano.php?Cod_Praga=" + codPraga+"&&Cod_Talhao="+codTalhao;
+            String url = "https://mip.software/phpapp/resgataDataUltimoPlano.php?Cod_Praga=" + codPraga+"&&Cod_Talhao="+codTalhao;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

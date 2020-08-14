@@ -60,7 +60,7 @@ public class Sobre extends AppCompatActivity implements NavigationView.OnNavigat
                 "Monica Simão Giponi - Agroecologia\n" +
                 "\n" +
                 "Deixamos aqui um agradecimento especial ao nosso grande amigo Daniel Pimenta, que esteve nos ajudando desde o início do projeto. " +
-                "\n\nPara entrar em contato com qualquer dúvidas, erros e afins a nossa caixa de e-mail está aberta para ajudá-los: agroecomp.corp@gmail.com\n");
+                "\n\nTemos um site de apoio, onde é possível visualizar as informações de maneira mais simples e baixar relatórios em COPY, CSV, EXCEL e PDF. Confira no site: mip.software \n\nPara entrar em contato com qualquer dúvidas, erros e afins a nossa caixa de e-mail está aberta para ajudá-los: agroecomp.corp@gmail.com\n");
 
     }
 

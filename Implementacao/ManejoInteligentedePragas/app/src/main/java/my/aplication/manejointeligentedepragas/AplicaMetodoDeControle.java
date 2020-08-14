@@ -28,7 +28,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import my.aplication.manejointeligentedepragas.Auxiliar.Utils;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PlanoAmostragem;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PresencaPraga;
 import my.aplication.manejointeligentedepragas.Crontroller.Controller_Usuario;
+import my.aplication.manejointeligentedepragas.model.PlanoAmostragemModel;
+import my.aplication.manejointeligentedepragas.model.PresencaPragaModel;
 
 import com.example.manejointeligentedepragas.R;
 
@@ -39,6 +43,12 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.zplesac.connectionbuddy.ConnectionBuddy;
+import com.zplesac.connectionbuddy.ConnectionBuddyConfiguration;
+import com.zplesac.connectionbuddy.interfaces.ConnectivityChangeListener;
+import com.zplesac.connectionbuddy.models.ConnectivityEvent;
+
 
 public class AplicaMetodoDeControle extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -75,11 +85,18 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
 
     private DrawerLayout drawerLayout;
 
+    ArrayList<PresencaPragaModel> presencaPragaModels = new ArrayList();
+
+    ArrayList<PlanoAmostragemModel> planoAmostragemModels = new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aplica_metodo_de_controle);
+
+        ConnectionBuddyConfiguration networkInspectorConfiguration = new ConnectionBuddyConfiguration.Builder(this).build();
+        ConnectionBuddy.getInstance().init(networkInspectorConfiguration);
 
         codPropriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
         codCultura = getIntent().getIntExtra("Cod_Cultura", 0);
@@ -183,6 +200,95 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        ConnectionBuddy.getInstance().registerForConnectivityEvents(this, new ConnectivityChangeListener() {
+            @Override
+            public void onConnectionChange(ConnectivityEvent event) {
+                Utils u = new Utils();
+                if(!u.isConected(getBaseContext()))
+                {
+                    //Toast.makeText(AcoesCultura.this,"Você está offline!", Toast.LENGTH_LONG).show();
+                }else{
+                    final Controller_PlanoAmostragem cpa = new Controller_PlanoAmostragem(AplicaMetodoDeControle.this);
+                    final Controller_PresencaPraga cpp = new Controller_PresencaPraga(AplicaMetodoDeControle.this);
+
+                    //Toast.makeText(AcoesCultura.this,"Você está online!", Toast.LENGTH_LONG).show();
+
+                    planoAmostragemModels = cpa.getPlanoOffline();
+                    presencaPragaModels = cpp.getPresencaPragaOffline();
+
+                    for(int i=0; i<planoAmostragemModels.size(); i++){
+                        SalvarPlanos(planoAmostragemModels.get(i));
+                    }
+                    cpa.removerPlano();
+
+                    for(int i=0; i<presencaPragaModels.size(); i++){
+                        SalvarPresencas(presencaPragaModels.get(i));
+                    }
+                    cpp.updatePresencaSyncStatus();
+
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ConnectionBuddy.getInstance().unregisterFromConnectivityEvents(this);
+    }
+
+
+    public void SalvarPlanos(PlanoAmostragemModel pam){
+        Controller_Usuario cu = new Controller_Usuario(AplicaMetodoDeControle.this);
+        String Autor = cu.getUser().getNome();
+
+        String url = "https://mip.software/phpapp/salvaPlanoAmostragem.php?Cod_Talhao=" + pam.getFk_Cod_Talhao()
+                +"&&Data="+pam.getDate()
+                +"&&PlantasInfestadas="+pam.getPlantasInfestadas()
+                +"&&PlantasAmostradas="+pam.getPlantasAmostradas()
+                +"&&Cod_Praga="+pam.getFk_Cod_Praga()
+                +"&&Autor="+Autor;
+
+        RequestQueue queue = Volley.newRequestQueue(AplicaMetodoDeControle.this);
+        queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AplicaMetodoDeControle.this,error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
+    public void SalvarPresencas(PresencaPragaModel ppm){
+        String url = "https://mip.software/phpapp/updatePraga.php?Cod_Praga="+ppm.getFk_Cod_Praga()+
+                "&&Cod_Talhao="+ppm.getFk_Cod_Talhao()+"&&Status="+ppm.getStatus();
+        RequestQueue queue = Volley.newRequestQueue(AplicaMetodoDeControle.this);
+        queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AplicaMetodoDeControle.this,error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.drawerPerfil:
@@ -225,7 +331,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
 
             case R.id.drawerReferencias:
@@ -251,7 +357,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
         {
             ExibeCaixaDialogo();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/selecionarMetodoConf.php?cod_Praga=" + codPraga;
+            String url = "https://mip.software/phpapp/selecionarMetodoConf.php?cod_Praga=" + codPraga;
 
 
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -298,7 +404,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
             Controller_Usuario cu = new Controller_Usuario(getBaseContext());
             String Autor = cu.getUser().getNome();
 
-            String url = "http://mip2.000webhostapp.com/aplicacao.php?Cod_Praga=" + codPraga + "&&Cod_Talhao="+ cod_Talhao + "&&Data=" + data + "&&Cod_Metodo="+codMetodo+"&&Autor="+Autor;
+            String url = "https://mip.software/phpapp/aplicacao.php?Cod_Praga=" + codPraga + "&&Cod_Talhao="+ cod_Talhao + "&&Data=" + data + "&&Cod_Metodo="+codMetodo+"&&Autor="+Autor;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -321,7 +427,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/infoMetodo.php?Cod_Metodo="+codM;
+            String url = "https://mip.software/phpapp/infoMetodo.php?Cod_Metodo="+codM;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -390,7 +496,7 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
     public void ExibeCaixaDialogo(){
         AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
         dlgBox.setTitle("Aviso!");
-        dlgBox.setMessage("Você só pode cadastrar a aplicação enquanto estiver online!");
+        dlgBox.setMessage("Por enquanto, você só pode cadastrar uma aplicação online! Esta função será disponibilizada no futuro!");
         dlgBox.setCancelable(false);
         dlgBox.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
             @Override

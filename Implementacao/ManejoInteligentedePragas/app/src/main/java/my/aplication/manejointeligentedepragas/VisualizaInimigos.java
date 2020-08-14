@@ -53,6 +53,8 @@ public class VisualizaInimigos extends AppCompatActivity implements NavigationVi
 
     private DrawerLayout drawerLayout;
 
+    private String tipoUsu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,12 +151,24 @@ public class VisualizaInimigos extends AppCompatActivity implements NavigationVi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.drawerPerfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
+                Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu.getUser().getTipo();
+                if(tipoUsu == null){
+                    Toast.makeText(VisualizaInimigos.this,"Para acessar seu perfil, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent i= new Intent(this, Perfil.class);
+                    startActivity(i);
+                }
                 break;
             case R.id.drawerProp:
-                Intent prop= new Intent(this, Propriedades.class);
-                startActivity(prop);
+                Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu1.getUser().getTipo();
+                if(tipoUsu==null){
+                    Toast.makeText(VisualizaInimigos.this,"Para acessar as propriedades, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent prop= new Intent(this, Propriedades.class);
+                    startActivity(prop);
+                }
                 break;
 
             case R.id.drawerPlantas:
@@ -188,7 +202,7 @@ public class VisualizaInimigos extends AppCompatActivity implements NavigationVi
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -212,7 +226,7 @@ public class VisualizaInimigos extends AppCompatActivity implements NavigationVi
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/visualizaInimigoNatural.php?Cod_Praga="+codPraga;
+            String url = "https://mip.software/phpapp/visualizaInimigoNatural.php?Cod_Praga="+codPraga;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

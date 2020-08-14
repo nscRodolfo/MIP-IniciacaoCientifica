@@ -266,7 +266,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         Controller_Usuario cu = new Controller_Usuario(AcoesCultura.this);
         String Autor = cu.getUser().getNome();
 
-        String url = "http://mip2.000webhostapp.com/salvaPlanoAmostragem.php?Cod_Talhao=" + pam.getFk_Cod_Talhao()
+        String url = "https://mip.software/phpapp/salvaPlanoAmostragem.php?Cod_Talhao=" + pam.getFk_Cod_Talhao()
                 +"&&Data="+pam.getDate()
                 +"&&PlantasInfestadas="+pam.getPlantasInfestadas()
                 +"&&PlantasAmostradas="+pam.getPlantasAmostradas()
@@ -293,7 +293,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
     public void SalvarPresencas(PresencaPragaModel ppm){
         add = false;
 
-        String url = "http://mip2.000webhostapp.com/updatePraga.php?Cod_Praga="+ppm.getFk_Cod_Praga()+
+        String url = "https://mip.software/phpapp/updatePraga.php?Cod_Praga="+ppm.getFk_Cod_Praga()+
                 "&&Cod_Talhao="+ppm.getFk_Cod_Talhao()+"&&Status="+ppm.getStatus();
         RequestQueue queue = Volley.newRequestQueue(AcoesCultura.this);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -389,7 +389,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
             mDialog.dismiss();
         } else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgatarPragas.php?Cod_Talhao=" + Cod_Talhao;
+            String url = "https://mip.software/phpapp/resgatarPragas.php?Cod_Talhao=" + Cod_Talhao;
 
             RequestQueue queue = Volley.newRequestQueue(AcoesCultura.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -445,7 +445,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
         } else { // se tem acesso à internet
 
             cup.removerUltimosPlanos();
-            String url = "http://mip2.000webhostapp.com/getUltimosPlanos.php?Cod_Talhao=" + Cod_Talhao;
+            String url = "https://mip.software/phpapp/getUltimosPlanos.php?Cod_Talhao=" + Cod_Talhao;
 
             RequestQueue queue = Volley.newRequestQueue(AcoesCultura.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -487,7 +487,7 @@ public class AcoesCultura extends AppCompatActivity implements NavigationView.On
             mDialog.dismiss();
         }else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgataAplicacao.php?Cod_Talhao=" + Cod_Talhao;
+            String url = "https://mip.software/phpapp/resgataAplicacao.php?Cod_Talhao=" + Cod_Talhao;
 
             RequestQueue queue = Volley.newRequestQueue(AcoesCultura.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

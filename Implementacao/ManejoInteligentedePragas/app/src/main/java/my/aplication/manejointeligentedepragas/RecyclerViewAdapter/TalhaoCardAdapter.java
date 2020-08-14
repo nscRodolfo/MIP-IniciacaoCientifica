@@ -219,7 +219,7 @@ public class TalhaoCardAdapter extends RecyclerView.Adapter<TalhaoCardAdapter.Vi
     public void ExcluirTalhao(Integer CodT, final boolean aplicado){
 
 
-        String url = "http://mip2.000webhostapp.com/excluirTalhao.php?Cod_Talhao="+ CodT  ;
+        String url = "https://mip.software/phpapp/excluirTalhao.php?Cod_Talhao="+ CodT  ;
 
         RequestQueue queue = Volley.newRequestQueue(talhaoContext);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -266,7 +266,7 @@ public class TalhaoCardAdapter extends RecyclerView.Adapter<TalhaoCardAdapter.Vi
             //Toast.makeText(talhaoContext,""+cards.get(1).isAplicado(), Toast.LENGTH_LONG).show();
             //Toast.makeText(talhaoContext,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/diasParaContagem.php?Cod_Talhao=" + cod_Talhao;
+            String url = "https://mip.software/phpapp/diasParaContagem.php?Cod_Talhao=" + cod_Talhao;
             RequestQueue queue = Volley.newRequestQueue(talhaoContext);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 

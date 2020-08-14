@@ -24,17 +24,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import my.aplication.manejointeligentedepragas.Auxiliar.Utils;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PlanoAmostragem;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PresencaPraga;
 import my.aplication.manejointeligentedepragas.Crontroller.Controller_Usuario;
 
 import com.example.manejointeligentedepragas.R;
 
+import my.aplication.manejointeligentedepragas.model.PlanoAmostragemModel;
+import my.aplication.manejointeligentedepragas.model.PresencaPragaModel;
 import my.aplication.manejointeligentedepragas.model.UsuarioModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.zplesac.connectionbuddy.ConnectionBuddy;
+import com.zplesac.connectionbuddy.ConnectionBuddyConfiguration;
+import com.zplesac.connectionbuddy.interfaces.ConnectivityChangeListener;
+import com.zplesac.connectionbuddy.models.ConnectivityEvent;
+
 
 public class AtualizarInfoPerfil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -48,12 +59,20 @@ public class AtualizarInfoPerfil extends AppCompatActivity implements Navigation
     String tipo;
     String senha;
 
+    ArrayList<PresencaPragaModel> presencaPragaModels = new ArrayList();
+
+    ArrayList<PlanoAmostragemModel> planoAmostragemModels = new ArrayList();
+
     private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atualizar_info_perfil);
+
+        ConnectionBuddyConfiguration networkInspectorConfiguration = new ConnectionBuddyConfiguration.Builder(this).build();
+        ConnectionBuddy.getInstance().init(networkInspectorConfiguration);
+
 
         etNome = findViewById(R.id.etNomeInfoPerfil);
         etTel = findViewById(R.id.etTelInfoPerfil);
@@ -69,6 +88,8 @@ public class AtualizarInfoPerfil extends AppCompatActivity implements Navigation
         codigo = cu1.getUser().getCod_Usuario();
         tipo = cu1.getUser().getTipo();
         senha = cu1.getUser().getSenha();
+
+
 
         /*Toast.makeText(AtualizarInfoPerfil.this,""+senha, Toast.LENGTH_LONG).show();
         Toast.makeText(AtualizarInfoPerfil.this,""+tipo, Toast.LENGTH_LONG).show();
@@ -119,6 +140,95 @@ public class AtualizarInfoPerfil extends AppCompatActivity implements Navigation
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ConnectionBuddy.getInstance().registerForConnectivityEvents(this, new ConnectivityChangeListener() {
+            @Override
+            public void onConnectionChange(ConnectivityEvent event) {
+                Utils u = new Utils();
+                if(!u.isConected(getBaseContext()))
+                {
+                    //Toast.makeText(AcoesCultura.this,"Você está offline!", Toast.LENGTH_LONG).show();
+                }else{
+                    final Controller_PlanoAmostragem cpa = new Controller_PlanoAmostragem(AtualizarInfoPerfil.this);
+                    final Controller_PresencaPraga cpp = new Controller_PresencaPraga(AtualizarInfoPerfil.this);
+
+                    //Toast.makeText(AcoesCultura.this,"Você está online!", Toast.LENGTH_LONG).show();
+
+                    planoAmostragemModels = cpa.getPlanoOffline();
+                    presencaPragaModels = cpp.getPresencaPragaOffline();
+
+                    for(int i=0; i<planoAmostragemModels.size(); i++){
+                        SalvarPlanos(planoAmostragemModels.get(i));
+                    }
+                    cpa.removerPlano();
+
+                    for(int i=0; i<presencaPragaModels.size(); i++){
+                        SalvarPresencas(presencaPragaModels.get(i));
+                    }
+                    cpp.updatePresencaSyncStatus();
+
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ConnectionBuddy.getInstance().unregisterFromConnectivityEvents(this);
+    }
+
+
+    public void SalvarPlanos(PlanoAmostragemModel pam){
+        Controller_Usuario cu = new Controller_Usuario(AtualizarInfoPerfil.this);
+        String Autor = cu.getUser().getNome();
+
+        String url = "https://mip.software/phpapp/salvaPlanoAmostragem.php?Cod_Talhao=" + pam.getFk_Cod_Talhao()
+                +"&&Data="+pam.getDate()
+                +"&&PlantasInfestadas="+pam.getPlantasInfestadas()
+                +"&&PlantasAmostradas="+pam.getPlantasAmostradas()
+                +"&&Cod_Praga="+pam.getFk_Cod_Praga()
+                +"&&Autor="+Autor;
+
+        RequestQueue queue = Volley.newRequestQueue(AtualizarInfoPerfil.this);
+        queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AtualizarInfoPerfil.this,error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
+    public void SalvarPresencas(PresencaPragaModel ppm){
+        String url = "https://mip.software/phpapp/updatePraga.php?Cod_Praga="+ppm.getFk_Cod_Praga()+
+                "&&Cod_Talhao="+ppm.getFk_Cod_Talhao()+"&&Status="+ppm.getStatus();
+        RequestQueue queue = Volley.newRequestQueue(AtualizarInfoPerfil.this);
+        queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AtualizarInfoPerfil.this,error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
     public void AtualizaInformacoes(){
         UsuarioModel u = new UsuarioModel();
         u.setCod_Usuario(codigo);
@@ -142,7 +252,7 @@ public class AtualizarInfoPerfil extends AppCompatActivity implements Navigation
         }else {
             Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
             cu1.updateUser(u);
-            String url = "http://mip2.000webhostapp.com/attInfoPerfil.php?Nome=" + etNome.getText().toString() +
+            String url = "https://mip.software/phpapp/attInfoPerfil.php?Nome=" + etNome.getText().toString() +
                     "&&Telefone=" + etNome.getText().toString() + "&&Email=" + etEmail.getText().toString() + "&&Cod_Usu=" + codigo;
             RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -227,7 +337,7 @@ public class AtualizarInfoPerfil extends AppCompatActivity implements Navigation
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
             case R.id.drawerReferencias:

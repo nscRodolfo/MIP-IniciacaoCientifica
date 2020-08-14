@@ -1,5 +1,7 @@
 package my.aplication.manejointeligentedepragas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -53,6 +55,7 @@ public class VisualizaMetodos extends AppCompatActivity implements NavigationVie
     private ArrayList<String> pesquisa = new ArrayList<String>();
     private ArrayList<Integer> codMetodoPesquisa = new ArrayList<Integer>();
     private DrawerLayout drawerLayout;
+    private String tipoUsu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,14 @@ public class VisualizaMetodos extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_visualiza_metodos);
 
         cod_Praga = getIntent().getIntExtra("Cod_Praga", 0);
+
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext())) {
+            ExibeCaixaDialogo();
+        }else{
+
+        }
+
 
         edtPesquisaMetodos = findViewById(R.id.PesquisaMetodos);
         final ListView listView = findViewById(R.id.ListViewMetodos);
@@ -157,12 +168,24 @@ public class VisualizaMetodos extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.drawerPerfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
+                Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu.getUser().getTipo();
+                if(tipoUsu == null){
+                    Toast.makeText(VisualizaMetodos.this,"Para acessar seu perfil, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent i= new Intent(this, Perfil.class);
+                    startActivity(i);
+                }
                 break;
             case R.id.drawerProp:
-                Intent prop= new Intent(this, Propriedades.class);
-                startActivity(prop);
+                Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu1.getUser().getTipo();
+                if(tipoUsu==null){
+                    Toast.makeText(VisualizaMetodos.this,"Para acessar as propriedades, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent prop= new Intent(this, Propriedades.class);
+                    startActivity(prop);
+                }
                 break;
 
             case R.id.drawerPlantas:
@@ -196,7 +219,7 @@ public class VisualizaMetodos extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -221,7 +244,7 @@ public class VisualizaMetodos extends AppCompatActivity implements NavigationVie
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/visualizaMetodos.php";
+            String url = "https://mip.software/phpapp/visualizaMetodos.php";
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -263,7 +286,7 @@ public class VisualizaMetodos extends AppCompatActivity implements NavigationVie
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/selecionarMetodoConf.php?cod_Praga=" + codPraga;
+            String url = "https://mip.software/phpapp/selecionarMetodoConf.php?cod_Praga=" + codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -315,5 +338,19 @@ public class VisualizaMetodos extends AppCompatActivity implements NavigationVie
                 }
             }
         }
+    }
+
+    public void ExibeCaixaDialogo() {
+        AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
+        dlgBox.setTitle("Aviso!");
+        dlgBox.setMessage("Por enquanto, você só pode acessar as informações online! Esta função será disponibilizada no futuro!");
+        dlgBox.setCancelable(false);
+        dlgBox.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onBackPressed();
+            }
+        });
+        dlgBox.show();
     }
 }

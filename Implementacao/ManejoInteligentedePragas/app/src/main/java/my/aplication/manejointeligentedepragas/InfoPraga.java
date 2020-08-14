@@ -229,7 +229,7 @@ public class InfoPraga extends AppCompatActivity implements NavigationView.OnNav
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -254,7 +254,7 @@ public class InfoPraga extends AppCompatActivity implements NavigationView.OnNav
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/infoPraga.php?Cod_Praga="+codP;
+            String url = "https://mip.software/phpapp/infoPraga.php?Cod_Praga="+codP;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -322,7 +322,7 @@ public class InfoPraga extends AppCompatActivity implements NavigationView.OnNav
             Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
         } else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgatarFotoPragas.php?Cod_Praga="+codP;
+            String url = "https://mip.software/phpapp/resgatarFotoPragas.php?Cod_Praga="+codP;
 
             RequestQueue queue = Volley.newRequestQueue(InfoPraga.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -335,7 +335,7 @@ public class InfoPraga extends AppCompatActivity implements NavigationView.OnNav
                         JSONArray array = new JSONArray(response);
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
-                            urlsPragas.add("http://mip2.000webhostapp.com/imagens/pragas/"+obj.getString("FotoPraga"));
+                            urlsPragas.add("https://mip.software/pragas/"+obj.getString("FotoPraga"));
                         }
                         ViewPagerAdapter adapterPragas = new ViewPagerAdapter(InfoPraga.this,urlsPragas);
                         viewPager.setAdapter(adapterPragas);

@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -187,15 +187,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         return super.OnOptionsItemSelected(menuI);
     }*/
 
-    public void showButtonPromp(){
-        new MaterialTapTargetPrompt.Builder(this)
-                .setTarget(btnEntrar)
-                .setPrimaryText("Different shapes")
-                .setSecondaryText("Extend PromptFocal or PromptBackground to change the shapes")
-                .setPromptBackground(new RectanglePromptBackground())
-                .setPromptFocal(new RectanglePromptFocal())
-                .show();
-    }
+
 
 
 }

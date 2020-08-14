@@ -178,7 +178,7 @@ public class Entrar extends AppCompatActivity implements NavigationView.OnNaviga
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
             case R.id.drawerReferencias:
@@ -217,7 +217,7 @@ public class Entrar extends AppCompatActivity implements NavigationView.OnNaviga
             //endereçodeipv4  dinamico - pode alterar quando mudar de rede
             //String url = "https://192.168.0.20/AppMIP/Entrar.php?email="+login;
 
-            String url = "http://mip2.000webhostapp.com/Entrar.php?email="+login;
+            String url = "https://mip.software/phpapp/Entrar.php?email="+login;
 
 
             RequestQueue queue = Volley.newRequestQueue(this);

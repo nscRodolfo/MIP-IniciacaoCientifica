@@ -1,5 +1,7 @@
 package my.aplication.manejointeligentedepragas;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -52,11 +54,19 @@ public class VisualizaPlantas extends AppCompatActivity implements NavigationVie
 
     private DrawerLayout drawerLayout;
 
+    private String tipoUsu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualiza_plantas);
 
+        Utils u = new Utils();
+        if(!u.isConected(getBaseContext())) {
+            ExibeCaixaDialogo();
+        }else{
+
+        }
         edtPesquisaPlantas = findViewById(R.id.PesquisaPlantas);
         final ListView listView = findViewById(R.id.ListViewPlantas);
 
@@ -144,12 +154,24 @@ public class VisualizaPlantas extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.drawerPerfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
+                Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu.getUser().getTipo();
+                if(tipoUsu == null){
+                    Toast.makeText(VisualizaPlantas.this,"Para acessar seu perfil, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent i= new Intent(this, Perfil.class);
+                    startActivity(i);
+                }
                 break;
             case R.id.drawerProp:
-                Intent prop= new Intent(this, Propriedades.class);
-                startActivity(prop);
+                Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu1.getUser().getTipo();
+                if(tipoUsu==null){
+                    Toast.makeText(VisualizaPlantas.this,"Para acessar as propriedades, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent prop= new Intent(this, Propriedades.class);
+                    startActivity(prop);
+                }
                 break;
 
             case R.id.drawerPlantas:
@@ -183,7 +205,7 @@ public class VisualizaPlantas extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -206,9 +228,9 @@ public class VisualizaPlantas extends AppCompatActivity implements NavigationVie
         Utils u = new Utils();
         if(!u.isConected(getBaseContext()))
         {
-            Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/visualizaPlantas.php";
+            String url = "https://mip.software/phpapp/visualizaPlantas.php";
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -261,5 +283,19 @@ public class VisualizaPlantas extends AppCompatActivity implements NavigationVie
                 }
             }
         }
+    }
+
+    public void ExibeCaixaDialogo(){
+        AlertDialog.Builder dlgBox = new AlertDialog.Builder(this);
+        dlgBox.setTitle("Aviso!");
+        dlgBox.setMessage("Por enquanto, você só pode acessar as informações online! Esta função será disponibilizada no futuro!");
+        dlgBox.setCancelable(false);
+        dlgBox.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onBackPressed();
+            }
+        });
+        dlgBox.show();
     }
 }

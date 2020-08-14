@@ -170,7 +170,7 @@ public class infoInimigoNatural extends AppCompatActivity implements NavigationV
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -194,7 +194,7 @@ public class infoInimigoNatural extends AppCompatActivity implements NavigationV
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/infoInimigoNatural.php?Cod_Inimigo="+codInimigo;
+            String url = "https://mip.software/phpapp/infoInimigoNatural.php?Cod_Inimigo="+codInimigo;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -232,7 +232,7 @@ public class infoInimigoNatural extends AppCompatActivity implements NavigationV
             Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
         } else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgatarFotoInimigos.php?Cod_Inimigo="+codI;
+            String url = "https://mip.software/phpapp/resgatarFotoInimigos.php?Cod_Inimigo="+codI;
 
             RequestQueue queue = Volley.newRequestQueue(infoInimigoNatural.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -245,7 +245,7 @@ public class infoInimigoNatural extends AppCompatActivity implements NavigationV
                         JSONArray array = new JSONArray(response);
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
-                            urlsInimigos.add("http://mip2.000webhostapp.com/imagens/inimigos/"+obj.getString("FotoInimigo"));
+                            urlsInimigos.add("https://mip.software/inimigos/"+obj.getString("FotoInimigo"));
                         }
                         ViewPagerAdapter adapterInimigos = new ViewPagerAdapter(infoInimigoNatural.this,urlsInimigos);
                         viewPager.setAdapter(adapterInimigos);

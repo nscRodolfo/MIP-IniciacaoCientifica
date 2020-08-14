@@ -137,7 +137,7 @@ public class MudaSenha extends AppCompatActivity  implements NavigationView.OnNa
             Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
             cu1.updateUser(u);
 
-            String url = "http://mip2.000webhostapp.com/mudaSenha.php?Senha=" + senhaNova + "&&Cod_Usu=" + codigo;
+            String url = "https://mip.software/phpapp/mudaSenha.php?Senha=" + senhaNova + "&&Cod_Usu=" + codigo;
             RequestQueue queue = Volley.newRequestQueue(this);
 
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -243,7 +243,7 @@ public class MudaSenha extends AppCompatActivity  implements NavigationView.OnNa
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
             case R.id.drawerReferencias:

@@ -29,7 +29,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import my.aplication.manejointeligentedepragas.Auxiliar.Utils;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PlanoAmostragem;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PresencaPraga;
 import my.aplication.manejointeligentedepragas.Crontroller.Controller_Usuario;
+import my.aplication.manejointeligentedepragas.model.PlanoAmostragemModel;
+import my.aplication.manejointeligentedepragas.model.PresencaPragaModel;
 
 import com.example.manejointeligentedepragas.R;
 
@@ -38,6 +42,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import com.zplesac.connectionbuddy.ConnectionBuddy;
+import com.zplesac.connectionbuddy.ConnectionBuddyConfiguration;
+import com.zplesac.connectionbuddy.interfaces.ConnectivityChangeListener;
+import com.zplesac.connectionbuddy.models.ConnectivityEvent;
 
 public class AdicionarCultura extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -71,6 +80,10 @@ public class AdicionarCultura extends AppCompatActivity implements NavigationVie
 
     String nomePropriedade;
 
+    ArrayList<PresencaPragaModel> presencaPragaModels = new ArrayList();
+
+    ArrayList<PlanoAmostragemModel> planoAmostragemModels = new ArrayList();
+
 
 
     @Override
@@ -78,6 +91,9 @@ public class AdicionarCultura extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_cultura);
 
+
+        ConnectionBuddyConfiguration networkInspectorConfiguration = new ConnectionBuddyConfiguration.Builder(this).build();
+        ConnectionBuddy.getInstance().init(networkInspectorConfiguration);
 
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         Cod_Propriedade = getIntent().getIntExtra("Cod_Propriedade", 0);
@@ -186,6 +202,95 @@ public class AdicionarCultura extends AppCompatActivity implements NavigationVie
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        ConnectionBuddy.getInstance().registerForConnectivityEvents(this, new ConnectivityChangeListener() {
+            @Override
+            public void onConnectionChange(ConnectivityEvent event) {
+                Utils u = new Utils();
+                if(!u.isConected(getBaseContext()))
+                {
+                    //Toast.makeText(AcoesCultura.this,"Você está offline!", Toast.LENGTH_LONG).show();
+                }else{
+                    final Controller_PlanoAmostragem cpa = new Controller_PlanoAmostragem(AdicionarCultura.this);
+                    final Controller_PresencaPraga cpp = new Controller_PresencaPraga(AdicionarCultura.this);
+
+                    //Toast.makeText(AcoesCultura.this,"Você está online!", Toast.LENGTH_LONG).show();
+
+                    planoAmostragemModels = cpa.getPlanoOffline();
+                    presencaPragaModels = cpp.getPresencaPragaOffline();
+
+                    for(int i=0; i<planoAmostragemModels.size(); i++){
+                        SalvarPlanos(planoAmostragemModels.get(i));
+                    }
+                    cpa.removerPlano();
+
+                    for(int i=0; i<presencaPragaModels.size(); i++){
+                        SalvarPresencas(presencaPragaModels.get(i));
+                    }
+                    cpp.updatePresencaSyncStatus();
+
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ConnectionBuddy.getInstance().unregisterFromConnectivityEvents(this);
+    }
+
+
+    public void SalvarPlanos(PlanoAmostragemModel pam){
+        Controller_Usuario cu = new Controller_Usuario(AdicionarCultura.this);
+        String Autor = cu.getUser().getNome();
+
+        String url = "https://mip.software/phpapp/salvaPlanoAmostragem.php?Cod_Talhao=" + pam.getFk_Cod_Talhao()
+                +"&&Data="+pam.getDate()
+                +"&&PlantasInfestadas="+pam.getPlantasInfestadas()
+                +"&&PlantasAmostradas="+pam.getPlantasAmostradas()
+                +"&&Cod_Praga="+pam.getFk_Cod_Praga()
+                +"&&Autor="+Autor;
+
+        RequestQueue queue = Volley.newRequestQueue(AdicionarCultura.this);
+        queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AdicionarCultura.this,error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
+    public void SalvarPresencas(PresencaPragaModel ppm){
+        String url = "https://mip.software/phpapp/updatePraga.php?Cod_Praga="+ppm.getFk_Cod_Praga()+
+                "&&Cod_Talhao="+ppm.getFk_Cod_Talhao()+"&&Status="+ppm.getStatus();
+        RequestQueue queue = Volley.newRequestQueue(AdicionarCultura.this);
+        queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AdicionarCultura.this,error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.drawerPerfil:
@@ -228,7 +333,7 @@ public class AdicionarCultura extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
             case R.id.drawerReferencias:
@@ -251,7 +356,7 @@ public class AdicionarCultura extends AppCompatActivity implements NavigationVie
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/selecionarCulturaTamanho.php";
+            String url = "https://mip.software/phpapp/selecionarCulturaTamanho.php";
 
 
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -312,7 +417,7 @@ public class AdicionarCultura extends AppCompatActivity implements NavigationVie
 
         }else{ // se tem acesso à internet
             click = false;
-            String url = "http://mip2.000webhostapp.com/adicionarCultura.php?TamanhoDaCultura="+tamanhoCultura+
+            String url = "https://mip.software/phpapp/adicionarCultura.php?TamanhoDaCultura="+tamanhoCultura+
                     "&&fk_Propriedade_Cod_Propriedade="+Cod_Propriedade+
                     "&&fk_Planta_Cod_Planta="+codigoSelecionado+
                     "&&qtdTalhao="+numeroDeTalhoes;

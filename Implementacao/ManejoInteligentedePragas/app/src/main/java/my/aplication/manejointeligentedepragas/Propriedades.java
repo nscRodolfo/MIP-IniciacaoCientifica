@@ -242,7 +242,7 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
         Controller_Usuario cu = new Controller_Usuario(Propriedades.this);
         String Autor = cu.getUser().getNome();
 
-        String url = "http://mip2.000webhostapp.com/salvaPlanoAmostragem.php?Cod_Talhao=" + pam.getFk_Cod_Talhao()
+        String url = "https://mip.software/phpapp/salvaPlanoAmostragem.php?Cod_Talhao=" + pam.getFk_Cod_Talhao()
                 +"&&Data="+pam.getDate()
                 +"&&PlantasInfestadas="+pam.getPlantasInfestadas()
                 +"&&PlantasAmostradas="+pam.getPlantasAmostradas()
@@ -266,7 +266,7 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
     }
 
     public void SalvarPresencas(PresencaPragaModel ppm){
-        String url = "http://mip2.000webhostapp.com/updatePraga.php?Cod_Praga="+ppm.getFk_Cod_Praga()+
+        String url = "https://mip.software/phpapp/updatePraga.php?Cod_Praga="+ppm.getFk_Cod_Praga()+
                 "&&Cod_Talhao="+ppm.getFk_Cod_Talhao()+"&&Status="+ppm.getStatus();
         RequestQueue queue = Volley.newRequestQueue(Propriedades.this);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -372,7 +372,7 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
             mDialog.dismiss();
         }else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgatarPropriedades.php?Cod_Usuario=" + codUsuario;
+            String url = "https://mip.software/phpapp/resgatarPropriedades.php?Cod_Usuario=" + codUsuario;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -456,7 +456,7 @@ public class Propriedades extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this,"Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgatarPropriedadesFunc.php?Cod_Usuario=" + codUsuario;
+            String url = "https://mip.software/resgatarPropriedadesFunc.php?Cod_Usuario=" + codUsuario;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 

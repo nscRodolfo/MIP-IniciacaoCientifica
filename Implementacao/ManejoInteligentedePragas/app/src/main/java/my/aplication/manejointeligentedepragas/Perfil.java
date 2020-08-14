@@ -155,7 +155,7 @@ public class Perfil extends AppCompatActivity implements NavigationView.OnNaviga
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 

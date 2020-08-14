@@ -161,7 +161,7 @@ public class CulturaCardAdapter extends RecyclerView.Adapter<CulturaCardAdapter.
 
     public void ExcluirCultura(int CodC, final Integer position){
 
-        String url = "http://mip2.000webhostapp.com/excluirCultura.php?Cod_Cultura="+ CodC  ;
+        String url = "https://mip.software/phpapp/excluirCultura.php?Cod_Cultura="+ CodC  ;
 
         RequestQueue queue = Volley.newRequestQueue(culturaContext);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

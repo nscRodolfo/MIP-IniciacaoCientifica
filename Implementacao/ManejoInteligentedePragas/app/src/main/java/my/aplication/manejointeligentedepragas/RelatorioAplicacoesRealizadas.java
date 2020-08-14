@@ -213,7 +213,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -238,7 +238,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
             mDialog.dismiss();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/resgataDadosGraphAplicacao.php?Cod_Talhao="+Cod_Talhao+"&&Cod_Praga="+codPraga;
+            String url = "https://mip.software/phpapp/resgataDadosGraphAplicacao.php?Cod_Talhao="+Cod_Talhao+"&&Cod_Praga="+codPraga;
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -476,7 +476,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             RelatorioAplicacoesRealizadas.this.startActivity(intent);
         } else {
-            Toast.makeText(RelatorioAplicacoesRealizadas.this, "Download a PDF Viewer to see the generated PDF", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RelatorioAplicacoesRealizadas.this, "Você não possui um aplicativo para abrir o PDF, baixe um para abrir o relatório.", Toast.LENGTH_SHORT).show();
         }
 
     }

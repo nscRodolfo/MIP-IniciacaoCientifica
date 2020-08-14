@@ -187,7 +187,7 @@ public class infoMetodo extends AppCompatActivity implements NavigationView.OnNa
                 break;
 
             case R.id.drawerSobre:
-                Intent pp = new Intent(this, SobreMIP.class);
+                Intent pp = new Intent(this, Sobre.class);
                 startActivity(pp);
                 break;
 
@@ -212,7 +212,7 @@ public class infoMetodo extends AppCompatActivity implements NavigationView.OnNa
         {
             Toast.makeText(this,"Habilite a conexão com a internet!", Toast.LENGTH_LONG).show();
         }else { // se tem acesso à internet
-            String url = "http://mip2.000webhostapp.com/infoMetodo.php?Cod_Metodo="+codM;
+            String url = "https://mip.software/phpapp/infoMetodo.php?Cod_Metodo="+codM;
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -269,7 +269,7 @@ public class infoMetodo extends AppCompatActivity implements NavigationView.OnNa
             Toast.makeText(this, "Habilite a conexão com a internet", Toast.LENGTH_LONG).show();
         } else { // se tem acesso à internet
 
-            String url = "http://mip2.000webhostapp.com/resgatarFotoMetodos.php?Cod_Metodo="+codM;
+            String url = "https://mip.software/phpapp/resgatarFotoMetodos.php?Cod_Metodo="+codM;
 
             RequestQueue queue = Volley.newRequestQueue(infoMetodo.this);
             queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -282,7 +282,7 @@ public class infoMetodo extends AppCompatActivity implements NavigationView.OnNa
                         JSONArray array = new JSONArray(response);
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
-                            urlsMetodos.add("http://mip2.000webhostapp.com/imagens/metodos/"+obj.getString("FotoMetodo"));
+                            urlsMetodos.add("https://mip.software/metodos/"+obj.getString("FotoMetodo"));
                         }
                         ViewPagerAdapter adapterMetodos = new ViewPagerAdapter(infoMetodo.this,urlsMetodos);
                         viewPager.setAdapter(adapterMetodos);

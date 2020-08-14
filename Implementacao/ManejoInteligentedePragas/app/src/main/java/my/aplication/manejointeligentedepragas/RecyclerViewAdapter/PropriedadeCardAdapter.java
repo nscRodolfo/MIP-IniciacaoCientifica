@@ -189,7 +189,7 @@ public class PropriedadeCardAdapter extends RecyclerView.Adapter<PropriedadeCard
 
     public void ExcluirPropriedade(Integer CodP){
 
-        String url = "http://mip2.000webhostapp.com/excluirPropriedade.php?Cod_Propriedade="+ CodP  ;
+        String url = "https://mip.software/phpapp/excluirPropriedade.php?Cod_Propriedade="+ CodP  ;
 
         RequestQueue queue = Volley.newRequestQueue(propriedadeContext);
         queue.add(new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
