@@ -48,6 +48,7 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
     String nomePropriedade;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     RelativeLayout rlPragasContagem;
     RelativeLayout rlPlanosAmostragem;
@@ -76,6 +77,7 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_relatorio);
@@ -116,6 +118,7 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -131,6 +134,7 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -147,6 +151,7 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -163,6 +168,7 @@ public class Relatorios extends AppCompatActivity implements NavigationView.OnNa
                 i.putExtra("Cod_Propriedade", Cod_Propriedade);
                 i.putExtra("Aplicado", aplicado);
                 i.putExtra("nomePropriedade", nomePropriedade);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });

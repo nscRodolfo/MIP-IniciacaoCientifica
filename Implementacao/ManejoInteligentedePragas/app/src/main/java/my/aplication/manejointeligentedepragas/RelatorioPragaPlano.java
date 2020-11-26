@@ -64,6 +64,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
     String nomePraga;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     ArrayList<Integer> popPragas = new ArrayList<Integer>();
     ArrayList<Integer> numPlantas = new ArrayList<Integer>();
@@ -97,6 +98,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
         nomePraga = getIntent().getStringExtra("nomePraga");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_RPP);
@@ -319,6 +321,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                                     i.putExtra("nomePropriedade", nomePropriedade);
                                     i.putExtra("Cod_Talhao", Cod_Talhao);
                                     i.putExtra("NomeTalhao", NomeTalhao);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -333,6 +336,7 @@ public class RelatorioPragaPlano extends AppCompatActivity implements Navigation
                                     i.putExtra("nomePropriedade", nomePropriedade);
                                     i.putExtra("Cod_Talhao", Cod_Talhao);
                                     i.putExtra("NomeTalhao", NomeTalhao);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });

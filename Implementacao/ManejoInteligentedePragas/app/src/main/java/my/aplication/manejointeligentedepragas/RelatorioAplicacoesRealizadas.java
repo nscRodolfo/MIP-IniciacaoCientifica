@@ -82,6 +82,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
     String nomePraga;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     private ArrayList<AplicacaoModel> aplicacoes = new ArrayList<>();
 
@@ -133,6 +134,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
         nomePraga = getIntent().getStringExtra("nomePraga");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_RAR);
@@ -283,6 +285,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
                                     i.putExtra("nomePropriedade", nomePropriedade);
                                     i.putExtra("Cod_Talhao", Cod_Talhao);
                                     i.putExtra("NomeTalhao", NomeTalhao);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -297,6 +300,7 @@ public class RelatorioAplicacoesRealizadas extends AppCompatActivity implements 
                                     i.putExtra("nomePropriedade", nomePropriedade);
                                     i.putExtra("Cod_Talhao", Cod_Talhao);
                                     i.putExtra("NomeTalhao", NomeTalhao);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });

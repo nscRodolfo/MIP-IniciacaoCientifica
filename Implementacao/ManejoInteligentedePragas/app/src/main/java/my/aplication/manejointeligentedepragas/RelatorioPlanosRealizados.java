@@ -82,6 +82,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
     String nomePraga;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     private ArrayList<PlanoAmostragemModel> planos = new ArrayList<>();
 
@@ -132,6 +133,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
         nomePraga = getIntent().getStringExtra("nomePraga");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_RPR);
@@ -277,6 +279,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
                                     i.putExtra("Cod_Praga", codPraga);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -289,6 +292,7 @@ public class RelatorioPlanosRealizados extends AppCompatActivity implements Navi
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });

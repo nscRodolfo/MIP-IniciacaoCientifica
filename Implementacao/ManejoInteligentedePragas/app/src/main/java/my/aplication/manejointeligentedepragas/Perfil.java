@@ -15,8 +15,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_Aplicacao;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_Atinge;
 import my.aplication.manejointeligentedepragas.Crontroller.Controller_Cultura;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PlanoAmostragem;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_Praga;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_PresencaPraga;
 import my.aplication.manejointeligentedepragas.Crontroller.Controller_Propriedade;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_Talhao;
+import my.aplication.manejointeligentedepragas.Crontroller.Controller_UltimosPlanos;
 import my.aplication.manejointeligentedepragas.Crontroller.Controller_Usuario;
 
 import com.example.manejointeligentedepragas.R;
@@ -79,6 +86,21 @@ public class Perfil extends AppCompatActivity implements NavigationView.OnNaviga
                 cp.removerPropriedade();
                 Controller_Cultura cc= new Controller_Cultura(getBaseContext());
                 cc.removerCultura();
+                Controller_Talhao ct = new Controller_Talhao(getBaseContext());
+                ct.removerTalhao();
+                Controller_PresencaPraga cpp = new Controller_PresencaPraga(getBaseContext());
+                cpp.removerPresencaPraga();
+                Controller_Atinge ca = new Controller_Atinge(getBaseContext());
+                ca.removerAtinge();
+                Controller_Praga controller_praga = new Controller_Praga(getBaseContext());
+                controller_praga.removerPraga();
+                Controller_PlanoAmostragem cpa = new Controller_PlanoAmostragem(getBaseContext());
+                cpa.removerPlano();
+                Controller_UltimosPlanos cup = new Controller_UltimosPlanos(getBaseContext());
+                cup.removerUltimosPlanos();
+                Controller_Aplicacao capp = new Controller_Aplicacao(getBaseContext());
+                capp.removerAplicacao();
+
                 Intent i = new Intent(Perfil.this, MainActivity.class);
                 startActivity(i);
             }

@@ -403,6 +403,8 @@ public class AplicaMetodoDeControle extends AppCompatActivity implements Navigat
         }else { // se tem acesso à internet
             Controller_Usuario cu = new Controller_Usuario(getBaseContext());
             String Autor = cu.getUser().getNome();
+            Controller_PresencaPraga cpp = new Controller_PresencaPraga(getBaseContext());
+            cpp.updatePresencaStatus(Cod_Talhao, codPraga, 1);
 
             String url = "https://mip.software/phpapp/aplicacao.php?Cod_Praga=" + codPraga + "&&Cod_Talhao="+ cod_Talhao + "&&Data=" + data + "&&Cod_Metodo="+codMetodo+"&&Autor="+Autor;
             RequestQueue queue = Volley.newRequestQueue(this);

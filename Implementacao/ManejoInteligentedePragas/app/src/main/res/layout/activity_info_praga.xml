@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:screenOrientation="portrait"
-    tools:context="my.aplication.manejointeligentedepragas.InfoPraga"
-    tools:openDrawer="start">
+    tools:context="my.aplication.manejointeligentedepragas.InfoPraga">
 
 
     <android.support.constraint.ConstraintLayout
@@ -47,7 +46,7 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/ViewPagerPraga"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp" />
+                        android:layout_height="320dp" />
 
                     <LinearLayout
                         android:id="@+id/SliderDots"

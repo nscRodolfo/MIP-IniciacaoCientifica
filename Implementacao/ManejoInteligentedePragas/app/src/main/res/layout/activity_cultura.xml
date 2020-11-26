@@ -43,17 +43,16 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/CardFuncionario"
-                    android:layout_width="410dp"
+                    android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="13dp"
                     android:layout_marginRight="13dp"
+                    android:focusableInTouchMode="true"
                     android:padding="15dp"
                     app:cardBackgroundColor="#939393"
                     app:cardCornerRadius="18dp"
-                    app:cardElevation="8dp"
-                    android:focusableInTouchMode="true"
-                    >
+                    app:cardElevation="8dp">
 
                     <TextView
                         android:id="@+id/tvFuncionarios"

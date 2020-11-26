@@ -58,9 +58,9 @@ public class Controller_Aplicacao {
         return CodP;
     }
 
-    public void removerPlano(){
+    public void removerAplicacao(){
         db = bancoLocal.getWritableDatabase();
         String query = "";
-        db.delete(bancoLocal.PlanoAmostragem, query, null);
+        db.delete(bancoLocal.Aplicacao, query, null);
     }
 }

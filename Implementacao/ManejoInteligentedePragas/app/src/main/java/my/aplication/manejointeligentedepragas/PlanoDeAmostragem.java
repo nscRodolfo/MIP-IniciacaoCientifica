@@ -273,10 +273,12 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                     if(contAmostra == 1){
                         countPlantas--;
                         countNumeroAmostras--;
+                        contAmostra = numAmostras;
                         if(ultimoClick){
                             countInfestacao--;
                         }
                         tvContagemPlantas.setText(String.valueOf(countPlantas));
+                        tvContagemNumAmostras.setText(String.valueOf(contAmostra));
                         btnCorrigir.setVisibility(View.INVISIBLE);
                     }else{
                         contAmostra --;
@@ -514,6 +516,10 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
     public void checarTalhao(){
         btnCorrigir.setVisibility(View.VISIBLE);
         if(countPlantas == plantasTalhao+1){
+            presencaPraga.setVisibility(View.INVISIBLE);
+            ausenciaPraga.setVisibility(View.INVISIBLE);
+            btnCorrigir.setVisibility(View.INVISIBLE);
+            btnFinalizaPlano.setVisibility(View.INVISIBLE);
             if(numAmostras == 1){
                 PlanoAmostragemModel pa = new PlanoAmostragemModel(dataFormatada,countInfestacao,countPlantas-1,Cod_Talhao,codPraga);
                 //countTalhao++;

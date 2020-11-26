@@ -7,7 +7,6 @@
     tools:context="my.aplication.manejointeligentedepragas.VisualizaPragas"
     android:id="@+id/drawer_layout_visuPraga"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
     >
 
     <android.support.constraint.ConstraintLayout

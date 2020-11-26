@@ -39,14 +39,18 @@
             </intent-filter>
         </activity>
         <activity android:name="my.aplication.manejointeligentedepragas.RelatorioAplicacoesPlanos2" />
-        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioAplicacoesRealizadas" />
-        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaPlanosRealizados" />
+        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioAplicacoesRealizadas"
+            android:screenOrientation="portrait" />
+        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaPlanosRealizados"
+            android:screenOrientation="portrait" />
         <activity android:name="my.aplication.manejointeligentedepragas.RelatorioAplicacoesRealizadas" />
-        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioAplicacoesPlanos" />
+        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioAplicacoesPlanos"
+            android:screenOrientation="portrait"/>
         <activity android:name="my.aplication.manejointeligentedepragas.RelatorioAplicacoesPlanos" />
         <activity android:name="my.aplication.manejointeligentedepragas.EsqueciSenha" />
         <activity android:name="my.aplication.manejointeligentedepragas.RelatorioPlanosRealizados" />
-        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioPragaPlano" />
+        <activity android:name="my.aplication.manejointeligentedepragas.SelecionaPragaRelatorioPragaPlano"
+            android:screenOrientation="portrait"/>
         <activity android:name="my.aplication.manejointeligentedepragas.RelatorioPragaPlano" />
         <activity android:name="my.aplication.manejointeligentedepragas.Relatorios" />
         <activity android:name="my.aplication.manejointeligentedepragas.VisualizaInimigos" />
@@ -62,17 +66,22 @@
         <activity
             android:name="my.aplication.manejointeligentedepragas.PlanoDeAmostragem"
             android:screenOrientation="portrait" />
-        <activity android:name="my.aplication.manejointeligentedepragas.RealizarPlano" />
+        <activity android:name="my.aplication.manejointeligentedepragas.RealizarPlano"
+            android:screenOrientation="portrait"/>
         <activity android:name="my.aplication.manejointeligentedepragas.SobreMIP" />
         <activity android:name="my.aplication.manejointeligentedepragas.VisualizaFuncionario" />
         <activity android:name="my.aplication.manejointeligentedepragas.Perfil" />
-        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarPraga" />
+        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarPraga"
+            android:screenOrientation="portrait"/>
         <activity android:name="my.aplication.manejointeligentedepragas.Pragas" />
         <activity android:name="my.aplication.manejointeligentedepragas.AcoesCultura" />
-        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarFunc" />
-        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarCultura" />
+        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarFunc"
+            android:screenOrientation="portrait"/>
+        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarCultura"
+            android:screenOrientation="portrait"/>
         <activity android:name="my.aplication.manejointeligentedepragas.Cultura" />
-        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarPropriedade" />
+        <activity android:name="my.aplication.manejointeligentedepragas.AdicionarPropriedade"
+            android:screenOrientation="portrait"/>
         <activity android:name="my.aplication.manejointeligentedepragas.Propriedades" />
         <activity android:name="my.aplication.manejointeligentedepragas.Cadastro" />
         <activity android:name="my.aplication.manejointeligentedepragas.Entrar" />

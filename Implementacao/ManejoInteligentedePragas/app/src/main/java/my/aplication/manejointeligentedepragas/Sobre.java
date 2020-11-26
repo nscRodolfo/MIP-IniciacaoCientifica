@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.manejointeligentedepragas.R;
 
@@ -22,7 +23,7 @@ import my.aplication.manejointeligentedepragas.Crontroller.Controller_Usuario;
 public class Sobre extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawerLayout;
-
+    String tipoUsu;
     TextView tv1;
 
     @Override
@@ -77,14 +78,25 @@ public class Sobre extends AppCompatActivity implements NavigationView.OnNavigat
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.drawerPerfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
+                Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu.getUser().getTipo();
+                if(tipoUsu == null){
+                    Toast.makeText(Sobre.this,"Para acessar seu perfil, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent i= new Intent(this, Perfil.class);
+                    startActivity(i);
+                }
                 break;
             case R.id.drawerProp:
-                Intent prop= new Intent(this, Propriedades.class);
-                startActivity(prop);
+                Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu1.getUser().getTipo();
+                if(tipoUsu==null){
+                    Toast.makeText(Sobre.this,"Para acessar as propriedades, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent prop= new Intent(this, Propriedades.class);
+                    startActivity(prop);
+                }
                 break;
-
             case R.id.drawerPlantas:
                 Intent j = new Intent(this, VisualizaPlantas.class);
                 startActivity(j);

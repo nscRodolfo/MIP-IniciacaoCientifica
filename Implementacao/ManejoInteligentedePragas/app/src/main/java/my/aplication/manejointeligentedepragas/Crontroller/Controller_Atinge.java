@@ -67,16 +67,11 @@ public class Controller_Atinge {
         return atingeModel;
     }
 
-    public void removerCultura(){
+    public void removerAtinge(){
         db = bancoLocal.getWritableDatabase();
         String query = "";
         db.delete(bancoLocal.Atinge, query, null);
     }
 
-    public void removerCulturaEspecifica(AtingeModel atingeModel){
-        db = bancoLocal.getWritableDatabase();
-        String where = " Cod_Atinge = '"+ atingeModel.getCod_Atinge()+"'";
-        db.delete(bancoLocal.Atinge, where, null);
-    }
 
 }

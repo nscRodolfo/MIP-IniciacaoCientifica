@@ -64,6 +64,7 @@ public class SelecionaPragaRelatorioAplicacoesRealizadas extends AppCompatActivi
     boolean aplicado;
     String nomePropriedade;
     int Cod_Talhao;
+    int Cod_Planta;
     String NomeTalhao;
 
     Integer codigoSelecionado;
@@ -97,6 +98,7 @@ public class SelecionaPragaRelatorioAplicacoesRealizadas extends AppCompatActivi
         nomePropriedade = getIntent().getStringExtra("nomePropriedade");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_SPRAR);
@@ -141,6 +143,7 @@ public class SelecionaPragaRelatorioAplicacoesRealizadas extends AppCompatActivi
                 i.putExtra("nomePropriedade", nomePropriedade);
                 i.putExtra("Cod_Talhao", Cod_Talhao);
                 i.putExtra("NomeTalhao", NomeTalhao);
+                i.putExtra("Cod_Planta", Cod_Planta);
                 startActivity(i);
             }
         });
@@ -363,6 +366,7 @@ public class SelecionaPragaRelatorioAplicacoesRealizadas extends AppCompatActivi
                                     i.putExtra("pragasAdd", pragasAdd);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -378,6 +382,7 @@ public class SelecionaPragaRelatorioAplicacoesRealizadas extends AppCompatActivi
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });

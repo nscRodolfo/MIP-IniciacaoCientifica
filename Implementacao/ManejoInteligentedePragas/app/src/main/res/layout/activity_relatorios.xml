@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context="my.aplication.manejointeligentedepragas.Relatorios"
     android:id="@+id/drawer_layout_relatorio"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -137,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/caldas_aplicadas"
+                android:text="@string/aplica_es_realizadas"
                 android:textColor="#659251"
                 android:textSize="18sp" />
         </RelativeLayout>

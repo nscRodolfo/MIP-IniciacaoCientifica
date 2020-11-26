@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import my.aplication.manejointeligentedepragas.Crontroller.Controller_Usuario;
 
@@ -45,6 +46,8 @@ public class SobreMIP extends AppCompatActivity implements NavigationView.OnNavi
     TextView resposta8;
     TextView pergunta9;
     TextView resposta9;
+
+    String tipoUsu;
 
     private DrawerLayout drawerLayout;
 
@@ -92,11 +95,15 @@ public class SobreMIP extends AppCompatActivity implements NavigationView.OnNavi
         adicional2 = findViewById(R.id.tvAdicional2);
         adicional2.setText("Como realizar a amostragem?");
         adicional3 = findViewById(R.id.tvAdicional3);
-        adicional3.setText("A amostragem pode ser realizada para determinar se a praga se encontra no nível de dano econômico (onde necessita fazer o uso de um método de controle). Para realiza-la é necessário seguir alguns passos importantes, realizando a inspeção das amostras de todas as plantas solicitadas para cada talhão, desta forma estará assegurado que a tomada de decisão será correta, ou seja, a contagem foi representativa - caso tenha menos plantas que o necessário, realize o plano de amostragem apenas com o número de plantas presentes em sua cultura.\n" +
-                "Para realizar a amostragem é necessário dividir a área de cultivo em talhões, cada talhão possui um tamanho máximo em função da cultura a ser amostrada, listado na cultura escolhida. O talhão trata-se de uma área que contém as plantas com o mesmo genótipo, idade, espaçamento, sistema de condução, tipo de solo e topografia. Os talhões deverão ser identificados em campo e mapeados para evitar erro na realização da amostragem. \n" +
-                "A forma de caminhamento para realizar esta amostragem é sugerida na tela de amostragem, contendo o número de pontos e plantas por talhão, bem como o número fixo de plantas a serem amostrados. No entanto é possível fazer o caminhamento de várias formas, devendo realiza-la da forma mais representativa em cada talhão. Alguns exemplos de caminhamento são: U, X, C, Z e por pontos.\n"+
-                "As amostras no MIP representam a unidade de avaliação da praga ou inimigo natural, no MIP² as amostras selecionadas são feitas para avaliar apenas as pragas, cada amostra está listada nas informações das pragas ou no ícone de informação na tela de amostragem. As formas de obtenção das amostras também estão listadas em cada praga, sendo a mais comum a contagem direta da população de insetos com o uso de lupa. O número de amostras por talhão nos planos convencionais de amostragem é fixo, portanto cada talhão no MIP² terá um valor fixo de plantas a serem amostrados, listados também na tela de amostragem. A época e frequência de amostragem é importante para determinar se as pragas se encontram sob controle e se o método de controle teve resultado. A amostragem deve ser realizada com maior frequência em períodos de maiores incidências das pragas e de maior suscetibilidade da cultura, listados para cada praga."
-                );
+        adicional3.setText("A amostragem pode ser realizada para determinar se a praga se encontra no nível de dano econômico (onde necessita fazer o uso de um método de controle). Para realiza-la é necessário seguir alguns passos importantes, realizando a inspeção das amostras de todas as plantas solicitas para cada talhão, desta forma estará assegurado que a tomada de decisão será correta, ou seja, a contagem foi representativa - caso tenha menos plantas que o necessário, realize o plano de amostragem apenas com o número de plantas presentes em sua cultura. \n" +
+                "Divisão da área em talhões: para realizar a amostragem é necessário dividir a área de cultivo em talhões, cada talhão possui um tamanho máximo em função da cultura a ser amostrada, listado na cultura escolhida. O talhão trata-se de uma área que contém as plantas com o mesmo genótipo, idade, espaçamento, sistema de condução, tipo de solo e topografia.\n" +
+                "Quando você insere o tamanho da cultura, temos um valor de referência que limita o tamanho do talhão para cada cultura, desta forma, ao inserir uma área maior do que o limite, o aplicativo automaticamente cria outros talhões, assim evitamos erros na tomada de decisão. No entanto, algumas propriedades podem apresentar mais de um talhão - em função de suas características – e ainda assim não extrapolar o tamanho máximo para cada talhão, o que não configura a necessidade do aplicativo de criar outros talhões automaticamente. Afim de evitar uma amostragem incorreta (sem levar em consideração a diferença de cada talhão da propriedade), neste caso é necessário adicionar outros talhões na cultura de forma manual. " +
+                "Caso o aplicativo defina os talhões de forma automática, verifique nas informações da cultura o tamanho máximo de cada talhão, para que você possa criar um mapa da propriedade contendo os talhões. O mesmo deve ser feito no caso da inserção manual dos talhões, isso facilita o planejamento administrativo da propriedade e a realização da amostragem.\n" +
+                "Importante: em todo sistema de produção é recomendado ter algumas planilhas ou documentos para auxiliar na gestão no manejo como na coleta de material para análise química do solo e foliar, a operacionalização dos tratos culturais, aplicação de métodos de controle ou adubação e o escalonamento da colheita. Neste documento cada talhão deve possuir algumas informações como: número ou nome do talhão (o mesmo que no aplicativo), tamanho (número de plantas), cultivar, data de plantio, localização entre outras. Assim ao final do monitoramento deste talhão, por meios dos relatórios você poderá preencher com as informações disponíveis como: data da avaliação, responsável pela amostragem, decisão alcançada por meio do relatório de métodos de controle utilizados, entre outros ou fazer o download nos relatórios.\n" +
+                " \n" +
+                "Caminhamento: a forma de caminhamento para realizar esta amostragem é sugerida na tela de amostragem, contendo o número de pontos e plantas por talhão, bem como o número fixo de plantas a serem amostrados. No entanto é possível fazer o caminhamento de várias formas, devendo realiza-la da forma mais representativa em cada talhão. Alguns exemplos de caminhamento são: U, X, C, Z e por pontos.\n" +
+                "\n" +
+                "Amostras: as amostras no MIP representam a unidade de avaliação da praga ou inimigo natura, no MIP² as amostras selecionadas são feitas para avaliar apenas as pragas, cada amostra está listada nas informações das pragas ou no ícone de informação na tela de amostragem. As formas de obtenção das amostras também estão listadas em cada praga, sendo a mais comum a contagem direta da população do inseto com o uso de lupa. O número de amostras por talhão nos planos convencionais de amostragem é fixo, portanto cada talhão no MIP² terá um valor fixo de plantas a serem amostrados, listados também na tela de amostragem. A época e frequência de amostragem é importante para determinar se as pragas se encontram sob controle e se o método de controle teve resultado. A amostragem deve ser realizada com maior frequência em períodos de maiores incidências das pragas e de maior suscetibilidade da cultura, listados para cada praga.");
 
         adicional4 = findViewById(R.id.tvAdicional4);
         adicional4.setText("Como é feita a tomada de decisão e a seleção de métodos de controle?");
@@ -171,12 +178,24 @@ public class SobreMIP extends AppCompatActivity implements NavigationView.OnNavi
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.drawerPerfil:
-                Intent i= new Intent(this, Perfil.class);
-                startActivity(i);
+                Controller_Usuario cu = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu.getUser().getTipo();
+                if(tipoUsu == null){
+                    Toast.makeText(SobreMIP.this,"Para acessar seu perfil, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent i= new Intent(this, Perfil.class);
+                    startActivity(i);
+                }
                 break;
             case R.id.drawerProp:
-                Intent prop= new Intent(this, Propriedades.class);
-                startActivity(prop);
+                Controller_Usuario cu1 = new Controller_Usuario(getBaseContext());
+                tipoUsu = cu1.getUser().getTipo();
+                if(tipoUsu==null){
+                    Toast.makeText(SobreMIP.this,"Para acessar as propriedades, faça login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Intent prop= new Intent(this, Propriedades.class);
+                    startActivity(prop);
+                }
                 break;
 
             case R.id.drawerPlantas:

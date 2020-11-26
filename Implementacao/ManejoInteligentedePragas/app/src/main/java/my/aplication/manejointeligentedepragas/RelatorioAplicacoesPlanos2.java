@@ -63,6 +63,7 @@ public class RelatorioAplicacoesPlanos2 extends AppCompatActivity implements Nav
     String nomePraga;
     int Cod_Talhao;
     String NomeTalhao;
+    int Cod_Planta;
 
     ArrayList<Integer> popPragas = new ArrayList<Integer>();
     ArrayList<Integer> numPlantas = new ArrayList<Integer>();
@@ -97,6 +98,7 @@ public class RelatorioAplicacoesPlanos2 extends AppCompatActivity implements Nav
         nomePraga = getIntent().getStringExtra("nomePraga");
         Cod_Talhao = getIntent().getIntExtra("Cod_Talhao", 0);
         NomeTalhao = getIntent().getStringExtra("NomeTalhao");
+        Cod_Planta = getIntent().getIntExtra("Cod_Planta",0);
 
         //menu novo
         Toolbar toolbar = findViewById(R.id.toolbar_RAP);
@@ -322,20 +324,19 @@ public class RelatorioAplicacoesPlanos2 extends AppCompatActivity implements Nav
                             AlertDialog.Builder dlgBox = new AlertDialog.Builder(RelatorioAplicacoesPlanos2.this);
                             dlgBox.setCancelable(false);
                             dlgBox.setTitle("Aviso!");
-                            dlgBox.setMessage("Você não realizou nenhum plano de amostragem para esta praga, deseja realizar um agora?");
-                            dlgBox.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            dlgBox.setMessage("Você não realizou nenhuma aplicação nesta praga, deseja verificar novamente as pragas atuantes?");
+                            dlgBox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(RelatorioAplicacoesPlanos2.this, PlanoDeAmostragem.class);
+                                    Intent i = new Intent(RelatorioAplicacoesPlanos2.this, Pragas.class);
+                                    i.putExtra("Cod_Talhao", Cod_Talhao);
+                                    i.putExtra("NomeTalhao", NomeTalhao);
                                     i.putExtra("Cod_Propriedade", Cod_Propriedade);
                                     i.putExtra("Cod_Cultura", codCultura);
                                     i.putExtra("NomeCultura", nome);
-                                    i.putExtra("nomePraga", nomePraga);
-                                    i.putExtra("Cod_Praga", codPraga);
                                     i.putExtra("Aplicado", aplicado);
                                     i.putExtra("nomePropriedade", nomePropriedade);
-                                    i.putExtra("Cod_Talhao", Cod_Talhao);
-                                    i.putExtra("NomeTalhao", NomeTalhao);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });
@@ -350,6 +351,7 @@ public class RelatorioAplicacoesPlanos2 extends AppCompatActivity implements Nav
                                     i.putExtra("nomePropriedade", nomePropriedade);
                                     i.putExtra("Cod_Talhao", Cod_Talhao);
                                     i.putExtra("NomeTalhao", NomeTalhao);
+                                    i.putExtra("Cod_Planta", Cod_Planta);
                                     startActivity(i);
                                 }
                             });

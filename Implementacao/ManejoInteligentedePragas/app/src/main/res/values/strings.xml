@@ -163,5 +163,7 @@
     <string name="confirma_o">Confirmação:</string>
     <string name="repetir_nova_senha">Repetir nova senha:</string>
     <string name="sobre_n_s">Sobre nós</string>
+    <string name="m_todos_de_controle_utilizados">Métodos de controle utilizados</string>
+    <string name="textview23">TextView</string>
 
 </resources>
