@@ -897,7 +897,7 @@ public class PlanoDeAmostragem extends AppCompatActivity implements NavigationVi
                         JSONArray array = new JSONArray(response);
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject obj = array.getJSONObject(i);
-                            urlsPragas.add("http://mip2.000webhostapp.com/imagens/amostras/"+obj.getString("FotoAmostra"));
+                            urlsPragas.add("https://mip.software/amostras/"+obj.getString("FotoAmostra"));
                         }
                         if(urlsPragas.size()>0){
                             ViewPagerAdapter adapterAmostras = new ViewPagerAdapter(PlanoDeAmostragem.this,urlsPragas);
